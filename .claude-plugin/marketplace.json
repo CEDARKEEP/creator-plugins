@@ -1,0 +1,17 @@
+{
+  "name": "creator-plugins",
+  "owner": {
+    "name": "Cedarkeep"
+  },
+  "metadata": {
+    "description": "A curated collection of Claude Code plugins for creators and creative workflows",
+    "version": "2.0.0"
+  },
+  "plugins": [
+    {
+      "name": "music",
+      "source": "./music",
+      "description": "Music production and audio synthesis skills"
+    }
+  ]
+}
