@@ -42,7 +42,8 @@ def sfx_filter_sweep(sig, start_cutoff=200, end_cutoff=16000, sr=SR):
     t = np.linspace(0, 1, n)
     cutoff_env = start_cutoff * (end_cutoff / start_cutoff) ** t
     block = 256
-    zi = np.zeros((2, 2))
+    sos = butter(2, 1000, btype='low', fs=sr, output='sos')
+    zi = np.zeros((sos.shape[0], 2))
     out = np.zeros(n)
     for s in range(0, n, block):
         e = min(s + block, n)

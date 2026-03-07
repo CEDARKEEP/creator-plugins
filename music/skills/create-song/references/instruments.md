@@ -245,7 +245,8 @@ def synth_pad(freq, duration, n_voices=5, detune_cents=15, sr=SR):
     cutoff = 1500 + 500 * np.sin(2*np.pi*0.1*t)
     # Block-based filter sweep
     block = 256
-    zi = np.zeros((2, 2))
+    sos = butter(2, 1000, btype='low', fs=sr, output='sos')
+    zi = np.zeros((sos.shape[0], 2))
     out = np.zeros(len(pad))
     for s in range(0, len(pad), block):
         e = min(s + block, len(pad))
@@ -279,7 +280,8 @@ def synth_pluck(freq, duration=0.5, brightness=0.7, sr=SR):
     filt_env = filt_end + (filt_start - filt_end) * np.exp(-t * 20)
     # Block-based sweep
     block = 64
-    zi = np.zeros((2, 2))
+    sos = butter(2, 1000, btype='low', fs=sr, output='sos')
+    zi = np.zeros((sos.shape[0], 2))
     out = np.zeros(len(saw))
     for s in range(0, len(saw), block):
         e = min(s + block, len(saw))
@@ -409,7 +411,8 @@ def synth_brass(freq, duration=0.5, sr=SR):
     source = (saw1 + saw2) / 2
     filt_env = 300 + 4000 * np.exp(-t / 0.05)
     block = 64
-    zi = np.zeros((2, 2))
+    sos = butter(2, 1000, btype='low', fs=sr, output='sos')
+    zi = np.zeros((sos.shape[0], 2))
     out = np.zeros(len(source))
     for s in range(0, len(source), block):
         e = min(s + block, len(source))
@@ -431,7 +434,8 @@ def synth_acid(freq, duration=0.3, cutoff_start=4000, cutoff_end=200,
     if accent: cutoff_start *= 1.5; resonance *= 1.3
     filt_env = cutoff_end + (cutoff_start - cutoff_end) * np.exp(-t * 15)
     block = 64
-    zi = np.zeros((2, 2))
+    sos = butter(2, 1000, btype='low', fs=sr, output='sos')
+    zi = np.zeros((sos.shape[0], 2))
     out = np.zeros(len(saw))
     for s in range(0, len(saw), block):
         e = min(s + block, len(saw))

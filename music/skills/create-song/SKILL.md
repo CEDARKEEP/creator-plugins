@@ -72,6 +72,7 @@ Follow this architecture (see reference files for code patterns):
 
 **DSP — Non-Negotiable:**
 - **Always use `sosfilt`** with `butter(output='sos')` — NEVER use `lfilter` with `butter` in `ba` form (numerically unstable, causes filter blowups)
+- **sosfilt zi shape** — when using `sosfilt(sos, sig, zi=zi)` with stateful filtering, ALWAYS initialize zi as `np.zeros((sos.shape[0], 2))` — never hardcode the first dimension. The number of SOS sections varies with filter order (order 2 = 1 section, order 4 = 2 sections, etc.). Compute a dummy `sos = butter(order, freq, ..., output='sos')` before the loop to get the correct shape
 - **Use PolyBLEP oscillators** for saw and square waves — naive versions alias badly
 - **Use Freeverb** (8 comb + 4 allpass filters) for reverb — NEVER random delay taps (sounds metallic)
 - **Output stereo** — pan instruments using equal-power panning, keep sub-150Hz centered

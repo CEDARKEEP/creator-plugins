@@ -43,7 +43,8 @@ def env_wind(duration, intensity=0.5, sr=SR):
     cutoff = 300 + 2700 * (0.5 + 0.3 * lfo1 + 0.2 * lfo2) * intensity
     amp_mod = 0.3 + 0.7 * (0.5 + 0.3 * lfo1 + 0.2 * lfo2) * intensity
     block = 256
-    zi = np.zeros((2, 2))
+    sos = butter(2, 1000, btype='low', fs=sr, output='sos')
+    zi = np.zeros((sos.shape[0], 2))
     out = np.zeros(n)
     for s in range(0, n, block):
         e = min(s + block, n)
@@ -105,7 +106,8 @@ def env_ocean(duration, wave_period=8.0, sr=SR):
     # Filter opens with surge (300-4000Hz)
     cutoff = 300 + 3700 * surge
     block = 256
-    zi = np.zeros((2, 2))
+    sos = butter(2, 1000, btype='low', fs=sr, output='sos')
+    zi = np.zeros((sos.shape[0], 2))
     wave = np.zeros(n)
     for s in range(0, n, block):
         e = min(s + block, n)
