@@ -39,7 +39,24 @@ Use `WebSearch` to research 6-8 queries in 3 batches:
 
 Focus on **actionable production details** — not history or culture. You need numbers: BPM ranges, frequency ranges, filter cutoffs, reverb decay times, specific chord progressions.
 
-### Step 3: Generate the Python Script
+### Step 3: Design the Energy Map
+
+**Before writing ANY code**, design the full energy map. This is the blueprint that determines whether the track engages listeners or puts them to sleep. See [references/energy-and-engagement.md](references/energy-and-engagement.md) for the complete system.
+
+1. **Choose an emotional arc** — pick one from `EMOTIONAL_ARCS` (hero_journey, night_drive, tension_release, melancholic_beauty, party_energy, cinematic_epic) or design a custom one that matches the user's vibe
+2. **Define sections** — name each section, assign bar count, and set **5 energy dimensions** per section:
+   - **Intensity** (0-10): overall power, volume, compression
+   - **Density** (0-10): number of active layers (sparse→full)
+   - **Rhythm** (0-10): rhythmic complexity (simple→polyrhythmic)
+   - **Harmonic** (0-10): chord richness (triads→extensions)
+   - **Brightness** (0-10): spectral energy (dark/filtered→full/airy)
+3. **Plan tension/release cycles** — mark where pulls (risers, builds, filter closes) and pushes (drops, impacts, filter opens) occur. Every pull needs a matching push
+4. **Set positive/negative styles per section** — composition plan style: what should be present AND what should be absent in each section
+5. **Check the contrast ratio** — peaks and valleys should differ by 4+ intensity points. If everything is 6-8, the track will feel flat
+
+Output the energy map to console when the script runs so the user can see the arc.
+
+### Step 4: Generate the Python Script
 
 Write a complete, self-contained Python script that:
 
@@ -48,6 +65,7 @@ Write a complete, self-contained Python script that:
 - Generates a **stereo** `.wav` file at 44100 Hz sample rate (16-bit PCM default, 24-bit via soundfile)
 - Is **2-3 minutes long** by default (adjust if user specifies)
 - Includes a progress printout for each major step
+- **Prints the energy map** at the start showing the full arrangement arc
 
 #### Script Architecture
 
@@ -55,18 +73,32 @@ Follow this architecture (see reference files for code patterns):
 
 ```
 1. Constants (SR, BPM, BEAT_DUR, BAR_DUR, TOTAL_BARS, TOTAL_SAMPLES)
-2. DSP primitives (PolyBLEP oscillators, sosfilt filters, envelopes)
-3. Effect processors (Freeverb, delay, chorus, phaser, compressor, limiter)
-4. Instrument/sound synthesis functions
-5. Music theory (scales, chord types, voice_lead, generate_melody, apply_swing, humanize)
-6. Musical content (scale choice, chord progression with voice leading, melody, bass)
-7. Arrangement (section map with energy levels 0-10, per-bar logic)
-8. Builder functions (one per instrument track, with per-track compression)
-9. Stereo mix (pan each track, section automation with smoothstep, sidechain)
-10. Master chain — use pedalboard if available (HPF 30Hz, bus comp, saturation, limiter), else numpy chain
-11. Export stereo .wav (24-bit via soundfile preferred, 16-bit via scipy.io.wavfile fallback)
-12. Optional: export MIDI file alongside WAV via midiutil (for user editing in DAW)
+2. Energy map & composition plan (sections with 5-dimension energy, emotional arc, positive/negative styles)
+3. DSP primitives (PolyBLEP oscillators, sosfilt filters, envelopes)
+4. Effect processors (Freeverb, delay, chorus, phaser, compressor, limiter)
+5. Instrument/sound synthesis functions
+6. Music theory (scales, chord types, voice_lead, generate_melody, apply_swing, humanize)
+7. Musical content (scale choice, chord progression with voice leading, melody, bass)
+8. Engagement elements (risers, impacts, fills, ear candy, tension/release FX)
+9. Builder functions (one per instrument track, density-gated, with per-track compression)
+10. Stereo mix (pan each track, multi-dimensional energy automation with smoothstep, sidechain)
+11. Master chain — use pedalboard if available (HPF 30Hz, bus comp, saturation, limiter), else numpy chain
+12. Export stereo .wav (24-bit via soundfile preferred, 16-bit via scipy.io.wavfile fallback)
+13. Optional: export MIDI file alongside WAV via midiutil (for user editing in DAW)
 ```
+
+#### Energy-Driven Arrangement Rules
+
+The energy map controls everything. Each bar's 5 dimensions determine:
+- **Which tracks play** — each instrument has a density threshold (see `TRACK_DENSITY_THRESHOLD` in energy-and-engagement.md). Only activate tracks when density >= their threshold
+- **How they sound** — brightness controls filter cutoff (800Hz→12.8kHz), intensity controls volume and compression drive
+- **What patterns play** — rhythm level selects pattern complexity (basic→syncopated→fills+rolls)
+- **Chord voicings** — harmonic level controls extension depth (triads→7ths→9ths→altered)
+- **Transitions** — use pull/push pairs at section boundaries (riser→impact, filter_close→filter_open, silence→slam)
+
+**Micro-engagement**: add ear candy every 16 bars (reversed note, stereo moment, one-shot percussion, filter dip). These small details keep attentive listeners discovering new things.
+
+**The 2/3 climax rule**: the biggest energy moment should occur at approximately 2/3 through the track. This mirrors natural storytelling and creates the most satisfying payoff.
 
 #### Mandatory Quality Rules
 
@@ -115,7 +147,7 @@ The #1 goal is music that sounds natural, warm, and enjoyable — something a hu
 - **Arrangement must have dynamics** — sections that build and strip back, not a flat wall of sound
 - **Master chain**: prefer pedalboard chain (HPF → EQ → Compressor → Gain → Limiter) when available; fallback to numpy chain (HPF 30Hz → bus compression → tape saturation → stereo width → limiter → normalize → fade in/out)
 
-### Step 4: Run It
+### Step 5: Run It
 
 Execute the script using:
 ```
@@ -127,14 +159,16 @@ If it fails, fix the error and re-run. Common issues:
 - Filter instability — use `output='sos'` with `sosfilt` (never `lfilter`)
 - Memory — process Freeverb per-track on mono, then pan to stereo after
 
-### Step 5: Present the Result
+### Step 6: Present the Result
 
 Tell the user:
 - Output filename and duration
 - Key, BPM, scale/mode, genre/style
-- Section-by-section arrangement breakdown with energy levels
+- **Full energy map** — section-by-section breakdown with all 5 energy dimensions and emotional arc
+- Tension/release moments — where the pulls and pushes happen
 - Key production techniques used
-- What to listen for
+- Engagement highlights — ear candy moments, transitions, the climax point
+- What to listen for at each section
 
 ## Genre-Specific Guidelines
 
@@ -205,6 +239,7 @@ def export_midi(filename, tracks, bpm):
 ## Additional Resources
 
 ### Core
+- [references/energy-and-engagement.md](references/energy-and-engagement.md) — **Energy mapping, tension/release cycles, emotional arcs, engagement techniques, composition plans** (START HERE for arrangement)
 - [references/dsp-core.md](references/dsp-core.md) — Core DSP primitives (PolyBLEP oscillators, sosfilt filters, ADSR envelopes, helpers)
 - [references/effects.md](references/effects.md) — Effects processing (Freeverb, delay, chorus, phaser, compression, distortion, lo-fi)
 - [references/instruments.md](references/instruments.md) — Instrument synthesis recipes (drums, synths, keys, strings, brass, FM)

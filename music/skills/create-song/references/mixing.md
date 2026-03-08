@@ -37,27 +37,113 @@ left, right = pan_mono(track, pan_position)  # Stereo placement
 
 **Rule: keep everything below 150Hz centered** (sub bass, kick fundamental). Wide stereo only for mid and high frequencies.
 
-### 3. Section Automation
+### 3. Multi-Dimensional Section Automation
 
-Use `smoothstep` for volume automation between sections:
+Use 5-dimension energy maps (see [energy-and-engagement.md](energy-and-engagement.md)) for per-bar automation. Each dimension controls different mix parameters:
 
 ```python
-def section_volume(bar, section_map, total_samples, bar_dur_samples):
-    """Get volume multiplier for current bar based on section energy."""
-    energy = section_map[bar]  # 0-10 energy level
-    return energy / 10.0
+def smoothstep(t):
+    """Hermite smoothstep interpolation (0→1)."""
+    t = np.clip(t, 0, 1)
+    return t * t * (3 - 2 * t)
 
-# Smooth transitions between sections (avoid clicks):
-for bar in range(total_bars):
+def build_bar_energy(sections):
+    """Expand section energy into per-bar lookup for all 5 dimensions."""
+    bar_energy = []
+    for section in sections:
+        e = section['energy']  # dict: intensity, density, rhythm, harmonic, brightness
+        for _ in range(section['bars']):
+            bar_energy.append(dict(e))  # copy per bar
+    return bar_energy
+
+def apply_section_automation(signal, bar, bar_energy, bar_samples, track_name, sr=SR):
+    """Apply multi-dimensional energy automation to a track for one bar."""
+    e = bar_energy[bar]
+    n_bars = len(bar_energy)
+
+    # INTENSITY → volume curve with smooth transitions
+    current_vol = 0.3 + 0.7 * (e['intensity'] / 10.0)
+    next_bar = min(bar + 1, n_bars - 1)
+    next_vol = 0.3 + 0.7 * (bar_energy[next_bar]['intensity'] / 10.0)
+
+    n = len(signal)
+    # Apply volume with smooth transition in last 10% of bar
+    fade_start = int(n * 0.9)
+    vol_env = np.full(n, current_vol)
+    for i in range(fade_start, n):
+        t = (i - fade_start) / (n - fade_start)
+        vol_env[i] = current_vol + (next_vol - current_vol) * smoothstep(t)
+    signal = signal * vol_env
+
+    # BRIGHTNESS → dynamic lowpass filter
+    cutoff = 800 + (e['brightness'] / 10.0) * 12000  # 800Hz to 12.8kHz
+    if cutoff < 12000:  # Only filter if not already bright
+        sos = butter(2, min(cutoff / (sr / 2), 0.99), btype='low', output='sos')
+        signal = sosfilt(sos, signal)
+
+    return signal
+
+# DENSITY → track gating (in the main mix loop)
+TRACK_DENSITY_THRESHOLD = {
+    'kick': 1, 'bass': 1, 'pad': 1,
+    'hihat': 3, 'snare': 3, 'chord': 3,
+    'melody': 5, 'arp': 5, 'ride': 5,
+    'strings': 7, 'lead': 7, 'counter_mel': 7, 'perc': 7,
+    'fx': 9, 'doubled': 9, 'harmony': 9,
+}
+
+def is_track_active(track_name, bar, bar_energy):
+    """Check if track should sound in this bar based on density."""
+    threshold = TRACK_DENSITY_THRESHOLD.get(track_name, 5)
+    return bar_energy[bar]['density'] >= threshold
+
+# RHYTHM → pattern selection (in drum builders)
+def select_drum_pattern(bar, bar_energy):
+    """Select pattern complexity based on rhythm energy."""
+    r = bar_energy[bar]['rhythm']
+    if r <= 3:   return 'basic'       # kick + hat only
+    elif r <= 6: return 'standard'    # kick + snare + hat + ride
+    elif r <= 8: return 'syncopated'  # + ghost notes + syncopation
+    else:        return 'complex'     # + fills + rolls + polyrhythm
+
+# HARMONIC → chord voicing depth (in chord builders)
+def select_chord_voicing(bar, bar_energy):
+    """Select chord richness based on harmonic energy."""
+    h = bar_energy[bar]['harmonic']
+    if h <= 3:   return 'triad'    # Root + 3rd + 5th
+    elif h <= 6: return '7th'      # + 7th, inversions
+    elif h <= 8: return '9th'      # + 9th, spread voicings
+    else:        return 'extended'  # + 11th/13th, altered, chromatic passing
+```
+
+### Engagement Elements (Micro-Tension in the Mix)
+
+Add these automatically based on bar position to keep listeners engaged:
+
+```python
+def add_engagement_elements(mix_left, mix_right, bar, bar_energy, bar_samples, sr=SR):
+    """Add micro-tension elements at phrase boundaries."""
     start = int(bar * bar_samples)
-    end = int((bar + 1) * bar_samples)
-    current_energy = section_map[bar] / 10.0
-    next_energy = section_map[min(bar + 1, total_bars - 1)] / 10.0
-    # Smoothstep crossfade over last 10% of bar
-    fade_start = int(end - 0.1 * bar_samples)
-    for i in range(fade_start, end):
-        t = (i - fade_start) / (end - fade_start)
-        mix_buf[i] *= current_energy + (next_energy - current_energy) * smoothstep(t)
+    end = min(int((bar + 1) * bar_samples), len(mix_left))
+
+    # Drum fill every 4-8 bars (probability increases with rhythm energy)
+    if bar % 4 == 3:
+        fill_prob = 0.05 + 0.25 * (bar_energy[bar]['rhythm'] / 10.0)
+        if np.random.random() < fill_prob:
+            pass  # Insert fill from fill builder
+
+    # Reverse crash before section transitions
+    # (check if next bar has different section energy)
+    if bar + 1 < len(bar_energy):
+        intensity_jump = abs(bar_energy[bar+1]['intensity'] - bar_energy[bar]['intensity'])
+        if intensity_jump >= 3:
+            pass  # Insert reverse crash in last beat
+
+    # Ear candy every 16 bars (one-shot FX, stereo moment, etc.)
+    if bar % 16 == 15 and bar_energy[bar]['density'] >= 5:
+        pass  # Insert subtle ear candy (reversed note, ping-pong delay burst, etc.)
+
+    return mix_left, mix_right
 ```
 
 ### 4. Sidechain Processing
@@ -143,43 +229,54 @@ mix[-edge:] *= 0.5 + 0.5 * np.cos(np.linspace(0, np.pi, edge))
 
 ## Arrangement Patterns
 
-### Section Map
+### Section Map (Multi-Dimensional)
 
-Define energy levels (0-10) per bar:
+Define 5-dimension energy levels per section (see [energy-and-engagement.md](energy-and-engagement.md) for full system):
 
 ```python
-# Example: 64-bar arrangement
-section_map = {
-    # Intro (bars 0-7): sparse, building
-    **{i: 3 for i in range(8)},
-    # Verse 1 (bars 8-23): groove established
-    **{i: 5 for i in range(8, 24)},
-    # Chorus 1 (bars 24-39): full energy
-    **{i: 8 for i in range(24, 40)},
-    # Bridge/Breakdown (bars 40-47): strip back
-    **{i: 4 for i in range(40, 48)},
-    # Final Chorus (bars 48-59): peak energy
-    **{i: 10 for i in range(48, 60)},
-    # Outro (bars 60-63): fade
-    **{i: 3 for i in range(60, 64)},
-}
+# Example: 64-bar pop arrangement with composition plan
+SECTIONS = [
+    {'name': 'Intro',      'bars': 8,
+     'energy': {'intensity': 3, 'density': 2, 'rhythm': 2, 'harmonic': 4, 'brightness': 3},
+     'positive_styles': ['atmospheric', 'spacious'],
+     'negative_styles': ['full beat', 'lead melody'],
+     'transition_out': 'filter_open'},
+    {'name': 'Verse 1',    'bars': 16,
+     'energy': {'intensity': 5, 'density': 5, 'rhythm': 5, 'harmonic': 5, 'brightness': 5},
+     'transition_in': 'impact', 'transition_out': 'riser'},
+    {'name': 'Chorus 1',   'bars': 16,
+     'energy': {'intensity': 8, 'density': 8, 'rhythm': 7, 'harmonic': 8, 'brightness': 9},
+     'tension': 'PUSH'},
+    {'name': 'Breakdown',  'bars': 8,
+     'energy': {'intensity': 4, 'density': 3, 'rhythm': 2, 'harmonic': 6, 'brightness': 4}},
+    {'name': 'Final Chorus','bars': 12,
+     'energy': {'intensity': 10, 'density': 10, 'rhythm': 8, 'harmonic': 9, 'brightness': 10},
+     'tension': 'PUSH — climax at 2/3 point'},
+    {'name': 'Outro',      'bars': 4,
+     'energy': {'intensity': 3, 'density': 2, 'rhythm': 2, 'harmonic': 4, 'brightness': 2},
+     'positive_styles': ['callback to intro']},
+]
+
+# Build per-bar lookup:
+bar_energy = build_bar_energy(SECTIONS)
 ```
 
-### Element Introduction by Energy Level
+### Element Introduction by Density Level
 
-| Energy | Elements Present |
-|--------|-----------------|
+| Density | Elements Present |
+|---------|-----------------|
 | 1-2 | Ambient pad or single instrument, light texture |
 | 3-4 | + Simple drums (kick, hat), bass enters |
-| 5-6 | + Full drums, chord instrument, bass groove |
-| 7-8 | + Melody/lead, all drums with fills, effects |
-| 9-10 | Everything + doubled parts, extra layers, wider stereo |
+| 5-6 | + Full drums, chord instrument, melody, bass groove |
+| 7-8 | + Lead, strings, counter-melody, percussion layers |
+| 9-10 | Everything + doubled parts, FX, harmony, widest stereo |
 
 ### Variation Rules
-- Every 4 bars: small variation (hi-hat pattern change, fill)
-- Every 8 bars: medium variation (drum pattern B, new bass note)
-- Every 16 bars: significant change (new section, element add/remove)
+- Every 4 bars: small variation (hi-hat pattern change, fill, velocity shift)
+- Every 8 bars: medium variation (drum pattern B, new bass note, filter dip)
+- Every 16 bars: significant change (new section, element add/remove, ear candy)
 - NEVER copy-paste the same pattern for more than 8 bars without variation
+- **Contrast ratio**: peaks and valleys should differ by 4+ intensity points
 
 ## WAV Export (scipy fallback)
 
