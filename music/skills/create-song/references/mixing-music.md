@@ -1,23 +1,8 @@
-# Mixing, EQ & Arrangement
+# Music-Specific Mixing Reference
 
-Stereo mix pipeline, panning, sidechain, EQ carving, arrangement patterns, numpy master chain, and memory management.
+Music-specific panning, density gating, drum/chord selection, engagement elements, EQ guidelines, arrangement patterns, and genre validation targets. Extracted from shared mixing and quality-validation references for music production use.
 
-## Stereo Mix Pipeline
-
-### 1. Per-Track Processing
-
-Each instrument track should be processed individually before mixing:
-
-```python
-# For each track:
-track = instrument_builder(...)              # Generate audio
-track = compressor(track, ...)               # Per-track compression
-track = lowpass(track, cutoff)               # Filter harshness
-track = freeverb(track, ...) if not bass     # Reverb (NOT on bass/kick)
-left, right = pan_mono(track, pan_position)  # Stereo placement
-```
-
-### 2. Panning Positions
+## Instrument Panning Table
 
 | Instrument | Pan (0=L, 0.5=C, 1=R) | Notes |
 |-----------|------------------------|-------|
@@ -37,53 +22,10 @@ left, right = pan_mono(track, pan_position)  # Stereo placement
 
 **Rule: keep everything below 150Hz centered** (sub bass, kick fundamental). Wide stereo only for mid and high frequencies.
 
-### 3. Multi-Dimensional Section Automation
-
-Use 5-dimension energy maps (see [energy-and-engagement.md](energy-and-engagement.md)) for per-bar automation. Each dimension controls different mix parameters:
+## Track Density Gating
 
 ```python
-def smoothstep(t):
-    """Hermite smoothstep interpolation (0→1)."""
-    t = np.clip(t, 0, 1)
-    return t * t * (3 - 2 * t)
-
-def build_bar_energy(sections):
-    """Expand section energy into per-bar lookup for all 5 dimensions."""
-    bar_energy = []
-    for section in sections:
-        e = section['energy']  # dict: intensity, density, rhythm, harmonic, brightness
-        for _ in range(section['bars']):
-            bar_energy.append(dict(e))  # copy per bar
-    return bar_energy
-
-def apply_section_automation(signal, bar, bar_energy, bar_samples, track_name, sr=SR):
-    """Apply multi-dimensional energy automation to a track for one bar."""
-    e = bar_energy[bar]
-    n_bars = len(bar_energy)
-
-    # INTENSITY → volume curve with smooth transitions
-    current_vol = 0.3 + 0.7 * (e['intensity'] / 10.0)
-    next_bar = min(bar + 1, n_bars - 1)
-    next_vol = 0.3 + 0.7 * (bar_energy[next_bar]['intensity'] / 10.0)
-
-    n = len(signal)
-    # Apply volume with smooth transition in last 10% of bar
-    fade_start = int(n * 0.9)
-    vol_env = np.full(n, current_vol)
-    for i in range(fade_start, n):
-        t = (i - fade_start) / (n - fade_start)
-        vol_env[i] = current_vol + (next_vol - current_vol) * smoothstep(t)
-    signal = signal * vol_env
-
-    # BRIGHTNESS → dynamic lowpass filter
-    cutoff = 800 + (e['brightness'] / 10.0) * 12000  # 800Hz to 12.8kHz
-    if cutoff < 12000:  # Only filter if not already bright
-        sos = butter(2, min(cutoff / (sr / 2), 0.99), btype='low', output='sos')
-        signal = sosfilt(sos, signal)
-
-    return signal
-
-# DENSITY → track gating (in the main mix loop)
+# DENSITY -> track gating (in the main mix loop)
 TRACK_DENSITY_THRESHOLD = {
     'kick': 1, 'bass': 1, 'pad': 1,
     'hihat': 3, 'snare': 3, 'chord': 3,
@@ -96,8 +38,14 @@ def is_track_active(track_name, bar, bar_energy):
     """Check if track should sound in this bar based on density."""
     threshold = TRACK_DENSITY_THRESHOLD.get(track_name, 5)
     return bar_energy[bar]['density'] >= threshold
+```
 
-# RHYTHM → pattern selection (in drum builders)
+> **Cross-reference**: This dict also appears in [energy-music.md](energy-music.md) for context within the energy system.
+
+## Pattern & Voicing Selection
+
+```python
+# RHYTHM -> pattern selection (in drum builders)
 def select_drum_pattern(bar, bar_energy):
     """Select pattern complexity based on rhythm energy."""
     r = bar_energy[bar]['rhythm']
@@ -106,7 +54,7 @@ def select_drum_pattern(bar, bar_energy):
     elif r <= 8: return 'syncopated'  # + ghost notes + syncopation
     else:        return 'complex'     # + fills + rolls + polyrhythm
 
-# HARMONIC → chord voicing depth (in chord builders)
+# HARMONIC -> chord voicing depth (in chord builders)
 def select_chord_voicing(bar, bar_energy):
     """Select chord richness based on harmonic energy."""
     h = bar_energy[bar]['harmonic']
@@ -116,7 +64,7 @@ def select_chord_voicing(bar, bar_energy):
     else:        return 'extended'  # + 11th/13th, altered, chromatic passing
 ```
 
-### Engagement Elements (Micro-Tension in the Mix)
+## Engagement Elements (Micro-Tension in the Mix)
 
 Add these automatically based on bar position to keep listeners engaged:
 
@@ -146,75 +94,7 @@ def add_engagement_elements(mix_left, mix_right, bar, bar_energy, bar_samples, s
     return mix_left, mix_right
 ```
 
-### 4. Sidechain Processing
-
-Apply sidechain compression to make kick punch through:
-
-```python
-# Sidechain the pad/chord bus to the kick
-pad_signal = sidechain(pad_signal, kick_signal,
-                        threshold_db=-20, ratio=10.0,
-                        attack_ms=1, release_ms=150)
-```
-
-Typical sidechain targets: pads, chords, bass (in EDM), ambient layers. NOT on lead melody or drums.
-
-## Numpy Master Chain (Fallback)
-
-Use this when pedalboard is not available. Apply in this exact order:
-
-```python
-# 1. High-pass filter at 30Hz (remove sub-rumble)
-sos = butter(4, 30, btype='high', fs=SR, output='sos')
-mix = sosfilt(sos, mix)
-
-# 2. Bus compression (gentle glue)
-mix = compressor(mix, threshold_db=-12, ratio=2.0,
-                  attack_ms=20, release_ms=200, knee_db=6)
-
-# 3. Tape saturation (warmth)
-mix = np.tanh(mix * 1.2) / np.tanh(1.2)  # normalized soft clip
-
-# 4. Stereo width (widen mids/highs, keep bass centered)
-if stereo:
-    left, right = stereo_width(left, right, width=1.3)
-
-# 5. Limiter at -1 dBFS (brickwall)
-mix = limiter(mix, threshold_db=-1.0, release_ms=50)
-
-# 6. Normalize to -1 dBFS
-peak = np.max(np.abs(mix))
-if peak > 0:
-    mix *= (10 ** (-1/20)) / peak
-
-# 7. Fade in/out
-fade_in = int(SR * 0.5)   # 500ms fade in
-fade_out = int(SR * 1.0)  # 1s fade out
-mix[:fade_in] *= 0.5 - 0.5 * np.cos(np.linspace(0, np.pi, fade_in))
-mix[-fade_out:] *= 0.5 + 0.5 * np.cos(np.linspace(0, np.pi, fade_out))
-
-# 8. Final safety: soft-clip + 2ms cosine fade edges
-mix = np.tanh(mix)
-edge = int(0.002 * SR)
-mix[:edge] *= 0.5 - 0.5 * np.cos(np.linspace(0, np.pi, edge))
-mix[-edge:] *= 0.5 + 0.5 * np.cos(np.linspace(0, np.pi, edge))
-```
-
-## EQ Carving Reference
-
-### Frequency Ranges
-
-| Range | Frequencies | Character | Action |
-|-------|-----------|-----------|--------|
-| Sub bass | 20-60 Hz | Feel, rumble | HPF everything except kick/bass |
-| Bass | 60-250 Hz | Warmth, body | Keep for bass/kick, cut on other tracks |
-| Low mids | 250-500 Hz | Muddiness zone | Cut 3-6dB on most tracks to clean up |
-| Mids | 500Hz-2kHz | Body, presence | Main voice of instruments |
-| Upper mids | 2-4 kHz | Presence, ear peak | Boost for presence, cut if harsh |
-| Treble | 4-8 kHz | Brightness, air | HH/cymbals live here |
-| Air | 8-20 kHz | Sparkle, space | Gentle shelf boost for "air" |
-
-### Per-Instrument EQ Guidelines
+## Per-Instrument EQ Guidelines
 
 | Instrument | Cut | Boost | Notes |
 |-----------|-----|-------|-------|
@@ -227,7 +107,7 @@ mix[-edge:] *= 0.5 + 0.5 * np.cos(np.linspace(0, np.pi, edge))
 | Vocals/Lead | HPF 80-100Hz | Boost 3-5kHz (presence), 10kHz (air) | |
 | Reverb return | HPF 200-400Hz, LPF 6-10kHz | | ALWAYS EQ reverb returns |
 
-### Detailed Per-Instrument EQ Cheat Sheet
+### EQ_GUIDE Dict
 
 ```python
 EQ_GUIDE = {
@@ -328,23 +208,11 @@ EQ_GUIDE = {
 }
 ```
 
-### Problem Frequency Zones
-
-| Zone | Frequency | Problem | Fix |
-|------|-----------|---------|-----|
-| Mud | 250-500 Hz | Muddiness, boomy, unclear | Cut 3-6dB on most tracks except bass/kick body |
-| Honk | 800-1500 Hz | Nasal, boxy, cheap sounding | Cut on guitars/vocals if needed, narrow Q |
-| Fatigue | 3-5 kHz | Ear is most sensitive here, harsh if over-boosted | Boost max 3dB, check after 10min listening |
-| Sibilance | 6-8 kHz | Harsh 's' and 't' sounds on vocals | De-ess with dynamic EQ or narrow cut |
-| Ice pick | 8-12 kHz | Piercing, thin, cold | Cut on cymbals and synths if fatiguing |
-
-**Golden rule**: Cut narrow (high Q), boost wide (low Q). If you need more than 6dB of boost, the source sound is wrong.
-
 ## Arrangement Patterns
 
 ### Section Map (Multi-Dimensional)
 
-Define 5-dimension energy levels per section (see [energy-and-engagement.md](energy-and-engagement.md) for full system):
+Define 5-dimension energy levels per section (see [energy-music.md](energy-music.md) for full energy system):
 
 ```python
 # Example: 64-bar pop arrangement with composition plan
@@ -391,70 +259,92 @@ bar_energy = build_bar_energy(SECTIONS)
 - NEVER copy-paste the same pattern for more than 8 bars without variation
 - **Contrast ratio**: peaks and valleys should differ by 4+ intensity points
 
-## WAV Export (scipy fallback)
+## Genre Validation Targets (GENRE_TARGETS)
+
+Loudness and dynamics targets per genre. LUFS values follow streaming platform standards (-14 LUFS normalized), with genre-specific tolerances for artistic intent.
 
 ```python
-def export_wav(filename, left, right, sr=SR):
-    """Export stereo 16-bit WAV with TPDF dithering."""
-    # Ensure same length
-    n = max(len(left), len(right))
-    stereo = np.zeros((n, 2))
-    stereo[:len(left), 0] = left
-    stereo[:len(right), 1] = right
-    # Normalize to -1 dBFS
-    peak = np.max(np.abs(stereo))
-    if peak > 0:
-        stereo *= (10 ** (-1/20)) / peak
-    # TPDF dither
-    dither = (np.random.uniform(-1,1,stereo.shape) + np.random.uniform(-1,1,stereo.shape))
-    quantized = np.clip(np.round(stereo * 32767 + dither), -32767, 32767).astype(np.int16)
-    wavfile.write(filename, sr, quantized)
-    print(f"Wrote {filename}: {n/sr:.1f}s stereo at {sr}Hz")
+GENRE_TARGETS = {
+    'electronic': {
+        'lufs_target': -9,       # Club-ready, loud
+        'lufs_tolerance': 2,
+        'crest_factor_range': (4, 10),
+        'max_peak_dbtp': -0.5,
+        'spectral_profile_key': 'electronic',
+    },
+    'lo-fi': {
+        'lufs_target': -14,
+        'lufs_tolerance': 3,
+        'crest_factor_range': (6, 14),
+        'max_peak_dbtp': -1.0,
+        'spectral_profile_key': 'lo-fi',
+    },
+    'acoustic': {
+        'lufs_target': -16,
+        'lufs_tolerance': 2,
+        'crest_factor_range': (10, 20),
+        'max_peak_dbtp': -1.0,
+        'spectral_profile_key': 'acoustic',
+    },
+    'hip-hop': {
+        'lufs_target': -10,
+        'lufs_tolerance': 2,
+        'crest_factor_range': (5, 12),
+        'max_peak_dbtp': -0.5,
+        'spectral_profile_key': 'hip-hop',
+    },
+    'metal': {
+        'lufs_target': -10,
+        'lufs_tolerance': 2,
+        'crest_factor_range': (4, 8),
+        'max_peak_dbtp': -0.3,
+        'spectral_profile_key': 'metal',
+    },
+    'jazz': {
+        'lufs_target': -16,
+        'lufs_tolerance': 3,
+        'crest_factor_range': (12, 22),
+        'max_peak_dbtp': -1.0,
+        'spectral_profile_key': 'jazz',
+    },
+    'classical': {
+        'lufs_target': -18,
+        'lufs_tolerance': 4,
+        'crest_factor_range': (14, 28),
+        'max_peak_dbtp': -1.0,
+        'spectral_profile_key': 'classical',
+    },
+    'pop': {
+        'lufs_target': -14,
+        'lufs_tolerance': 2,
+        'crest_factor_range': (6, 12),
+        'max_peak_dbtp': -0.5,
+        'spectral_profile_key': 'pop',
+    },
+    'rnb': {
+        'lufs_target': -12,
+        'lufs_tolerance': 2,
+        'crest_factor_range': (6, 14),
+        'max_peak_dbtp': -0.5,
+        'spectral_profile_key': 'rnb',
+    },
+}
 ```
 
-## Memory Management
+## Genre Spectral Targets (GENRE_SPECTRAL_TARGETS)
 
-For 2-3 minute tracks (~5-8M samples per channel):
-
-```python
-# Memory per channel: 44100 * 180 * 8 bytes (float64) = ~60MB
-# Total stereo: ~120MB -- fits easily in RAM
-
-# Tips:
-# - Process Freeverb per-track on MONO, then pan to stereo after
-# - Use float32 if memory is tight: audio = audio.astype(np.float32)
-# - Pre-allocate arrays: buf = np.zeros(TOTAL_SAMPLES) instead of np.append()
-# - NEVER use np.concatenate() in loops (reallocates each time)
-# - Process in chunks for very long audio (>10 minutes)
-# - Delete intermediate arrays: del intermediate; gc.collect()
-```
-
-## Normalization and Dithering
+Relative band levels in dB (referenced to mid band = 0 dB):
 
 ```python
-def normalize(sig, target_dbfs=-1.0):
-    """-1 dBFS leaves headroom, avoids intersample peak clipping."""
-    peak = np.max(np.abs(sig))
-    if peak == 0: return sig
-    return sig * (10 ** (target_dbfs / 20)) / peak
-
-def rms_normalize(sig, target_rms_dbfs=-18.0):
-    """Normalize by RMS (perceptually consistent loudness)."""
-    rms = np.sqrt(np.mean(sig**2))
-    if rms == 0: return sig
-    return sig * (10 ** (target_rms_dbfs / 20)) / rms
-```
-
-## Useful Constants
-
-```python
-# Frequency conversion
-def midi_to_freq(n): return 440.0 * (2 ** ((n - 69) / 12))
-def freq_to_midi(f): return 69 + 12 * np.log2(f / 440)
-def db_to_linear(db): return 10 ** (db / 20)
-def bpm_to_ms(bpm, div=1): return 60000 / bpm * div  # div: 1=quarter, 0.5=8th
-
-# Memory: 1 min mono float64 = ~20MB, float32 = ~10MB
-# 16-bit dynamic range = 96 dB (6 dB per bit)
-# Max stable filter order (SOS) = ~12
+GENRE_SPECTRAL_TARGETS = {
+    'lo-fi':      {'sub': -2, 'low': 1, 'mid': 0, 'high': -5, 'air': -10},
+    'metal':      {'sub': -1, 'low': 2, 'mid': -2, 'high': 3, 'air': -1},
+    'hip-hop':    {'sub': 4, 'low': 2, 'mid': 0, 'high': -2, 'air': -5},
+    'jazz':       {'sub': -4, 'low': 0, 'mid': 0, 'high': -1, 'air': -3},
+    'classical':  {'sub': -5, 'low': -1, 'mid': 0, 'high': -1, 'air': -3},
+    'pop':        {'sub': 0, 'low': 1, 'mid': 0, 'high': 1, 'air': -2},
+    'rnb':        {'sub': 3, 'low': 2, 'mid': 0, 'high': -1, 'air': -4},
+    'reggaeton':  {'sub': 3, 'low': 3, 'mid': -1, 'high': 0, 'air': -3},
+    'country':    {'sub': -5, 'low': 0, 'mid': 0, 'high': 1, 'air': -2},
+}
 ```

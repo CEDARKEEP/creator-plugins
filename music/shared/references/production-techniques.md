@@ -26,26 +26,7 @@ def multiband_compress(sig, crossovers=[200, 2000, 8000], sr=SR):
 
 ## Transient Shaper
 
-```python
-def transient_shaper(sig, attack_gain_db=6, sustain_gain_db=0, sr=SR):
-    """Shape attack transients and sustain independently.
-    attack_gain_db > 0 = punchier. sustain_gain_db > 0 = fatter."""
-    n = len(sig)
-    abs_sig = np.abs(sig)
-    fast_env = np.zeros(n); slow_env = np.zeros(n)
-    fa, fr = np.exp(-1/(0.001*sr)), np.exp(-1/(0.01*sr))
-    sa, srel = np.exp(-1/(0.02*sr)), np.exp(-1/(0.2*sr))
-    fe = se = 0.0
-    for i in range(n):
-        fe = fa*fe + (1-fa)*abs_sig[i] if abs_sig[i] > fe else fr*fe + (1-fr)*abs_sig[i]
-        se = sa*se + (1-sa)*abs_sig[i] if abs_sig[i] > se else srel*se + (1-srel)*abs_sig[i]
-        fast_env[i] = fe; slow_env[i] = se
-    transient = np.clip(fast_env - slow_env, 0, None)
-    ag = 10 ** (attack_gain_db / 20); sg = 10 ** (sustain_gain_db / 20)
-    gain = 1 + (ag - 1) * transient / (np.max(transient) + 1e-10) + \
-           (sg - 1) * slow_env / (np.max(slow_env) + 1e-10)
-    return sig * gain
-```
+See [mastering-and-export.md](mastering-and-export.md) for `transient_shaper()` — fast/slow envelope follower with attack/sustain gain control.
 
 ## Parallel Compression (NY Compression)
 

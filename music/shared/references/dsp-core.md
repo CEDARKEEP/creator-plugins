@@ -53,12 +53,9 @@ def stereo_place(buf_L, buf_R, sound_L, sound_R, position_seconds):
     place(buf_L, sound_L, position_seconds)
     place(buf_R, sound_R, position_seconds)
 
-def stereo_width(L, R, width=1.0):
-    """Mid-side stereo width. width=0 mono, 1 normal, >1 wider."""
-    mid = (L + R) * 0.5
-    side = (L - R) * 0.5
-    return mid + side * width, mid - side * width
 ```
+
+See [effects.md](effects.md) for `stereo_width()` (mid-side processing with sub-150Hz centering).
 
 **Panning positions** (keep sub-150Hz centered):
 
@@ -243,43 +240,7 @@ def bandpass(sig, low, high, sr=SR, order=2):
     sos = butter(order, [max(low/nyq, 0.001), min(high/nyq, 0.99)], btype='band', output='sos')
     return sosfilt(sos, sig)
 
-def peak_eq(sig, center_freq, gain_db, Q=1.0, sr=SR):
-    """Peaking EQ biquad filter."""
-    w0 = 2 * np.pi * center_freq / sr
-    A = 10 ** (gain_db / 40.0)
-    alpha = np.sin(w0) / (2 * Q)
-    b0 = 1 + alpha * A; b1 = -2 * np.cos(w0); b2 = 1 - alpha * A
-    a0 = 1 + alpha / A; a1 = -2 * np.cos(w0); a2 = 1 - alpha / A
-    sos = np.array([[b0/a0, b1/a0, b2/a0, 1.0, a1/a0, a2/a0]])
-    return sosfilt(sos, sig)
-
-def high_shelf(sig, freq, gain_db, sr=SR):
-    w0 = 2 * np.pi * freq / sr
-    A = 10 ** (gain_db / 40.0)
-    alpha = np.sin(w0) / 2 * np.sqrt(2)
-    cos_w0 = np.cos(w0)
-    b0 = A * ((A+1) + (A-1)*cos_w0 + 2*np.sqrt(A)*alpha)
-    b1 = -2*A * ((A-1) + (A+1)*cos_w0)
-    b2 = A * ((A+1) + (A-1)*cos_w0 - 2*np.sqrt(A)*alpha)
-    a0 = (A+1) - (A-1)*cos_w0 + 2*np.sqrt(A)*alpha
-    a1 = 2 * ((A-1) - (A+1)*cos_w0)
-    a2 = (A+1) - (A-1)*cos_w0 - 2*np.sqrt(A)*alpha
-    sos = np.array([[b0/a0, b1/a0, b2/a0, 1.0, a1/a0, a2/a0]])
-    return sosfilt(sos, sig)
-
-def low_shelf(sig, freq, gain_db, sr=SR):
-    w0 = 2 * np.pi * freq / sr
-    A = 10 ** (gain_db / 40.0)
-    alpha = np.sin(w0) / 2 * np.sqrt(2)
-    cos_w0 = np.cos(w0)
-    b0 = A * ((A+1) - (A-1)*cos_w0 + 2*np.sqrt(A)*alpha)
-    b1 = 2*A * ((A-1) - (A+1)*cos_w0)
-    b2 = A * ((A+1) - (A-1)*cos_w0 - 2*np.sqrt(A)*alpha)
-    a0 = (A+1) + (A-1)*cos_w0 + 2*np.sqrt(A)*alpha
-    a1 = -2 * ((A-1) + (A+1)*cos_w0)
-    a2 = (A+1) + (A-1)*cos_w0 - 2*np.sqrt(A)*alpha
-    sos = np.array([[b0/a0, b1/a0, b2/a0, 1.0, a1/a0, a2/a0]])
-    return sosfilt(sos, sig)
+# For peak_eq(), high_shelf(), low_shelf() — see effects.md (EQ & Tone Shaping section)
 ```
 
 ### State Variable Filter (for resonant sweeps, acid squelch)

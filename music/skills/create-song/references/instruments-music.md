@@ -1,6 +1,6 @@
-# Instrument Synthesis Recipes
+# Music Instrument Synthesis Recipes
 
-All instruments synthesized from scratch using numpy/scipy. Each recipe is a self-contained function.
+All instruments synthesized from scratch using numpy/scipy. Each recipe is a self-contained function. For music production use.
 
 ## Drum Synthesis
 
