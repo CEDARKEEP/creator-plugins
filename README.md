@@ -23,7 +23,7 @@ This registers the plugin catalog — no plugins are installed yet.
 **Option A — Command line:**
 
 ```
-/plugin install music@CEDARKEEP-creator-plugins
+/plugin install music@creator-plugins
 ```
 
 **Option B — Interactive UI:**
@@ -50,7 +50,7 @@ After installing, the music skills are available as namespaced commands:
 To pull the latest plugin versions:
 
 ```
-/plugin marketplace update CEDARKEEP-creator-plugins
+/plugin marketplace update creator-plugins
 ```
 
 Or enable auto-updates in the **Marketplaces** tab of `/plugin`.
@@ -58,8 +58,8 @@ Or enable auto-updates in the **Marketplaces** tab of `/plugin`.
 ### Uninstalling
 
 ```
-/plugin uninstall music@CEDARKEEP-creator-plugins
-/plugin marketplace remove CEDARKEEP-creator-plugins
+/plugin uninstall music@creator-plugins
+/plugin marketplace remove creator-plugins
 ```
 
 ## Available Plugins
