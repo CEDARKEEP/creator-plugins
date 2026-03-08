@@ -1,5 +1,5 @@
 ---
-name: soundscape-py
+name: create-soundscape
 description: Generates ambient soundscapes and environmental audio as .wav files — nature scenes, meditation backgrounds, spatial environments, atmospheric textures. Invoke when the user wants ambient sounds, nature sounds, meditation audio, environmental backgrounds, white noise, atmospheric textures, or relaxation audio.
 argument-hint: "[description of the soundscape or environment]"
 ---

@@ -40,9 +40,9 @@ This registers the plugin catalog — no plugins are installed yet.
 After installing, the music skills are available as namespaced commands:
 
 ```
-/music:create-song a dreamy lo-fi beat with warm keys
-/music:create-sfx laser blast impact
-/music:create-soundscape rain on a tin roof at night
+/create-song a dreamy lo-fi beat with warm keys
+/create-sfx laser blast impact
+/create-soundscape rain on a tin roof at night
 ```
 
 ### Updating
@@ -68,11 +68,11 @@ Or enable auto-updates in the **Marketplaces** tab of `/plugin`.
 
 Music production, sound effects, and audio synthesis skills.
 
-| Skill | Description |
-|-------|-------------|
-| [create-song](music/skills/create-song/) | Generate original music as .wav from a vibe, genre, or mood description. 24+ genres, world music patterns, advanced synthesis, and professional mastering. |
-| [create-sfx](music/skills/create-sfx/) | Generate synthesized sound effects — UI sounds, combat, impacts, whooshes, transitions, foley, and game audio. |
-| [create-soundscape](music/skills/create-soundscape/) | Generate ambient soundscapes and environmental audio — nature, meditation, spatial environments, atmospheric textures. |
+| Command | Description |
+|---------|-------------|
+| `/create-song` | Generate original music as .wav from a vibe, genre, or mood description. 24+ genres, world music patterns, advanced synthesis, and professional mastering. |
+| `/create-sfx` | Generate synthesized sound effects — UI sounds, combat, impacts, whooshes, transitions, foley, and game audio. |
+| `/create-soundscape` | Generate ambient soundscapes and environmental audio — nature, meditation, spatial environments, atmospheric textures. |
 
 ## Project Structure
 

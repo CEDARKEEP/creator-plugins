@@ -1,5 +1,5 @@
 ---
-name: sfx-py
+name: create-sfx
 description: Generates synthesized sound effects as .wav files — UI sounds, combat, impacts, whooshes, transitions, foley, and game audio. Invoke when the user wants to create sound effects, game audio, UI sounds, impact sounds, whooshes, risers, or any non-musical audio effect.
 argument-hint: "[description of the sound effect you want]"
 ---
@@ -20,13 +20,35 @@ Parse for:
 - **Output filename** — derive from description if not specified
 
 ### Step 2: Research the Sound
-Use WebSearch for 2-4 queries:
-- How the real-world sound is produced physically (what makes a sword clash sound like metal-on-metal?)
-- Frequency content and spectral characteristics (what frequencies define a laser beam vs a gunshot?)
-- Sound design techniques used in professional game audio / film sound design
-- Reference: how AAA games or blockbuster films create this specific effect
 
-Focus on: frequency ranges, envelope shapes, layering strategies, noise characteristics, resonance.
+Use WebSearch for 4-8 queries across 3 batches. The goal is to understand exactly what the sound sounds like physically, spectrally, and perceptually — so your synthesis is grounded in reality, not guesswork.
+
+**Batch 1 — Physical Acoustics (2-3 queries):**
+Research how the real-world sound is physically produced:
+- What physical interaction creates the sound? (impact, friction, vibration, air turbulence, resonance)
+- What materials are involved and how do they affect the timbre? (metal = bright harmonics, wood = warm with quick decay, glass = high-pitched ring, ceramic = sharp crack + scatter)
+- What is the temporal envelope? (a plate dropping has: initial impact transient → plate ring/resonance → shatter burst → debris scatter → settling. Each phase has different character)
+- Search: `"[sound] sound design" frequency spectrum`, `"[sound] acoustic properties"`, `"what does [sound] sound like" waveform`
+
+**Batch 2 — Sound Design Techniques (1-3 queries):**
+Research how professionals recreate or synthesize this sound:
+- How do game audio / film sound designers create this effect? What layers do they use?
+- What synthesis techniques best approximate it? (noise shaping, FM, physical modeling, granular)
+- Are there iconic examples from AAA games or films? What made them memorable?
+- Search: `"[sound] sound design tutorial"`, `"[sound] foley technique"`, `site:reddit.com/r/gameaudio [sound]`, `site:designingsound.org [sound]`
+
+**Batch 3 — Reference & Deep Dive (1-2 queries):**
+Use `WebFetch` on the top 1-2 most relevant URLs from Batch 1-2 to extract full details. Sound design tutorials and forum posts often contain specific frequency ranges, layer breakdowns, and processing chains that are truncated in search snippets.
+
+**What to extract from research:**
+- **Frequency profile** — what frequency bands define this sound? (e.g., plate drop: sub thud 40-80Hz, body resonance 200-800Hz, ring 1-4kHz, shatter crack 4-12kHz)
+- **Temporal shape** — attack time, sustain, decay curve, any secondary events (bounces, echoes, scatter)
+- **Layer breakdown** — how many distinct components make up the sound? (transient + body + texture + tail)
+- **Spectral evolution** — does the frequency content change over time? (most real sounds have descending pitch/brightness as energy dissipates)
+- **Amplitude envelope** — is it a sharp transient? A swell? Multiple impacts? What's the dynamic shape?
+- **Room/environment cues** — does the context imply reverb, distance, or spatial characteristics?
+
+This research is critical for realistic synthesis. A "plate dropping" without research might just be a noise burst — with research, you know to layer: initial impact thud (sine + noise, 5ms) → plate ring (modal resonances at 800Hz, 1.6kHz, 3.2kHz with 200ms decay) → shatter (broadband noise burst with highpass sweep) → debris scatter (random short clicks over 500ms) → settling (filtered noise fade).
 
 ### Step 3: Generate the Python Script
 
