@@ -2,10 +2,64 @@
 
 A curated collection of Claude Code plugins for creators and creative workflows.
 
-## Quick Start
+## Prerequisites
+
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) version **1.0.33 or later** (run `claude --version` to check)
+
+## Installation
+
+### Step 1: Add the marketplace
+
+From within Claude Code, run:
 
 ```
-/plugin marketplace add Cedarkeep/creator-plugins
+/plugin marketplace add CEDARKEEP/creator-plugins
+```
+
+This registers the plugin catalog — no plugins are installed yet.
+
+### Step 2: Install the music plugin
+
+**Option A — Command line:**
+
+```
+/plugin install music@CEDARKEEP-creator-plugins
+```
+
+**Option B — Interactive UI:**
+
+1. Run `/plugin` to open the plugin manager
+2. Go to the **Discover** tab
+3. Select **music** and choose an installation scope:
+   - **User** — available across all your projects
+   - **Project** — shared with collaborators via `.claude/settings.json`
+   - **Local** — only for you in the current repo
+
+### Step 3: Use the skills
+
+After installing, the music skills are available as namespaced commands:
+
+```
+/music:create-song a dreamy lo-fi beat with warm keys
+/music:create-sfx laser blast impact
+/music:create-soundscape rain on a tin roof at night
+```
+
+### Updating
+
+To pull the latest plugin versions:
+
+```
+/plugin marketplace update CEDARKEEP-creator-plugins
+```
+
+Or enable auto-updates in the **Marketplaces** tab of `/plugin`.
+
+### Uninstalling
+
+```
+/plugin uninstall music@CEDARKEEP-creator-plugins
+/plugin marketplace remove CEDARKEEP-creator-plugins
 ```
 
 ## Available Plugins
