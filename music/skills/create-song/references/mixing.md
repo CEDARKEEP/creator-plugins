@@ -227,6 +227,119 @@ mix[-edge:] *= 0.5 + 0.5 * np.cos(np.linspace(0, np.pi, edge))
 | Vocals/Lead | HPF 80-100Hz | Boost 3-5kHz (presence), 10kHz (air) | |
 | Reverb return | HPF 200-400Hz, LPF 6-10kHz | | ALWAYS EQ reverb returns |
 
+### Detailed Per-Instrument EQ Cheat Sheet
+
+```python
+EQ_GUIDE = {
+    'kick': {
+        'sub':    (30, 60,    'boost 3-6dB for sub weight'),
+        'punch':  (80, 200,   'body and punch zone'),
+        'mud':    (250, 500,  'cut 3-6dB — boxiness lives here'),
+        'click':  (2000, 4000,'boost 2-4dB for beater attack'),
+        'air':    (6000, 10000,'gentle cut — not needed on kick'),
+        'hpf': 30,
+    },
+    'snare': {
+        'body':   (150, 400,  'fundamental resonance, boost 2-3dB'),
+        'honk':   (400, 800,  'cut 2-4dB if boxy or ringy'),
+        'crack':  (2000, 4000,'boost 2-4dB for snap and attack'),
+        'wire':   (6000, 10000,'boost 1-2dB for sizzle and wire'),
+        'hpf': 80,
+    },
+    'hihat': {
+        'hpf':    (200, 400,  'aggressive HPF — no low content in hats'),
+        'body':   (400, 1000, 'not needed — cut if present'),
+        'brightness': (6000, 15000, 'main energy zone'),
+        'harshness':  (3000, 5000,  'cut 2-3dB if piercing'),
+    },
+    'bass_guitar': {
+        'sub':    (40, 80,    'fundamental weight'),
+        'body':   (80, 200,   'warmth and fullness'),
+        'mud':    (250, 500,  'cut 2-4dB for clarity, especially 200-220Hz'),
+        'attack': (1200, 1500,'finger/pick definition — boost 2dB for note readability'),
+        'presence':(2000, 4000,'string noise, grind — boost sparingly'),
+        'hpf': 30,
+    },
+    'guitar_electric': {
+        'body':   (80, 250,   'low-end fullness'),
+        'mud':    (300, 500,  'cut 2-4dB — boxiness'),
+        'honk':   (500, 1000, 'nasal zone — often cut 2-3dB'),
+        'presence':(2000, 5000,'pick attack, bite — boost for solos'),
+        'air':    (6000, 12000,'shimmer, open sound'),
+        'hpf': 80,
+    },
+    'guitar_acoustic': {
+        'body':   (80, 200,   'warmth, fullness'),
+        'boom':   (200, 400,  'cut if close-miked or boomy'),
+        'clarity':(2000, 5000,'string detail and pick definition'),
+        'air':    (8000, 14000,'sparkle and breathiness'),
+        'hpf': 80,
+    },
+    'piano': {
+        'fullness':(80, 120,  'low register weight'),
+        'body':   (200, 500,  'warm midrange'),
+        'clarity':(1000, 3000,'note definition'),
+        'brightness':(3000, 5000,'presence and sparkle'),
+        'attack': (5000, 6000,'hammer attack — boost 1-2dB for definition'),
+        'hpf': 60,
+    },
+    'vocals': {
+        'hpf':    (80, 120,   'ALWAYS HPF vocals'),
+        'body':   (200, 400,  'chest resonance, warmth — boost 1-2dB for thin vocals'),
+        'mud':    (250, 500,  'cut 2-3dB if muffled or muddy'),
+        'intelligibility': (800, 1500, 'diction clarity zone — critical for vocals cutting through'),
+        'presence':(3000, 5000,'cut-through, forward sound — boost 2-4dB'),
+        'sibilance':(5000, 8000,'de-ess zone — cut if harsh with narrow Q'),
+        'air':    (10000, 16000,'boost 1-3dB shelf for breathiness and openness'),
+    },
+    'lead_synth': {
+        'body':   (200, 800,  'thickness and weight'),
+        'presence':(1000, 4000,'main energy and character'),
+        'harshness':(3000, 5000,'tame 2-3dB if fatiguing'),
+        'air':    (8000, 14000,'brightness and shimmer'),
+        'hpf': 100,
+    },
+    'pad_synth': {
+        'body':   (300, 800,  'core warmth'),
+        'mud':    (200, 400,  'cut 2-4dB to avoid masking bass'),
+        'lpf':    (6000, 10000,'ALWAYS LPF pads for warmth — keeps them in the background'),
+        'hpf': 200,
+    },
+    'strings': {
+        'body':   (200, 500,  'richness and warmth'),
+        'nasal':  (800, 1500, 'cut 2-3dB if thin or nasal'),
+        'presence':(2000, 5000,'bow articulation and detail'),
+        'air':    (8000, 14000,'high harmonic shimmer — shelf boost 1-2dB'),
+        'hpf': 80,
+    },
+    'brass': {
+        'body':   (200, 500,  'fundamental warmth'),
+        'honk':   (500, 1000, 'characteristic brass tone — careful with boosts'),
+        'blare':  (1000, 3000,'cut 2-3dB if too aggressive'),
+        'presence':(3000, 6000,'brilliance and cut-through'),
+        'hpf': 80,
+    },
+    'saxophone': {
+        'body':   (120, 240,  'fullness and warmth'),
+        'harshness':(1000, 2000,'cut if shrill'),
+        'reed':   (5000, 7000,'reed noise — cut for smooth, boost for gritty'),
+        'hpf': 100,
+    },
+}
+```
+
+### Problem Frequency Zones
+
+| Zone | Frequency | Problem | Fix |
+|------|-----------|---------|-----|
+| Mud | 250-500 Hz | Muddiness, boomy, unclear | Cut 3-6dB on most tracks except bass/kick body |
+| Honk | 800-1500 Hz | Nasal, boxy, cheap sounding | Cut on guitars/vocals if needed, narrow Q |
+| Fatigue | 3-5 kHz | Ear is most sensitive here, harsh if over-boosted | Boost max 3dB, check after 10min listening |
+| Sibilance | 6-8 kHz | Harsh 's' and 't' sounds on vocals | De-ess with dynamic EQ or narrow cut |
+| Ice pick | 8-12 kHz | Piercing, thin, cold | Cut on cymbals and synths if fatiguing |
+
+**Golden rule**: Cut narrow (high Q), boost wide (low Q). If you need more than 6dB of boost, the source sound is wrong.
+
 ## Arrangement Patterns
 
 ### Section Map (Multi-Dimensional)

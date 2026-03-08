@@ -16,6 +16,7 @@ Parse the user's description for:
 - **Genre/style** (e.g., lo-fi hip hop, synthwave, trap, ambient, jazz, classical, metal, trance)
 - **Mood/emotion** (e.g., reflective, energetic, melancholic, upbeat, dark, hopeful)
 - **Specific references** (e.g., "like The XX Intro", "Daft Punk vibes", "sounds like rain")
+- **Lyrics requested** — if the user wants lyrics/vocals, consult [references/lyric-writing.md](references/lyric-writing.md) for rhyme schemes, meter, and songwriting techniques
 - **Output filename** — if not specified, derive from the vibe (e.g., `synthwave.wav`, `chill.wav`)
 - **Duration preference** — default to 2-3 minutes if not specified
 
@@ -244,6 +245,7 @@ def export_midi(filename, tracks, bpm):
 - [references/effects.md](references/effects.md) — Effects processing (Freeverb, delay, chorus, phaser, compression, distortion, lo-fi)
 - [references/instruments.md](references/instruments.md) — Instrument synthesis recipes (drums, synths, keys, strings, brass, FM)
 - [references/music-theory.md](references/music-theory.md) — Music theory (scales, chords, progressions, voice leading, melody, harmony, song forms)
+- [references/key-emotion-and-mood.md](references/key-emotion-and-mood.md) — Key-emotion mappings, tempo-mood matrix, instrumentation-emotion, contour-emotion, mood_to_params()
 
 ### Rhythm & Patterns
 - [references/rhythm-and-groove.md](references/rhythm-and-groove.md) — Drum patterns by genre, swing math, humanization, Euclidean rhythms, fills
@@ -254,6 +256,8 @@ def export_midi(filename, tracks, bpm):
 ### Melody, Structure & Genre
 - [references/melody-and-structure.md](references/melody-and-structure.md) — Melody data, contour archetypes, riff patterns, song templates, transition techniques, JSON schemas
 - [references/genre-guide.md](references/genre-guide.md) — Genre-specific parameters (BPM, mode, scale, swing, core sounds per genre)
+- [references/lyric-writing.md](references/lyric-writing.md) — Rhyme schemes, meter, songwriting techniques, section roles, vocal range guide
+- [references/modern-trends.md](references/modern-trends.md) — 2024-2026 production trends, genre blending, mood-first production, sound design directions
 
 ### Advanced Synthesis
 - [references/synthesis-techniques.md](references/synthesis-techniques.md) — Granular, physical modeling, modal, vector, formant, vocoder, convolution reverb, wavetable

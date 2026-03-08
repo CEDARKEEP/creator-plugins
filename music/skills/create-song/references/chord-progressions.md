@@ -345,3 +345,92 @@ def generate_arp(chord_notes, pattern_type='up', octaves=2, rhythm='straight_8th
             note_idx += 1
     return result
 ```
+
+## Genre Staple Progressions (with Song References)
+
+Common "bread and butter" progressions per genre with specific reference songs.
+
+```python
+GENRE_STAPLES = {
+    'pop': [
+        {'name': 'four_chord_song', 'roman': ['I', 'V', 'vi', 'IV'],
+         'songs': ["Don't Stop Believin' (Journey)", "Let It Be (Beatles)", "No Woman No Cry (Bob Marley)"],
+         'key_example': 'C: C-G-Am-F',
+         'note': 'The most widely used progression in modern pop. Works for nearly anything.'},
+        {'name': 'axis_reorder', 'roman': ['vi', 'IV', 'I', 'V'],
+         'songs': ["Despacito (Luis Fonsi)", "Africa (Toto)", "Numb (Linkin Park)"],
+         'key_example': 'C: Am-F-C-G',
+         'note': 'Same 4 chords, starting on vi. Minor opening = more emotional.'},
+        {'name': 'doo_wop', 'roman': ['I', 'vi', 'IV', 'V'],
+         'songs': ["Unchained Melody (Righteous Brothers)", "Stand By Me (Ben E. King)"],
+         'key_example': 'C: C-Am-F-G',
+         'note': '1950s classic. Still used in ballads and sentimental pop.'},
+        {'name': 'pachelbel', 'roman': ['I', 'V', 'vi', 'iii', 'IV', 'I', 'IV', 'V'],
+         'songs': ["Canon in D (Pachelbel)", "Basket Case (Green Day)", "Let It Go (Frozen)"],
+         'key_example': 'D: D-A-Bm-F#m-G-D-G-A',
+         'note': '8-chord cycle. Descending bass. Works for epic/anthemic moments.'},
+    ],
+    'blues': [
+        {'name': '12_bar_standard', 'roman': ['I7','I7','I7','I7', 'IV7','IV7','I7','I7', 'V7','IV7','I7','V7'],
+         'songs': ["Johnny B. Goode (Chuck Berry)", "Sweet Home Chicago (Robert Johnson)"],
+         'note': '12 bars, 1 chord per bar. ALL chords dominant 7ths. The foundation of rock.'},
+        {'name': '12_bar_quick_change', 'roman': ['I7','IV7','I7','I7', 'IV7','IV7','I7','I7', 'V7','IV7','I7','V7'],
+         'note': 'IV in bar 2 adds early movement. More common in modern blues.'},
+        {'name': 'minor_blues', 'roman': ['i7','i7','i7','i7', 'iv7','iv7','i7','i7', 'bVI7','V7','i7','V7'],
+         'songs': ["The Thrill Is Gone (BB King)"],
+         'note': 'Minor key blues. bVI7-V7 turnaround = darker, moodier.'},
+    ],
+    'jazz': [
+        {'name': 'ii_V_I', 'roman': ['ii7', 'V7', 'Imaj7'],
+         'songs': ["Autumn Leaves (A section)", "Fly Me to the Moon"],
+         'key_example': 'C: Dm7-G7-Cmaj7',
+         'note': 'THE fundamental jazz progression. Master this first.'},
+        {'name': 'tritone_sub', 'roman': ['ii7', 'bII7', 'Imaj7'],
+         'key_example': 'C: Dm7-Db7-Cmaj7',
+         'note': 'Replace V7 with bII7 (same tritone inside). Creates chromatic bass descent.'},
+        {'name': 'coltrane_changes', 'roman': ['Imaj7', 'bIII7', 'bVImaj7', 'VII7', 'bIIImaj7', 'V7', 'Imaj7'],
+         'songs': ["Giant Steps (John Coltrane)"],
+         'note': 'Major 3rd cycle. Three tonal centers. The ultimate jazz challenge.'},
+        {'name': 'backdoor', 'roman': ['iv7', 'bVII7', 'Imaj7'],
+         'songs': ["Have You Met Miss Jones (end turnaround)"],
+         'note': 'Avoids V7 entirely. Softer, warmer resolution. Surprise ending.'},
+        {'name': 'rhythm_changes_A', 'roman': ['I', 'vi', 'ii', 'V', 'I', 'vi', 'ii', 'V'],
+         'songs': ["I Got Rhythm (Gershwin)", "Oleo (Sonny Rollins)", "Anthropology (Charlie Parker)"],
+         'note': 'A section of AABA. B section = III7-VI7-II7-V7 (circle of dominants).'},
+    ],
+    'rnb': [
+        {'name': 'smooth_rnb', 'roman': ['Imaj9', 'vi7', 'ii9', 'V13'],
+         'key_example': 'C: Cmaj9-Am7-Dm9-G13',
+         'note': 'Extended chords are essential. 9ths and 13ths everywhere. Smooth voicings.'},
+        {'name': 'neo_soul_loop', 'roman': ['ii9', 'V13', 'Imaj9'],
+         'key_example': 'C: Dm9-G13-Cmaj9',
+         'note': 'Two-bar loop. Jazzy voicings. Key is the spread and extensions.'},
+        {'name': 'rnb_nostalgia', 'roman': ['I', 'iii', 'IV', 'iv'],
+         'songs': ["Rock With You (Michael Jackson)", "Adorn (Miguel)"],
+         'key_example': 'C: C-Em-F-Fm',
+         'note': 'Major IV to minor iv = the golden R&B pivot. Bittersweet warmth.'},
+    ],
+    'edm': [
+        {'name': 'edm_anthem', 'roman': ['i', 'bVI', 'bIII', 'bVII'],
+         'songs': ["Levels (Avicii)", "Clarity (Zedd)", "Wake Me Up (Avicii)"],
+         'key_example': 'Am: Am-F-C-G',
+         'note': 'THE EDM progression. Natural minor, all diatonic. Works for every subgenre.'},
+        {'name': 'two_chord_drop', 'roman': ['i', 'bVII'],
+         'note': 'Minimal harmony for maximum bass impact. Common in bass music/dubstep drops.'},
+        {'name': 'trance_uplift', 'roman': ['vi', 'IV', 'I', 'V'],
+         'songs': ["Sun & Moon (Above & Beyond)"],
+         'note': 'Same as pop axis reorder but with supersaw pad voicings and arpeggiators.'},
+    ],
+    'classical': [
+        {'name': 'pachelbel_canon', 'roman': ['I', 'V', 'vi', 'iii', 'IV', 'I', 'IV', 'V'],
+         'songs': ["Canon in D (Pachelbel)"],
+         'note': 'Descending bass line. The most recognizable classical progression.'},
+        {'name': 'neapolitan', 'roman': ['i', 'bII6', 'V', 'i'],
+         'note': 'bII6 (first inversion flat-II) = Neapolitan chord. Dramatic, dark, operatic.'},
+        {'name': 'augmented_sixth', 'roman': ['i', 'It+6', 'V', 'i'],
+         'note': 'Italian/German/French augmented 6th. Chromatic approach to V. Maximum drama.'},
+        {'name': 'circle_of_fifths', 'roman': ['I', 'IV', 'vii°', 'iii', 'vi', 'ii', 'V', 'I'],
+         'note': 'Root moves down a 5th each chord. Foundational in Baroque and classical harmony.'},
+    ],
+}
+```

@@ -64,6 +64,8 @@ SCALES = {
 | Ethereal, Japanese | Hirajoshi, In-sen | Sparse pentatonic |
 | Middle Eastern | Phrygian dominant, Double harmonic | b2 + major 3rd |
 
+> **See [key-emotion-and-mood.md](key-emotion-and-mood.md)** for detailed key-emotion mappings (all 24 keys), tempo-emotion matrix, mode-emotion combinations, and the `mood_to_params()` function.
+
 ### The Seven Modes
 
 | Mode | Degree | Character | Signature | Genre Uses |

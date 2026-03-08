@@ -441,7 +441,64 @@ TRANSITIONS = {
     'pitch_drop':     {'description': 'Pitch bend down 12-24 semitones', 'use': 'End of sections'},
     'stutter':        {'description': 'Buffer repeat getting faster', 'use': 'Before drops, builds'},
 }
+
+TRANSITIONS_EXTENDED = {
+    'washout': {
+        'description': 'Heavy reverb/delay increasing over 2-4 bars, washing out existing elements',
+        'implementation': 'Gradually increase reverb wet from 0.3 to 0.9, delay feedback from 0.3 to 0.8',
+        'use': 'Before breakdowns, end of sections — blurs the boundary between sections',
+    },
+    'reversed_reverb': {
+        'description': 'Record reverb tail of a note, reverse it. Creates a swell INTO the next note.',
+        'implementation': 'heavy_verb = freeverb(note, room=0.95, wet=0.8); reversed = heavy_verb[::-1]',
+        'use': 'Before vocal/lead entry — magical/ethereal "whoosh" into the sound',
+    },
+    'tape_stop': {
+        'description': 'Pitch drops while tempo slows, mimicking a tape deck stopping',
+        'implementation': 'Resample signal with increasing read step (slower playback = lower pitch)',
+        'use': 'End of sections, comedic/dramatic effect, DJ transitions',
+    },
+    'beat_repeat': {
+        'description': 'Loop last 1/8 or 1/16 note, accelerating the repeat rate',
+        'implementation': 'Copy last N samples, repeat at halving intervals (1/8 -> 1/16 -> 1/32)',
+        'use': 'Before drops and builds, glitch transitions, EDM/electronic',
+    },
+    'cross_fade': {
+        'description': 'Overlap outgoing and incoming sections with volume crossfade',
+        'implementation': '1-4 bars overlap, outgoing fades out (cosine), incoming fades in',
+        'use': 'Smooth section changes, ambient transitions, cinematic scoring',
+    },
+    'drum_fake_out': {
+        'description': 'Stop drums for 1 beat then slam back in with full energy',
+        'implementation': 'Zero out drum bus for last beat of bar, full hit on next bar beat 1 + crash',
+        'use': 'Before choruses — creates anticipation in just 1 beat of silence',
+    },
+}
+
+# Note: A SWEEP is a filter moving on existing content (LPF opening 200->20kHz).
+# A RISER is a new synthesized element (white noise ascending, or pitch riser).
+# Sweeps reveal what's already playing. Risers add new energy on top.
 ```
+
+### Practical Singing Range
+
+Most melodies should stay within **1 to 1.5 octaves** for singability.
+
+- **Verse melodies**: use the lower portion of the range (intimate, conversational)
+- **Chorus melodies**: push higher (emotional peak, energy lift)
+- **Bridge**: can briefly exceed the range for dramatic effect
+- **Rap/spoken**: keep within 1 octave centered around speaking pitch
+- **Default safe range for pop**: A3–D5 (covers most untrained singers)
+
+### Modern Hip-Hop 12-Bar Verse
+
+Modern hip-hop increasingly uses **12-bar verses** (instead of traditional 16) for tighter energy:
+
+- **Bars 1-4**: Establish the flow/cadence, set the rhythmic pattern
+- **Bars 5-8**: Develop the idea, switch up the rhythm, add complexity
+- **Bars 9-12**: Punchline section, most memorable bars, highest impact
+- This leaves more room for **8-bar hooks** in the same song length
+- Two 12-bar verses + two 8-bar hooks = 40 bars (vs 48 with 16-bar verses)
 
 ## JSON Schemas
 

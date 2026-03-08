@@ -238,6 +238,71 @@ def synth_whisper(duration, vowel='a', syllable_rate=4, sr=SR):
     return output * syllable_env
 ```
 
+## Vocal Arrangement
+
+### Harmony Intervals
+
+```python
+VOCAL_HARMONY = {
+    'thirds':  {'semitones': (3, 4), 'character': 'Smooth, natural, default choice',
+                'use': 'Pop, country, R&B choruses — the safest harmony interval'},
+    'fifths':  {'semitones': 7,      'character': 'Powerful, open, anthem-like',
+                'use': 'Rock, metal, folk choruses — strength and grandeur'},
+    'octaves': {'semitones': 12,     'character': 'Thickening, reinforcement, not true harmony',
+                'use': 'Rap hooks, rock doubling — adds weight without harmonic complexity'},
+    'sixths':  {'semitones': (8, 9), 'character': 'Sweet, golden-era, inverted thirds',
+                'use': 'Motown, barbershop, doo-wop — warm and vintage'},
+    'unison':  {'semitones': 0,      'character': 'Power through doubling, not pitch variation',
+                'use': 'Punk, chant-style hooks, gang vocals — raw collective energy'},
+}
+```
+
+### Vocal Panning Strategies
+
+```python
+VOCAL_PANNING = {
+    'lead':      {'pan': 0.50, 'note': 'Always dead center — the anchor'},
+    'double_L':  {'pan': 0.35, 'note': 'Tight double, slight left'},
+    'double_R':  {'pan': 0.65, 'note': 'Tight double, slight right'},
+    'harmony_L': {'pan': 0.25, 'note': 'Wider for contrast with lead'},
+    'harmony_R': {'pan': 0.75, 'note': 'Wider for contrast with lead'},
+    'whisper_L': {'pan': 0.15, 'note': 'Very wide for intimate/ethereal effect'},
+    'whisper_R': {'pan': 0.85, 'note': 'Very wide for intimate/ethereal effect'},
+    'ad_lib':    {'pan': 'varies 0.20-0.80', 'note': 'Single recording, atmospheric, never center'},
+}
+```
+
+### Dynamic Width by Section
+
+| Section | Vocal Layers | Width | Effect |
+|---------|-------------|-------|--------|
+| Verse | Lead center only, or lead + tight doubles (35/65) | Narrow | Intimate, conversational |
+| Pre-Chorus | Add one harmony part (25 or 75) | Opening | Anticipation builds |
+| Chorus | Lead + doubles (35/65) + harmonies (25/75) + ad-libs (wide) | Maximum | Full, anthemic, wide |
+| Bridge | Strip back to lead + single harmony | Moderate | Contrast with chorus |
+| Outro | Gradual width reduction or expansion depending on vibe | Varies | Resolution or expansion |
+
+### Ad-Lib Placement
+
+- Record single takes (not stacked/doubled)
+- Pan to sides (0.20-0.80), never center
+- More reverb/delay than lead (atmospheric, distant)
+- Lower in volume (-6 to -10dB below lead)
+- Place between phrases, not over lead lyrics
+- Use for atmosphere, not for carrying melody
+
+### Genre-Specific Vocal Production
+
+| Genre | Production Style |
+|-------|-----------------|
+| Pop | Tuned tight (hard pitch correction), compressed, doubles + harmonies, bright EQ presence (3-5kHz boost) |
+| Hip-Hop | Dry verses, wet hooks, ad-libs wide and reverbed, delay throws on key words |
+| R&B | Smooth compression (slow attack), chorus/flanger on doubles, falsetto harmonies, warmth over brightness |
+| Rock | Raw lead with minimal tuning, gang vocals for choruses, room reverb, distortion on doubles |
+| EDM | Heavily processed: vocoder, formant shift, chop and rearrange, pitch-shifted layers, sidechain to beat |
+| Country | Natural tone, tight harmony thirds (Nashville standard), minimal processing, slight plate reverb |
+| Indie | Lo-fi intentionally, imperfect tuning as aesthetic, room ambience, blended with instruments |
+
 ## Processing Effects
 
 ### Telephone / Radio

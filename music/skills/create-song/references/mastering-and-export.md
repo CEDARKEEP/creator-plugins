@@ -156,6 +156,77 @@ def parallel_compress(audio, sr, dry_mix=0.7, wet_mix=0.5):
     return audio * dry_mix + wet * wet_mix
 ```
 
+## LUFS Loudness Targets
+
+### Platform-Specific Targets
+
+```python
+PLATFORM_LUFS = {
+    'spotify':      {'integrated': -14, 'true_peak': -1, 'note': 'Normalizes both loud and quiet tracks to -14'},
+    'apple_music':  {'integrated': -16, 'true_peak': -1, 'note': 'Slightly quieter target — preserves more dynamics'},
+    'youtube':      {'integrated': -14, 'true_peak': -1, 'note': 'Range -13 to -15 acceptable'},
+    'tidal':        {'integrated': -14, 'true_peak': -1, 'note': 'Similar to Spotify normalization'},
+    'amazon_music': {'integrated': -14, 'true_peak': -2, 'note': 'Conservative true peak limit'},
+    'soundcloud':   {'integrated': -14, 'true_peak': -1, 'note': 'No normalization on free tier'},
+    'broadcast_ebu':{'integrated': -23, 'true_peak': -1, 'note': 'EBU R128 broadcast standard'},
+    'podcast':      {'integrated': -16, 'true_peak': -1, 'note': 'Spoken word standard'},
+}
+```
+
+### Genre LUFS Ranges
+
+```python
+GENRE_LUFS = {
+    'classical_jazz':   {'range': (-20, -14), 'note': 'Wide dynamic range, least compression, natural feel'},
+    'folk_acoustic':    {'range': (-16, -12), 'note': 'Moderate dynamics, preserve performance nuance'},
+    'pop_rock_country': {'range': (-12, -8),  'note': 'Moderate to heavy compression, punchy and present'},
+    'hip_hop_rnb':      {'range': (-10, -7),  'note': 'Heavy compression, in-your-face, 808 weight'},
+    'edm_electronic':   {'range': (-10, -6),  'note': 'Very compressed, loudness is part of the genre aesthetic'},
+    'metal':            {'range': (-10, -6),  'note': 'Wall of sound, minimal dynamics, sustained intensity'},
+}
+```
+
+### LUFS Measurement Types
+
+| Type | Window | Use |
+|------|--------|-----|
+| Integrated LUFS | Entire track | What platforms use for normalization. THE target to match. |
+| Short-Term LUFS | 3-second rolling | Checking section balance (verse vs chorus should differ by 2-4 LU) |
+| Momentary LUFS | 400ms rolling | Real-time peak loudness, checking transients and impacts |
+| True Peak (dBTP) | Intersample | Prevents clipping on D/A conversion. Always keep at -1 dBTP or below. |
+
+### Practical Mastering Workflow
+
+1. **Master to genre loudness** — use `GENRE_LUFS` for your target range
+2. **Check integrated LUFS** — must match primary platform target
+3. **If louder than platform target** — platform turns it DOWN (you lose punch and impact)
+4. **If quieter than target** — platform turns it UP (acceptable, may sound weak next to competitors)
+5. **Always keep true peak at -1 dBTP** — prevents intersample clipping on all platforms
+6. **A/B with references** — compare loudness-matched against commercial tracks in same genre
+
+### LUFS Estimation in numpy
+
+```python
+def estimate_lufs(signal, sr=SR):
+    """Approximate integrated LUFS using K-weighting.
+    K-weighting: high shelf +4dB at 1681Hz, HPF at 38Hz.
+    Result is approximate — use pyloudnorm for precise measurement."""
+    from scipy.signal import butter, sosfilt
+    # K-weighting stage 1: high shelf +4dB at 1681Hz (approximated as peaking EQ)
+    sos_shelf = butter(2, 1681, btype='high', fs=sr, output='sos')
+    weighted = sosfilt(sos_shelf, signal) * 1.585  # ~+4dB
+    weighted += signal * 0.5  # blend with original for shelf shape
+    # K-weighting stage 2: HPF at 38Hz
+    sos_hpf = butter(2, 38, btype='high', fs=sr, output='sos')
+    weighted = sosfilt(sos_hpf, weighted)
+    # Mean square -> LUFS
+    mean_sq = np.mean(weighted ** 2)
+    if mean_sq < 1e-10:
+        return -70.0  # silence
+    lufs = -0.691 + 10 * np.log10(mean_sq)
+    return lufs
+```
+
 ## Export Formats with soundfile
 
 ```python
