@@ -159,7 +159,7 @@ Generate `{track-name}/scripts/song_config.py` — the shared foundation that AL
 9. Music theory (scales, chord types, voice_lead, generate_melody, apply_swing, humanize)
 10. Musical content (melody patterns, bass patterns, engagement elements per section)
 11. Mix settings (PANNING dict, TRACK_DENSITY_THRESHOLD, REVERB_PARAMS, DELAY_PARAMS)
-12. OVERLAP_SECONDS = 2.0 (tail rendered beyond section end for crossfading)
+12. OVERLAP_SECONDS = 0.5 (tail rendered beyond section end for crossfading — must match CROSSFADE_MS)
 13. render_clip(section_idx, start_bar, num_bars, output_path) — THE SHARED RENDER FUNCTION
 ```
 
@@ -184,7 +184,7 @@ This is the core DRY element — a single function that renders any section of t
 - Multi-dimensional energy automation with smoothstep for the given bars
 - Sidechain compression
 - Engagement elements for these bars (ear candy, fills, risers)
-- Rendering `OVERLAP_SECONDS` of tail after the last bar (reverb/delay decay only, no new notes)
+- Rendering `OVERLAP_SECONDS` (0.5s) of tail after the last bar (reverb/delay decay only, no new notes)
 - Exporting to the output path as 24-bit stereo .wav (no master chain — that happens in stitch.py)
 - Normalizing clip to -3 dBFS (leaves headroom for mastering)
 
@@ -218,7 +218,7 @@ The energy map controls everything. Each bar's 5 dimensions determine:
 #### Transition Element Rules (for clip boundaries)
 
 When `render_clip()` renders a section, it must handle transitions correctly:
-- **Risers/builds** — rendered in the clip BEFORE the target moment. A riser building into a chorus belongs to the preceding verse clip. The riser's tail naturally extends into the overlap region
+- **Risers/builds** — rendered in the clip BEFORE the target moment. A riser building into a chorus belongs to the preceding verse clip. The riser's tail naturally extends into the overlap region. **Riser sound design**: use `sfx_pitch_riser()` (sine sweep ~200Hz→3kHz) as the primary riser — NOT `sfx_noise_riser()` which sounds like harsh fan/air noise. If adding a noise layer, lowpass it at 2kHz and mix it at 20% of the sine sweep level. Use a cubic volume curve (`** 3`) so it stays quiet and builds late. Keep total riser volume at **0.1 or lower** — risers should build tension subtly, not dominate the mix
 - **Impacts/drops** — rendered in the clip that STARTS with the impact. The chorus clip starts with the impact on beat 1
 - **Filter sweeps spanning boundaries** — the preceding clip sweeps through its overlap tail. The next clip starts with the filter at the target position. The crossfade handles the blend
 - **Reverb/delay tails** — the 2-second overlap region renders only existing reverb and delay decay (no new notes triggered). This ensures smooth crossfading between clips
@@ -331,7 +331,7 @@ Same `render_clip()`, same output format, same `sounds/` folder — just sequent
 
 - **One clip per section** (intro, verse1, chorus1, verse2, chorus2, bridge, outro)
 - **Sections < 4 bars** merge with the adjacent section into one clip
-- Each clip renders its assigned bars **plus** `OVERLAP_SECONDS` (2s) of tail for crossfading
+- Each clip renders its assigned bars **plus** `OVERLAP_SECONDS` (0.5s) of tail for crossfading
 - Clips are named `XX_<section_name>.wav` (e.g., `01_intro.wav`, `02_verse1.wav`) and saved to `{track-name}/sounds/`
 
 ### Step 7: Stitch & Master (`stitch.py`)
@@ -350,7 +350,7 @@ except ImportError:
     from scipy.io import wavfile
     USE_SF = False
 
-CROSSFADE_MS = 200  # crossfade duration in milliseconds
+CROSSFADE_MS = 500  # crossfade duration — MUST equal OVERLAP_SECONDS * 1000
 
 # 1. Load all clips in sorted order
 clips = sorted(glob.glob(f'{SOUNDS_DIR}/*.wav'))
@@ -385,7 +385,7 @@ for i in range(1, len(audio_clips)):
 print(f'Exported {OUTPUT_FILE}')
 ```
 
-**Seamless stitching**: The crossfade operates on the 2-second overlap tail (which contains only reverb/delay decay, no new notes) blending into the start of the next clip. This ensures zero gaps, no silence, and no audible seams between sections. The equal-power `sqrt()` curves maintain constant loudness through the transition.
+**Seamless stitching**: `CROSSFADE_MS` MUST equal `OVERLAP_SECONDS * 1000` so the crossfade window consumes the entire overlap region. With 0.5s overlap and 500ms crossfade, there is zero dead space between clips — the equal-power `sqrt()` curves blend the tail decay directly into the next clip's start. If these values don't match (e.g., 200ms crossfade on a 2s overlap), you get ~1.8s of near-silence between sections.
 
 **Critical**: The master chain (HPF → bus comp → saturation → limiter) is applied ONLY here on the full assembled audio — never in individual clips. This ensures cohesive dynamics and EQ across the entire track.
 

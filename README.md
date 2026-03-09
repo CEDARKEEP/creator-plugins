@@ -18,26 +18,26 @@ From within Claude Code, run:
 
 This registers the plugin catalog — no plugins are installed yet.
 
-### Step 2: Install the music plugin
+### Step 2: Install the audio plugin
 
 **Option A — Command line:**
 
 ```
-/plugin install music@creator-plugins
+/plugin install audio@creator-plugins
 ```
 
 **Option B — Interactive UI:**
 
 1. Run `/plugin` to open the plugin manager
 2. Go to the **Discover** tab
-3. Select **music** and choose an installation scope:
+3. Select **audio** and choose an installation scope:
    - **User** — available across all your projects
    - **Project** — shared with collaborators via `.claude/settings.json`
    - **Local** — only for you in the current repo
 
 ### Step 3: Use the skills
 
-After installing, the music skills are available as namespaced commands:
+After installing, the audio skills are available as namespaced commands:
 
 ```
 /create-song a dreamy lo-fi beat with warm keys
@@ -58,13 +58,13 @@ Or enable auto-updates in the **Marketplaces** tab of `/plugin`.
 ### Uninstalling
 
 ```
-/plugin uninstall music@creator-plugins
+/plugin uninstall audio@creator-plugins
 /plugin marketplace remove creator-plugins
 ```
 
 ## Available Plugins
 
-### Music
+### Audio
 
 Music production, sound effects, and audio synthesis skills.
 
@@ -89,7 +89,7 @@ Each command creates an organized project folder:
 creator-plugins/
 ├── .claude-plugin/
 │   └── marketplace.json
-├── music/
+├── audio/
 │   ├── .claude-plugin/
 │   │   └── plugin.json
 │   ├── shared/
@@ -130,7 +130,7 @@ creator-plugins/
 
 To add a new skill:
 
-1. Create a topic directory at the repo root if it doesn't exist (e.g. `music/`)
+1. Create a topic directory at the repo root if it doesn't exist (e.g. `audio/`)
 2. Add your skill under `<topic>/skills/<skill-name>/` with a `SKILL.md` and any supporting files
 3. Place reusable references in `<topic>/shared/references/` so other skills can share them
 4. Register the plugin in `.claude-plugin/marketplace.json` by adding an entry to the `plugins` array

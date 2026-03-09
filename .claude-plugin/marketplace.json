@@ -9,8 +9,8 @@
   },
   "plugins": [
     {
-      "name": "music",
-      "source": "./music",
+      "name": "audio",
+      "source": "./audio",
       "description": "Music production, sound effects, and audio synthesis skills"
     }
   ]

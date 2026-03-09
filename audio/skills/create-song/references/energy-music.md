@@ -254,10 +254,11 @@ AMBIENT_RULES = {
 
 ```python
 TRACK_DENSITY_THRESHOLD = {
-    'kick': 1, 'bass': 1, 'pad': 1,
-    'hihat': 3, 'snare': 3, 'chord': 3,
-    'melody': 5, 'arp': 5, 'ride': 5,
-    'strings': 7, 'lead': 7, 'counter_mel': 7, 'perc': 7,
+    'pad': 1, 'atmosphere': 1,
+    'chord': 3, 'melody': 3, 'arp': 3,
+    'kick': 4, 'bass': 4, 'hihat': 4, 'snare': 4, 'ride': 4,
+    'strings': 5, 'counter_mel': 5, 'perc': 5,
+    'clap': 7, 'lead': 7,
     'fx': 9, 'doubled': 9, 'harmony': 9,
 }
 ```

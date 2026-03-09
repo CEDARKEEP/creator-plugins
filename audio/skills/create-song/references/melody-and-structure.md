@@ -432,8 +432,8 @@ SONG_TEMPLATES = {
 ```python
 TRANSITIONS = {
     'fill':           {'description': 'Drum fill (1-4 beats)', 'use': 'Every 4-8 bars'},
-    'riser':          {'description': 'Noise sweep + snare roll over 4-16 bars', 'use': 'Before drops/choruses'},
-    'downlifter':     {'description': 'Reverse of riser, HPF 16k->200Hz', 'use': 'After drops'},
+    'riser':          {'description': 'Sine pitch sweep (~200Hz→3kHz) + optional subtle LP noise, volume 0.1 max, cubic curve', 'use': 'Before drops/choruses'},
+    'downlifter':     {'description': 'Reverse of riser, sine sweep descending 3kHz→200Hz', 'use': 'After drops'},
     'impact':         {'description': 'Kick + crash + sub boom on beat 1', 'use': 'Section starts'},
     'silence':        {'description': '1-2 beats of silence before impact', 'use': 'Before big moments'},
     'filter_sweep':   {'description': 'LPF opening 200->20kHz over 4-8 bars', 'use': 'Intro, builds'},
@@ -476,8 +476,8 @@ TRANSITIONS_EXTENDED = {
 }
 
 # Note: A SWEEP is a filter moving on existing content (LPF opening 200->20kHz).
-# A RISER is a new synthesized element (white noise ascending, or pitch riser).
-# Sweeps reveal what's already playing. Risers add new energy on top.
+# A RISER is a new synthesized element — use sfx_pitch_riser() (sine sweep), NOT noise risers (sound like fan noise).
+# Sweeps reveal what's already playing. Risers add new energy on top. Keep riser volume <= 0.1.
 ```
 
 ### Practical Singing Range

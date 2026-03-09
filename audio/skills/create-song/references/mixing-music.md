@@ -27,10 +27,11 @@ Music-specific panning, density gating, drum/chord selection, engagement element
 ```python
 # DENSITY -> track gating (in the main mix loop)
 TRACK_DENSITY_THRESHOLD = {
-    'kick': 1, 'bass': 1, 'pad': 1,
-    'hihat': 3, 'snare': 3, 'chord': 3,
-    'melody': 5, 'arp': 5, 'ride': 5,
-    'strings': 7, 'lead': 7, 'counter_mel': 7, 'perc': 7,
+    'pad': 1, 'atmosphere': 1,
+    'chord': 3, 'melody': 3, 'arp': 3,
+    'kick': 4, 'bass': 4, 'hihat': 4, 'snare': 4, 'ride': 4,
+    'strings': 5, 'counter_mel': 5, 'perc': 5,
+    'clap': 7, 'lead': 7,
     'fx': 9, 'doubled': 9, 'harmony': 9,
 }
 
@@ -246,10 +247,11 @@ bar_energy = build_bar_energy(SECTIONS)
 
 | Density | Elements Present |
 |---------|-----------------|
-| 1-2 | Ambient pad or single instrument, light texture |
-| 3-4 | + Simple drums (kick, hat), bass enters |
-| 5-6 | + Full drums, chord instrument, melody, bass groove |
-| 7-8 | + Lead, strings, counter-melody, percussion layers |
+| 1-2 | Pad, atmosphere only — NO drums, NO bass (atmospheric intro/outro) |
+| 3 | + Chords, melody, arp (harmonic content but still no drums) |
+| 4-5 | + Kick, bass, hi-hat, snare, ride, strings (verse energy — beat enters) |
+| 6 | + Counter-melody, percussion layers |
+| 7-8 | + Lead, clap (chorus energy — full arrangement) |
 | 9-10 | Everything + doubled parts, FX, harmony, widest stereo |
 
 ### Variation Rules
