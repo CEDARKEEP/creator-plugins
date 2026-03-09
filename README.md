@@ -70,9 +70,18 @@ Music production, sound effects, and audio synthesis skills.
 
 | Command | Description |
 |---------|-------------|
-| `/create-song` | Generate original music as .wav from a vibe, genre, or mood description. 24+ genres, world music patterns, advanced synthesis, and professional mastering. |
-| `/create-sfx` | Generate synthesized sound effects — UI sounds, combat, impacts, whooshes, transitions, foley, and game audio. |
-| `/create-soundscape` | Generate ambient soundscapes and environmental audio — nature, meditation, spatial environments, atmospheric textures. |
+| `/create-song` | Generate original music as .wav from a vibe, genre, or mood description. 24+ genres, world music patterns, advanced synthesis, professional mastering, and parallel clip-based rendering for faster generation. |
+| `/create-sfx` | Generate synthesized sound effects — UI sounds, combat, impacts, whooshes, transitions, foley, and game audio. Researches real-world acoustics before synthesizing for realistic results. |
+| `/create-soundscape` | Generate ambient soundscapes and environmental audio — nature, meditation, spatial environments, atmospheric textures. Researches real environments for immersive, layered synthesis. |
+
+Each command creates an organized project folder:
+
+```
+{name}/
+├── scripts/    # Generated Python synthesis code
+├── sounds/     # Individual section clips (songs only)
+└── {name}.wav  # Final output
+```
 
 ## Project Structure
 
