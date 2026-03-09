@@ -17,10 +17,29 @@ Parse the user's description for:
 - **Mood/emotion** (e.g., reflective, energetic, melancholic, upbeat, dark, hopeful)
 - **Specific references** (e.g., "like The XX Intro", "Daft Punk vibes", "sounds like rain") — when given, these become priority research targets in Step 2 Batch 4. Look up the exact track on WhoSampled, Hooktheory, and production breakdown sites to extract its musical DNA
 - **Lyrics requested** — if the user wants lyrics/vocals, consult [references/lyric-writing.md](references/lyric-writing.md) for rhyme schemes, meter, and songwriting techniques
-- **Output filename** — if not specified, derive from the vibe (e.g., `synthwave.wav`, `chill.wav`)
+- **Track name** — derive a kebab-case slug from the description (e.g., "dreamy lo-fi beat" → `dreamy-lofi-beat`, "dark synthwave" → `dark-synthwave`). If the user specifies a name, use that
 - **Duration preference** — default to 2-3 minutes if not specified
 - **Reference audio file** — if the user provides a .wav/.mp3 file, analyze it before proceeding. Run the analysis pipeline from [references/reference-track-analysis.md](references/reference-track-analysis.md) to extract BPM, key, spectral profile, loudness, and section structure. Use these as targets for Steps 3-4 instead of relying solely on research
-- **Generation mode** — default to **parallel clip mode** for songs >= 60 seconds (faster, produces individual section clips in `samples/`). Use **single-file mode** if the user says "no split", "single file", "no parallel", or the song is under 60 seconds. Both modes produce identical output quality and share the same core code
+- **Generation mode** — default to **parallel clip mode** for songs >= 60 seconds (faster, produces individual section clips). Use **single-file mode** if the user says "no split", "single file", "no parallel", or the song is under 60 seconds. Both modes produce identical output quality and share the same core code
+
+**Create the project folder** immediately after parsing:
+```python
+import os
+TRACK_NAME = '{track-name}'  # kebab-case slug
+TRACK_DIR = TRACK_NAME
+SCRIPTS_DIR = f'{TRACK_DIR}/scripts'
+SOUNDS_DIR = f'{TRACK_DIR}/sounds'
+os.makedirs(SCRIPTS_DIR, exist_ok=True)
+os.makedirs(SOUNDS_DIR, exist_ok=True)
+```
+
+This produces the folder structure:
+```
+{track-name}/
+├── scripts/          # song_config.py, clip scripts, stitch.py
+├── sounds/           # Individual section clips (.wav)
+└── {track-name}.wav  # Final mastered output
+```
 
 ### Step 2: Research the Style
 
@@ -119,28 +138,40 @@ Before writing code, apply research-backed principles from the science reference
 
 ### Step 5: Generate Song Config (`song_config.py`)
 
-Generate `song_config.py` — the shared foundation that ALL rendering uses. Both parallel and single-file modes import this file. It contains everything needed to render any section of the song.
+Generate `{track-name}/scripts/song_config.py` — the shared foundation that ALL rendering uses. Both parallel and single-file modes import this file. It contains everything needed to render any section of the song.
 
 - **Core dependencies**: `numpy` and `scipy` (always), plus `pedalboard`, `soundfile`, `pretty-midi`, `midiutil` (for enhanced quality)
-- All scripts run with: `uv run --with numpy --with scipy --with pedalboard --with soundfile --with pretty-midi --with midiutil python3 <script>.py`
+- All scripts run from the **project root** (not from inside the folder): `uv run --with numpy --with scipy --with pedalboard --with soundfile --with pretty-midi --with midiutil python3 {track-name}/scripts/<script>.py`
 - Generates **stereo** `.wav` clips at 44100 Hz sample rate (24-bit via soundfile preferred, 16-bit fallback)
 - **Prints the energy map** at import time so the user can see the arc
 
 #### `song_config.py` Architecture
 
 ```
-1. Constants (SR, BPM, BEAT_DUR, BAR_DUR, KEY_ROOT, SCALE, SONG_NAME, TOTAL_BARS)
-2. SECTIONS array (all sections with bars, 5-D energy, positive/negative styles, transitions)
-3. CHORD_PROGRESSION dict (pre-computed voice-led chords per bar — guarantees harmonic continuity across clips)
-4. DSP primitives (PolyBLEP oscillators, sosfilt filters, ADSR envelopes, place(), helpers)
-5. Effect processors (Freeverb, delay, chorus, phaser, compressor, limiter)
-6. Instrument/sound synthesis functions (build_kick, build_snare, build_pad, build_bass, etc.)
-7. Music theory (scales, chord types, voice_lead, generate_melody, apply_swing, humanize)
-8. Musical content (melody patterns, bass patterns, engagement elements per section)
-9. Mix settings (PANNING dict, TRACK_DENSITY_THRESHOLD, REVERB_PARAMS, DELAY_PARAMS)
-10. OVERLAP_SECONDS = 2.0 (tail rendered beyond section end for crossfading)
-11. os.makedirs('samples', exist_ok=True)
-12. render_clip(section_idx, start_bar, num_bars, output_path) — THE SHARED RENDER FUNCTION
+1. Path constants (TRACK_NAME, TRACK_DIR, SCRIPTS_DIR, SOUNDS_DIR, OUTPUT_FILE)
+2. Audio constants (SR, BPM, BEAT_DUR, BAR_DUR, KEY_ROOT, SCALE, TOTAL_BARS)
+3. os.makedirs(SOUNDS_DIR, exist_ok=True)
+4. SECTIONS array (all sections with bars, 5-D energy, positive/negative styles, transitions)
+5. CHORD_PROGRESSION dict (pre-computed voice-led chords per bar — guarantees harmonic continuity across clips)
+6. DSP primitives (PolyBLEP oscillators, sosfilt filters, ADSR envelopes, place(), helpers)
+7. Effect processors (Freeverb, delay, chorus, phaser, compressor, limiter)
+8. Instrument/sound synthesis functions (build_kick, build_snare, build_pad, build_bass, etc.)
+9. Music theory (scales, chord types, voice_lead, generate_melody, apply_swing, humanize)
+10. Musical content (melody patterns, bass patterns, engagement elements per section)
+11. Mix settings (PANNING dict, TRACK_DENSITY_THRESHOLD, REVERB_PARAMS, DELAY_PARAMS)
+12. OVERLAP_SECONDS = 2.0 (tail rendered beyond section end for crossfading)
+13. render_clip(section_idx, start_bar, num_bars, output_path) — THE SHARED RENDER FUNCTION
+```
+
+Path constants at the top of `song_config.py`:
+```python
+import os
+TRACK_NAME = '{track-name}'
+TRACK_DIR = TRACK_NAME
+SCRIPTS_DIR = f'{TRACK_DIR}/scripts'
+SOUNDS_DIR = f'{TRACK_DIR}/sounds'
+OUTPUT_FILE = f'{TRACK_DIR}/{TRACK_NAME}.wav'
+os.makedirs(SOUNDS_DIR, exist_ok=True)
 ```
 
 #### The `render_clip()` Function
@@ -258,58 +289,60 @@ The #1 goal is music that sounds natural, warm, and enjoyable — something a hu
 
 ### Step 6: Render Clips
 
-Both modes produce individual section clips in `samples/`. The only difference is concurrency.
+Both modes produce individual section clips in `{track-name}/sounds/`. The only difference is concurrency.
 
 #### Parallel Mode (default for songs >= 60s)
 
 Spawn one **Agent** per clip in parallel. Each Agent writes and executes a tiny script that calls the shared `render_clip()`:
 
 ```python
-# clip_01_intro.py (generated by Agent)
-import sys; sys.path.insert(0, '.')
+# {track-name}/scripts/clip_01_intro.py (generated by Agent)
+import sys, os; sys.path.insert(0, os.path.dirname(__file__))
 from song_config import *
-render_clip(section_idx=0, start_bar=0, num_bars=8, output_path='samples/01_intro.wav')
+render_clip(section_idx=0, start_bar=0, num_bars=8, output_path=f'{SOUNDS_DIR}/01_intro.wav')
 ```
 
 Issue all Agent calls in a single message so they run concurrently. Each clip script is 3-5 lines. Wait for all Agents to complete before proceeding to Step 7.
 
 Each Agent prompt should be:
-> "Write and execute `clip_XX_<name>.py` that imports `song_config` and calls `render_clip(section_idx=N, start_bar=M, num_bars=B, output_path='samples/XX_<name>.wav')`. Run with: `uv run --with numpy --with scipy --with pedalboard --with soundfile --with pretty-midi --with midiutil python3 clip_XX_<name>.py`"
+> "Write and execute `{track-name}/scripts/clip_XX_<name>.py` that imports `song_config` and calls `render_clip(section_idx=N, start_bar=M, num_bars=B, output_path=f'{SOUNDS_DIR}/XX_<name>.wav')`. Run with: `uv run --with numpy --with scipy --with pedalboard --with soundfile --with pretty-midi --with midiutil python3 {track-name}/scripts/clip_XX_<name>.py`"
 
 #### Single-File Mode (opt-out or songs < 60s)
 
 Generate one script that loops through all sections sequentially using the same `render_clip()`:
 
 ```python
-# render_all.py
-import sys; sys.path.insert(0, '.')
+# {track-name}/scripts/render_all.py
+import sys, os; sys.path.insert(0, os.path.dirname(__file__))
 from song_config import *
 
 bar_cursor = 0
 for idx, section in enumerate(SECTIONS):
-    clip_path = f'samples/{idx+1:02d}_{section["name"]}.wav'
+    clip_path = f'{SOUNDS_DIR}/{idx+1:02d}_{section["name"]}.wav'
     render_clip(section_idx=idx, start_bar=bar_cursor, num_bars=section['bars'], output_path=clip_path)
     print(f'  Rendered {clip_path}')
     bar_cursor += section['bars']
-print(f'All {len(SECTIONS)} clips rendered to samples/')
+print(f'All {len(SECTIONS)} clips rendered to {SOUNDS_DIR}/')
 ```
 
-Same `render_clip()`, same output format, same `samples/` folder — just sequential.
+Same `render_clip()`, same output format, same `sounds/` folder — just sequential.
 
 #### Clip Assignment Rules (both modes)
 
 - **One clip per section** (intro, verse1, chorus1, verse2, chorus2, bridge, outro)
 - **Sections < 4 bars** merge with the adjacent section into one clip
 - Each clip renders its assigned bars **plus** `OVERLAP_SECONDS` (2s) of tail for crossfading
-- Clips are named `XX_<section_name>.wav` (e.g., `01_intro.wav`, `02_verse1.wav`)
+- Clips are named `XX_<section_name>.wav` (e.g., `01_intro.wav`, `02_verse1.wav`) and saved to `{track-name}/sounds/`
 
 ### Step 7: Stitch & Master (`stitch.py`)
 
-Generate and run `stitch.py` — this is the same for both modes since both produce clips in `samples/`:
+Generate and run `{track-name}/scripts/stitch.py` — this is the same for both modes since both produce clips in `sounds/`:
 
 ```python
-# stitch.py
-import numpy as np, os, glob
+# {track-name}/scripts/stitch.py
+import sys, os; sys.path.insert(0, os.path.dirname(__file__))
+from song_config import TRACK_NAME, TRACK_DIR, SOUNDS_DIR, OUTPUT_FILE, SR
+import numpy as np, glob
 try:
     import soundfile as sf
     USE_SF = True
@@ -317,12 +350,10 @@ except ImportError:
     from scipy.io import wavfile
     USE_SF = False
 
-SR = 44100
 CROSSFADE_MS = 200  # crossfade duration in milliseconds
-SONG_NAME = '<song_name>'
 
 # 1. Load all clips in sorted order
-clips = sorted(glob.glob('samples/*.wav'))
+clips = sorted(glob.glob(f'{SOUNDS_DIR}/*.wav'))
 audio_clips = []
 for clip_path in clips:
     if USE_SF:
@@ -350,14 +381,17 @@ for i in range(1, len(audio_clips)):
 
 # 4. Fade-in (500ms) and fade-out (1s)
 # 5. Safety: soft-clip (np.tanh) + 2ms cosine fade edges
-# 6. Export as <song_name>.wav (24-bit preferred)
+# 6. Export as {track-name}/{track-name}.wav (24-bit preferred)
+print(f'Exported {OUTPUT_FILE}')
 ```
+
+**Seamless stitching**: The crossfade operates on the 2-second overlap tail (which contains only reverb/delay decay, no new notes) blending into the start of the next clip. This ensures zero gaps, no silence, and no audible seams between sections. The equal-power `sqrt()` curves maintain constant loudness through the transition.
 
 **Critical**: The master chain (HPF → bus comp → saturation → limiter) is applied ONLY here on the full assembled audio — never in individual clips. This ensures cohesive dynamics and EQ across the entire track.
 
 Execute with:
 ```
-uv run --with numpy --with scipy --with pedalboard --with soundfile --with pretty-midi --with midiutil python3 stitch.py
+uv run --with numpy --with scipy --with pedalboard --with soundfile --with pretty-midi --with midiutil python3 {track-name}/scripts/stitch.py
 ```
 
 If it fails, fix the error and re-run. Common issues:
@@ -381,29 +415,29 @@ If issues are found, apply auto-fixes (re-normalize, soft-limit clipping, trim s
 ### Step 9: Present the Result
 
 Tell the user:
-- Output filename and duration
+- Output filename and duration (e.g., `{track-name}/{track-name}.wav`)
 - Key, BPM, scale/mode, genre/style
 - **Full energy map** — section-by-section breakdown with all 5 energy dimensions and emotional arc
 - Tension/release moments — where the pulls and pushes happen
 - Key production techniques used
 - Engagement highlights — ear candy moments, transitions, the climax point
 - What to listen for at each section
-- Number of clips generated and their locations in `samples/`
-- Note that individual clips in `samples/` can be used for remixing
+- **Project folder structure** — `{track-name}/sounds/` contains individual clips, `{track-name}/scripts/` contains all generation code
+- Note that individual clips in `sounds/` can be imported into a DAW for remixing
 
 ### Step 10: Iterate on User Feedback
 
 When the user requests changes ("make it darker", "drums too loud", "change key to minor"), consult [iteration-core.md](../../shared/references/iteration-core.md) for the workflow and [references/iteration-music.md](references/iteration-music.md) for music-specific refinement mappings:
 
-1. **Read `song_config.py`** — identify the specific parameter(s) that control the requested change
+1. **Read `{track-name}/scripts/song_config.py`** — identify the specific parameter(s) that control the requested change
 2. **Map the request** — use `REFINEMENT_MAP` to find exact parameters and actions
 3. **Determine scope** — does the change affect `song_config.py` (global: key, BPM, instrument timbre) or only specific clips (section-specific: energy, patterns)?
 4. **Make surgical edits** — modify only the relevant parameters in `song_config.py`, preserving everything else
 5. **Re-render only affected clips** — if the change is global (e.g., instrument timbre), re-render all clips. If section-specific (e.g., "make the chorus brighter"), re-render only that clip. Then re-run `stitch.py`
 6. **Validate** — run Step 8 validation on the new output
-7. **Version the output** — save as `track_v2.wav` (keep v1 for A/B comparison)
+7. **Version the output** — save as `{track-name}/{track-name}_v2.wav` (keep v1 for A/B comparison)
 
-Do NOT regenerate `song_config.py` from scratch unless the user explicitly asks for a complete redo or the change requires >5 parameter modifications. The clip-based architecture makes iteration faster — changing one section only requires re-rendering one clip + re-stitching.
+Do NOT regenerate `song_config.py` from scratch unless the user explicitly asks for a complete redo or the change requires >5 parameter modifications. The clip-based architecture makes iteration faster — changing one section only requires re-rendering one clip in `sounds/` + re-stitching.
 
 ## Genre-Specific Guidelines
 
@@ -413,14 +447,16 @@ Consult the reference files below for detailed synthesis patterns, scales, chord
 
 ## Important Notes
 
-- NEVER overwrite existing .wav files without asking — always use a unique filename
+- **Project folder structure** — each track gets its own folder: `{track-name}/scripts/` for code, `{track-name}/sounds/` for clips, `{track-name}/{track-name}.wav` for the final output. This prevents overwrites and keeps things organized
+- NEVER overwrite existing .wav files without asking — version outputs (e.g., `_v2.wav`)
 - For genres you're less familiar with, do MORE research (6-8 searches)
 - Scripts must be self-contained aside from `song_config.py` — no external sample files
 - Always use `uv run --with numpy --with scipy --with pedalboard --with soundfile --with pretty-midi --with midiutil` to execute
+- All scripts run from the **project root**, not from inside the track folder
 - If the user says "make it longer", increase TOTAL_BARS proportionally and add/extend sections
 - If the user says "make it more [X]", research what [X] means in production terms
-- For iterative refinement, always follow the Step 10 workflow — read song_config.py, modify surgically, re-render affected clips, re-stitch
-- **`samples/` folder** contains individual section clips — users can remix or import these into a DAW
+- For iterative refinement, always follow the Step 10 workflow — read `{track-name}/scripts/song_config.py`, modify surgically, re-render affected clips, re-stitch
+- **`{track-name}/sounds/`** contains individual section clips — users can remix or import these into a DAW
 - **Master chain** is applied ONLY in `stitch.py` on the full assembled audio, never in individual clips
 - **Both modes share `song_config.py`** — parallel and single-file produce identical output quality with zero code duplication
 - **`render_clip()` is the single source of truth** for how any section of the song is rendered. All quality rules, DSP, effects, and mixing happen inside this function

@@ -13,21 +13,61 @@ You are a sound designer specializing in ambient and environmental audio. The us
 ### Step 1: Understand the Request
 Parse for:
 - **Environment type** — Nature (forest, ocean, rain, desert, cave), Urban (city, cafe, subway, office), Abstract (space, underwater, dream), Atmospheric (fog, storm, wind)
+- **Soundscape name** — derive a kebab-case slug from the description (e.g., "rain on a tin roof at night" → `rain-tin-roof-night`, "deep forest morning" → `deep-forest-morning`). If the user specifies a name, use that
 - **Mood** — calm, tense, mysterious, peaceful, eerie, meditative, energizing
 - **Duration** — default 3-5 minutes (range: 1-30 minutes). Soundscapes are typically longer than music or SFX
 - **Evolution style** — static (consistent), slowly-evolving (gradual changes), narrative (tells a story with clear progression), loopable (seamless loop)
 - **Specific elements** — individual sounds the user mentions (rain + thunder + distant wind, etc.)
 - **Use case** — meditation, study background, game ambience, film atmosphere, sleep aid, ASMR
-- **Output filename** — derive from description if not specified
+
+**Create the project folder** immediately after parsing:
+```python
+import os
+SCAPE_NAME = '{soundscape-name}'
+SCAPE_DIR = SCAPE_NAME
+SCRIPTS_DIR = f'{SCAPE_DIR}/scripts'
+os.makedirs(SCRIPTS_DIR, exist_ok=True)
+```
+
+This produces the folder structure:
+```
+{soundscape-name}/
+├── scripts/
+│   └── {soundscape-name}.py    # Generation script
+└── {soundscape-name}.wav        # Output soundscape
+```
 
 ### Step 2: Research the Environment
-Use WebSearch for 2-4 queries:
-- What are the defining sonic characteristics of this environment?
-- Frequency content: what frequencies define each element?
-- Temporal patterns: how do sounds occur over time? (random, rhythmic, continuous)
-- Professional field recordings of this environment — what do people notice about the real sound?
 
-Focus on: which layers create the environment, their frequency ranges, how they interact, temporal density.
+Use `WebSearch` for 4-8 queries across 3 batches. The goal is to understand exactly what the environment sounds like — its layers, frequencies, rhythms, and spatial character — so your synthesis is grounded in reality, not guesswork.
+
+**Batch 1 — Acoustic Reality (2-3 queries):**
+Research what the real environment actually sounds like:
+- What are the individual sound sources present? (e.g., a forest isn't just "nature" — it's wind through canopy, bird species at specific distances, leaf litter rustling, creek flow, insect drone)
+- What is the frequency spectrum of each layer? (e.g., rain: broadband noise 200Hz-8kHz, thunder: sub-bass rumble 20-80Hz with crack at 2-6kHz, wind: shaped noise 100-2kHz)
+- What are the temporal patterns? (continuous drone vs sporadic events, regular rhythms vs random, density changes over time)
+- What is the spatial character? (enclosed/reverberant like a cave, open/diffuse like a field, directional like a street)
+- Search: `"[environment] sound" frequency spectrum`, `"[environment] field recording" characteristics`, `"what does [environment] sound like" acoustic`
+
+**Batch 2 — Sound Design Techniques (1-3 queries):**
+Research how professionals recreate this environment:
+- How do game audio designers / film sound designers build this ambience? What layers and processing do they use?
+- What synthesis techniques best approximate each element? (filtered noise for wind/rain, granular for textures, FM for insects, physical modeling for water)
+- What makes a soundscape feel immersive vs flat? (depth layering, spatial movement, event density, stereo decorrelation)
+- Search: `"[environment] sound design" ambient`, `"[environment] ambience" game audio layers`, `site:reddit.com/r/sounddesign [environment]`, `site:designingsound.org [environment]`
+
+**Batch 3 — Reference & Deep Dive (1-2 queries):**
+Use `WebFetch` on the top 1-2 most relevant URLs from Batch 1-2 to extract full details. Sound design tutorials and field recording notes often contain specific frequency ranges, layer breakdowns, and processing chains that are truncated in search snippets.
+
+**What to extract from research:**
+- **Layer inventory** — list every distinct sound source in the environment (e.g., beach: wave crash, wave retreat/foam, seagulls, wind, distant boat, sand crunch). Each becomes a synthesis layer
+- **Frequency profile per layer** — what frequency bands define each sound? (e.g., wave crash: sub-bass thud 30-80Hz + broadband wash 200Hz-6kHz + foam hiss 4-12kHz)
+- **Temporal behavior** — is each layer continuous (wind), periodic (waves ~8-15s cycle), random/sporadic (bird calls, thunder), or triggered (footstep, door)?
+- **Spatial placement** — which sounds are close/dry vs distant/reverberant? Which move (panning birds, passing cars) vs stay fixed (nearby stream)?
+- **Density and activity** — how many events per minute? How does activity change naturally? (dawn chorus is dense, midday is sparse; storm builds then recedes)
+- **Spectral evolution** — does the environment change over time? (sunset: birds taper off, insects increase, temperature drop changes wind character)
+
+This research is critical for immersive synthesis. A "rainy forest" without research might just be white noise with reverb — with research, you know to layer: continuous rain bed (pink noise shaped with 500Hz-4kHz bandpass) + individual drop impacts on leaves (short transients with resonant filter, Poisson-distributed at ~8/second) + distant thunder (sub-bass sine sweep + noise crack, every 30-90s) + canopy drip (pitched drops at 1-3kHz, irregular clusters) + wind gusts through trees (modulated filtered noise with slow LFO on cutoff, 0.05Hz).
 
 ### Step 3: Design the Evolution Map
 
@@ -58,10 +98,10 @@ Example evolution map:
 
 ### Step 4: Generate the Python Script
 
-Write a self-contained script. Architecture:
+Write a self-contained script at `{soundscape-name}/scripts/{soundscape-name}.py`. Architecture:
 
 ```
-1. Constants (SR, DURATION, OUTPUT_FILE)
+1. Constants (SR, DURATION, SCAPE_NAME, SCAPE_DIR, OUTPUT_FILE)
 2. Evolution map (time-based dimension curves)
 3. DSP primitives (from shared refs)
 4. Environment generators:
@@ -72,7 +112,16 @@ Write a self-contained script. Architecture:
 5. Layer mixing with time-varying levels (follow evolution map)
 6. Spatial processing (reverb for depth, panning for width)
 7. Master chain (gentle compression, limiting, normalize)
-8. Export stereo .wav
+8. Export stereo .wav to {soundscape-name}/{soundscape-name}.wav
+```
+
+Path constants at the top:
+```python
+import os
+SCAPE_NAME = '{soundscape-name}'
+SCAPE_DIR = SCAPE_NAME
+OUTPUT_FILE = f'{SCAPE_DIR}/{SCAPE_NAME}.wav'
+os.makedirs(SCAPE_DIR, exist_ok=True)
 ```
 
 Key principles for soundscapes:
@@ -85,7 +134,7 @@ Key principles for soundscapes:
 - **Stereo is essential** — soundscapes should fill the stereo field. Use different noise seeds for L/R channels, slow auto-panning for events
 
 Dependencies: `numpy` and `scipy` (always), `pedalboard` and `soundfile` (optional)
-Run with: `uv run --with numpy --with scipy --with pedalboard --with soundfile python3 <script>.py`
+Run with: `uv run --with numpy --with scipy --with pedalboard --with soundfile python3 {soundscape-name}/scripts/{soundscape-name}.py`
 
 #### Mandatory Quality Rules
 
@@ -113,7 +162,7 @@ Consult [dsp-core.md](../../shared/references/dsp-core.md) for DSP primitives an
 
 ### Step 5: Run & Validate
 
-Execute: `uv run --with numpy --with scipy --with pedalboard --with soundfile python3 <script>.py`
+Execute: `uv run --with numpy --with scipy --with pedalboard --with soundfile python3 {soundscape-name}/scripts/{soundscape-name}.py`
 
 Validate using [quality-validation.md](../../shared/references/quality-validation.md):
 - Peak level check (target: -3 to -1 dBFS for background use)
@@ -124,7 +173,8 @@ Validate using [quality-validation.md](../../shared/references/quality-validatio
 - Frequency balance check (should feel natural, not overly bright or boomy)
 
 Present to user:
-- Output filename, duration, sample rate
+- Output file path (e.g., `{soundscape-name}/{soundscape-name}.wav`), duration, sample rate
+- **Project folder structure** — `{soundscape-name}/scripts/` contains generation code, output is at the top level
 - Environment description
 - Evolution map showing how the soundscape changes over time
 - Layer breakdown (what elements are in the mix)
@@ -158,8 +208,10 @@ Follow refinement workflow from [iteration-core.md](../../shared/references/iter
 - [references/iteration-soundscape.md](references/iteration-soundscape.md) — Soundscape refinement mappings
 
 ## Important Notes
-- NEVER overwrite existing .wav files — use unique filenames
+- **Project folder structure** — each soundscape gets its own folder: `{soundscape-name}/scripts/` for code, `{soundscape-name}/{soundscape-name}.wav` for output. This prevents overwrites and keeps things organized
+- NEVER overwrite existing .wav files — version outputs (e.g., `{soundscape-name}_v2.wav`)
 - Script must be 100% self-contained — no external sample files
+- All scripts run from the **project root**, not from inside the soundscape folder
 - Soundscapes should feel natural and immersive — avoid anything that sounds synthetic or mechanical
 - For meditation/sleep: keep activity very low (1-3), avoid sudden events
 - For game ambience: consider loopability and layer separate event tracks
