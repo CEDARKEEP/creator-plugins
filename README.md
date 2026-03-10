@@ -4,7 +4,7 @@ A curated collection of Claude Code plugins for creators and creative workflows.
 
 ## Prerequisites
 
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) version **1.0.33 or later** (run `claude --version` to check)
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) version 1.0.33 or later (run `claude --version` to check)
 
 ## Installation
 
@@ -20,22 +20,23 @@ This registers the plugin catalog — no plugins are installed yet.
 
 ### Step 2: Install plugins
 
-**Option A — Command line:**
+Option A — Command line:
 
 ```
 /plugin install audio@creator-plugins
 /plugin install images@creator-plugins
 /plugin install copy@creator-plugins
+/plugin install brand@creator-plugins
 ```
 
-**Option B — Interactive UI:**
+Option B — Interactive UI:
 
 1. Run `/plugin` to open the plugin manager
-2. Go to the **Discover** tab
+2. Go to the Discover tab
 3. Select a plugin and choose an installation scope:
-   - **User** — available across all your projects
-   - **Project** — shared with collaborators via `.claude/settings.json`
-   - **Local** — only for you in the current repo
+   - User — available across all your projects
+   - Project — shared with collaborators via `.claude/settings.json`
+   - Local — only for you in the current repo
 
 ### Step 3: Use the skills
 
@@ -46,6 +47,8 @@ After installing, skills are available as slash commands:
 /create-sfx laser blast impact
 /create-soundscape rain on a tin roof at night
 /create-thumbnail epic coding tutorial reaction
+/transform-image resize logo.png to 200x200
+/fetch-brand-assets Stripe
 /create-title python tutorial for beginners YouTube
 /create-description my latest cooking vlog Instagram
 /create-hashtags fitness workout TikTok
@@ -59,7 +62,7 @@ To pull the latest plugin versions:
 /plugin marketplace update creator-plugins
 ```
 
-Or enable auto-updates in the **Marketplaces** tab of `/plugin`.
+Or enable auto-updates in the Marketplaces tab of `/plugin`.
 
 ### Uninstalling
 
@@ -91,13 +94,14 @@ Each audio command creates an organized project folder:
 
 ### Images
 
-Image generation skills — thumbnails, banners, and social media graphics. Requires **Node.js 18+**.
+Image generation and transformation skills — thumbnails, banners, social media graphics, resize, convert. Requires Node.js 18+ (for thumbnail generation).
 
 | Command | Description |
 |---------|-------------|
 | `/create-thumbnail` | Generate YouTube thumbnail images as PNG files using Remotion. Designs high-CTR thumbnails with researched color palettes, typography, and proven archetype layouts. Supports face photos, product images, or pure typography designs. |
+| `/transform-image` | Resize, convert, crop, enhance, and batch-process images. Generates a Python script using Pillow. Supports social media kits, favicon generation, format conversion, padding, trimming, and bulk operations. |
 
-Each image command creates a self-contained Remotion project:
+Thumbnail commands create a self-contained Remotion project:
 
 ```
 {name}/
@@ -105,6 +109,14 @@ Each image command creates a self-contained Remotion project:
 ├── public/        # User-provided assets (images, logos)
 └── {name}.png     # Final output
 ```
+
+### Brand
+
+Brand asset sourcing — fetch official logos, icons, and visual identity assets from trusted sources.
+
+| Command | Description |
+|---------|-------------|
+| `/fetch-brand-assets` | Fetch official product logos, brand marks, icons, and visual identity assets from trusted sources (press kits, brand portals, official CDNs). Downloads and organizes assets locally for use by other skills. |
 
 ### Copy
 
@@ -116,7 +128,7 @@ Copywriting skills for titles, descriptions, and hashtags — optimized for YouT
 | `/create-description` | Generate optimized descriptions and captions for YouTube, Instagram, LinkedIn, TikTok, and Twitter/X. Produces 4 variations (comprehensive, hook-heavy, SEO-optimized, storytelling) with timestamps, CTAs, and above-fold previews. |
 | `/create-hashtags` | Generate optimized hashtag sets using the pyramid strategy (broad + medium + niche). Produces 4 variations per platform with PascalCase formatting, copy-paste lines, and platform-specific count limits. |
 
-Copy skills output **pure text** — no files or projects are created. Use all three in sequence for a complete copy package:
+Copy skills output pure text — no files or projects are created. Use all three in sequence for a complete copy package:
 ```
 /create-title → pick a title → /create-description → pick a description → /create-hashtags
 ```
@@ -171,10 +183,22 @@ creator-plugins/
 │   │       ├── iteration-core-images.md      # Image refinement workflow
 │   │       └── quality-validation-images.md  # Dimension, size, readability checks
 │   └── skills/
-│       └── create-thumbnail/
+│       ├── create-thumbnail/
+│       │   ├── SKILL.md
+│       │   ├── examples/                      # Example thumbnail outputs
+│       │   └── references/                    # Thumbnail-specific references
+│       └── transform-image/
 │           ├── SKILL.md
-│           ├── examples/                      # Example thumbnail outputs
-│           └── references/                    # Thumbnail-specific references
+│           ├── examples/                      # Example transform outputs
+│           └── references/                    # Transform-specific references
+├── brand/
+│   ├── .claude-plugin/
+│   │   └── plugin.json
+│   └── skills/
+│       └── fetch-brand-assets/
+│           ├── SKILL.md
+│           ├── examples/                      # Example fetch outputs
+│           └── references/                    # Brand asset references
 ├── copy/
 │   ├── .claude-plugin/
 │   │   └── plugin.json
