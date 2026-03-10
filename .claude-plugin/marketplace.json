@@ -5,13 +5,28 @@
   },
   "metadata": {
     "description": "A curated collection of Claude Code plugins for creators and creative workflows",
-    "version": "2.3.0"
+    "version": "3.0.0"
   },
   "plugins": [
     {
       "name": "audio",
       "source": "./audio",
       "description": "Music production, sound effects, and audio synthesis skills"
+    },
+    {
+      "name": "images",
+      "source": "./images",
+      "description": "Image generation and transformation skills — thumbnails, banners, social media graphics, resize, convert"
+    },
+    {
+      "name": "brand",
+      "source": "./brand",
+      "description": "Brand asset sourcing — fetch official logos, icons, and visual identity assets from trusted sources"
+    },
+    {
+      "name": "copy",
+      "source": "./copy",
+      "description": "Copywriting skills for titles, descriptions, and hashtags — optimized for YouTube, Instagram, TikTok, Twitter/X, and LinkedIn"
     }
   ]
 }

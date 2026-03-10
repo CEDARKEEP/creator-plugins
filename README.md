@@ -18,31 +18,37 @@ From within Claude Code, run:
 
 This registers the plugin catalog — no plugins are installed yet.
 
-### Step 2: Install the audio plugin
+### Step 2: Install plugins
 
 **Option A — Command line:**
 
 ```
 /plugin install audio@creator-plugins
+/plugin install images@creator-plugins
+/plugin install copy@creator-plugins
 ```
 
 **Option B — Interactive UI:**
 
 1. Run `/plugin` to open the plugin manager
 2. Go to the **Discover** tab
-3. Select **audio** and choose an installation scope:
+3. Select a plugin and choose an installation scope:
    - **User** — available across all your projects
    - **Project** — shared with collaborators via `.claude/settings.json`
    - **Local** — only for you in the current repo
 
 ### Step 3: Use the skills
 
-After installing, the audio skills are available as namespaced commands:
+After installing, skills are available as slash commands:
 
 ```
 /create-song a dreamy lo-fi beat with warm keys
 /create-sfx laser blast impact
 /create-soundscape rain on a tin roof at night
+/create-thumbnail epic coding tutorial reaction
+/create-title python tutorial for beginners YouTube
+/create-description my latest cooking vlog Instagram
+/create-hashtags fitness workout TikTok
 ```
 
 ### Updating
@@ -74,13 +80,45 @@ Music production, sound effects, and audio synthesis skills.
 | `/create-sfx` | Generate synthesized sound effects — UI sounds, combat, impacts, whooshes, transitions, foley, and game audio. Researches real-world acoustics before synthesizing for realistic results. |
 | `/create-soundscape` | Generate ambient soundscapes and environmental audio — nature, meditation, spatial environments, atmospheric textures. Researches real environments for immersive, layered synthesis with parallel chunk rendering. |
 
-Each command creates an organized project folder:
+Each audio command creates an organized project folder:
 
 ```
 {name}/
 ├── scripts/    # Generated Python synthesis code
 ├── sounds/     # Individual section/chunk clips (songs & soundscapes)
 └── {name}.wav  # Final output
+```
+
+### Images
+
+Image generation skills — thumbnails, banners, and social media graphics. Requires **Node.js 18+**.
+
+| Command | Description |
+|---------|-------------|
+| `/create-thumbnail` | Generate YouTube thumbnail images as PNG files using Remotion. Designs high-CTR thumbnails with researched color palettes, typography, and proven archetype layouts. Supports face photos, product images, or pure typography designs. |
+
+Each image command creates a self-contained Remotion project:
+
+```
+{name}/
+├── src/           # Remotion composition code (TypeScript/React)
+├── public/        # User-provided assets (images, logos)
+└── {name}.png     # Final output
+```
+
+### Copy
+
+Copywriting skills for titles, descriptions, and hashtags — optimized for YouTube, Instagram, TikTok, Twitter/X, and LinkedIn.
+
+| Command | Description |
+|---------|-------------|
+| `/create-title` | Generate optimized titles for YouTube videos and social media posts. Researches your niche, then produces 4 distinct title variations using proven formulas (How-To, Listicle, Question, Contrarian, etc.) with character counts and above-fold analysis. |
+| `/create-description` | Generate optimized descriptions and captions for YouTube, Instagram, LinkedIn, TikTok, and Twitter/X. Produces 4 variations (comprehensive, hook-heavy, SEO-optimized, storytelling) with timestamps, CTAs, and above-fold previews. |
+| `/create-hashtags` | Generate optimized hashtag sets using the pyramid strategy (broad + medium + niche). Produces 4 variations per platform with PascalCase formatting, copy-paste lines, and platform-specific count limits. |
+
+Copy skills output **pure text** — no files or projects are created. Use all three in sequence for a complete copy package:
+```
+/create-title → pick a title → /create-description → pick a description → /create-hashtags
 ```
 
 ## Project Structure
@@ -121,6 +159,41 @@ creator-plugins/
 │       └── create-soundscape/
 │           ├── SKILL.md
 │           └── references/                  # Soundscape-specific references
+├── images/
+│   ├── .claude-plugin/
+│   │   └── plugin.json
+│   ├── shared/
+│   │   └── references/                      # Generic image/design (shared by all skills)
+│   │       ├── remotion-patterns.md          # Still components, fonts, layout-utils, CLI
+│   │       ├── color-theory.md               # Color pairs, psychology, gradients, palettes
+│   │       ├── typography-fundamentals.md    # Font classification, sizing, text effects
+│   │       ├── composition-principles.md     # Rule of thirds, hierarchy, safe zones
+│   │       ├── iteration-core-images.md      # Image refinement workflow
+│   │       └── quality-validation-images.md  # Dimension, size, readability checks
+│   └── skills/
+│       └── create-thumbnail/
+│           ├── SKILL.md
+│           ├── examples/                      # Example thumbnail outputs
+│           └── references/                    # Thumbnail-specific references
+├── copy/
+│   ├── .claude-plugin/
+│   │   └── plugin.json
+│   ├── shared/
+│   │   └── references/                      # Copywriting fundamentals (shared by all skills)
+│   │       ├── platform-specs.md             # Character limits, above-fold, formatting rules
+│   │       ├── copywriting-frameworks.md     # AIDA, PAS, Hook-Value-CTA, power words
+│   │       ├── iteration-core-copy.md        # Copy refinement workflow
+│   │       └── quality-validation-copy.md    # Char counts, readability, CTA checks
+│   └── skills/
+│       ├── create-title/
+│       │   ├── SKILL.md
+│       │   └── references/                    # Title-specific references
+│       ├── create-description/
+│       │   ├── SKILL.md
+│       │   └── references/                    # Description-specific references
+│       └── create-hashtags/
+│           ├── SKILL.md
+│           └── references/                    # Hashtag-specific references
 ├── .gitignore
 ├── LICENSE
 └── README.md
