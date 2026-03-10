@@ -60,7 +60,7 @@ def freeverb(sig, room=0.84, damp=0.2, wet=0.3, sr=SR):
 | Cathedral | 0.95+ | 0.1-0.2 | 0.3-0.5 | Huge, ethereal |
 | Plate (approx) | 0.7-0.85 | 0.4-0.6 | 0.2-0.3 | Bright, smooth |
 
-**Critical rules:**
+Critical rules:
 - Bass and kick get NO reverb (muddies low end)
 - EQ reverb returns: HPF 200-400Hz, LPF 6-10kHz on all reverb sends
 - Every melodic/harmonic element goes through reverb and/or delay (dry synths sound cheap)
@@ -183,7 +183,7 @@ def phaser(sig, rate=0.5, depth=0.7, stages=6, sr=SR):
     return sig + out  # sum creates notches
 ```
 
-**Flanger vs Phaser:**
+Flanger vs Phaser:
 - Flanger: very short modulated delay (0.1-10ms), evenly-spaced notches, jet-sweep sound
 - Phaser: allpass filter cascade, non-harmonically-related notches, gentler/organic sweep
 

@@ -72,7 +72,7 @@ Verify the output fits within platform limits from [platform-specs.md](platform-
 
 ## Variation Differentiation Check
 
-All 4 variations must differ **meaningfully** — not just word swaps:
+All 4 variations must differ meaningfully — not just word swaps:
 
 - [ ] Each variation uses a genuinely different approach (formula, angle, structure, or emphasis)
 - [ ] At least 2 distinct copywriting frameworks represented across the 4 variations

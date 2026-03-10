@@ -8,13 +8,13 @@
 
 ## Step 1: Parse
 
-- **Topic:** Coding tutorial, mind-blowing content
-- **Text:** "MIND BLOWN" (distilled from description)
-- **Niche:** Tech / Programming
-- **Style:** Reaction face + dramatic text
-- **Images:** User provided `face.png` (creator's reaction face with surprised expression)
-- **Name:** `mind-blown-coding`
-- **Project mode:** New project (default)
+- Topic: Coding tutorial, mind-blowing content
+- Text: "MIND BLOWN" (distilled from description)
+- Niche: Tech / Programming
+- Style: Reaction face + dramatic text
+- Images: User provided `face.png` (creator's reaction face with surprised expression)
+- Name: `mind-blown-coding`
+- Project mode: New project (default)
 
 ## Step 2: Research Findings
 

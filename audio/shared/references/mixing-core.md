@@ -142,7 +142,7 @@ mix[-edge:] *= 0.5 + 0.5 * np.cos(np.linspace(0, np.pi, edge))
 | Sibilance | 6-8 kHz | Harsh transient artifacts | De-ess with dynamic EQ or narrow cut |
 | Ice pick | 8-12 kHz | Piercing, thin, cold | Cut on bright sources if fatiguing |
 
-**Golden rule**: Cut narrow (high Q), boost wide (low Q). If you need more than 6dB of boost, the source sound is wrong.
+Golden rule: Cut narrow (high Q), boost wide (low Q). If you need more than 6dB of boost, the source sound is wrong.
 
 ## WAV Export (scipy fallback)
 

@@ -7,11 +7,11 @@ Organized synthesis recipes for common sound effect categories. Each entry inclu
 ## UI Sounds
 
 ### Click / Tap
-- **Approach:** Short bandpass-filtered noise burst
-- **Frequencies:** 2-5 kHz center
-- **Envelope:** Attack 0.5ms, decay 5-20ms (total 5-20ms)
-- **Layers:** Single noise burst, optionally a tiny sine transient at 3-4kHz
-- **Variations:** Shift center frequency for different "materials" — higher = glass/digital, lower = plastic/soft
+- Approach: Short bandpass-filtered noise burst
+- Frequencies: 2-5 kHz center
+- Envelope: Attack 0.5ms, decay 5-20ms (total 5-20ms)
+- Layers: Single noise burst, optionally a tiny sine transient at 3-4kHz
+- Variations: Shift center frequency for different "materials" — higher = glass/digital, lower = plastic/soft
 
 ```python
 def synth_click(sr=48000, duration_ms=15, center_freq=3500, q=8.0):
@@ -39,10 +39,10 @@ def synth_click(sr=48000, duration_ms=15, center_freq=3500, q=8.0):
 ```
 
 ### Hover
-- **Approach:** Gentle sine sweep upward
-- **Frequencies:** 1-2 kHz, sweep up 200-500 Hz
-- **Envelope:** Attack 10ms, sustain 40ms, release 50ms (total 50-100ms)
-- **Layers:** Pure sine + subtle noise layer at -20dB
+- Approach: Gentle sine sweep upward
+- Frequencies: 1-2 kHz, sweep up 200-500 Hz
+- Envelope: Attack 10ms, sustain 40ms, release 50ms (total 50-100ms)
+- Layers: Pure sine + subtle noise layer at -20dB
 
 ```python
 def synth_hover(sr=48000, duration_ms=80, freq_start=1200, freq_end=1600):
@@ -73,10 +73,10 @@ def synth_hover(sr=48000, duration_ms=80, freq_start=1200, freq_end=1600):
 ```
 
 ### Success / Confirm
-- **Approach:** Ascending two-tone with pleasant interval (P5 or M3)
-- **Frequencies:** First tone 800-1000 Hz, second tone at P5 (1.5x) or M3 (1.26x) above
-- **Envelope:** Each tone 80-120ms with 10ms attack, 30ms release
-- **Layers:** Sine fundamental + quiet harmonic at 2x for warmth
+- Approach: Ascending two-tone with pleasant interval (P5 or M3)
+- Frequencies: First tone 800-1000 Hz, second tone at P5 (1.5x) or M3 (1.26x) above
+- Envelope: Each tone 80-120ms with 10ms attack, 30ms release
+- Layers: Sine fundamental + quiet harmonic at 2x for warmth
 
 ```python
 def synth_success(sr=48000, base_freq=880, interval_ratio=1.5, tone_dur_ms=100, gap_ms=30):
@@ -111,10 +111,10 @@ def synth_success(sr=48000, base_freq=880, interval_ratio=1.5, tone_dur_ms=100, 
 ```
 
 ### Error / Deny
-- **Approach:** Descending minor 2nd or harsh buzzer
-- **Frequencies:** 400-600 Hz fundamental with dissonant harmonics
-- **Envelope:** Attack 2ms, sustain 200ms, release 100ms
-- **Layers:** Square-ish wave (odd harmonics) + noise grit
+- Approach: Descending minor 2nd or harsh buzzer
+- Frequencies: 400-600 Hz fundamental with dissonant harmonics
+- Envelope: Attack 2ms, sustain 200ms, release 100ms
+- Layers: Square-ish wave (odd harmonics) + noise grit
 
 ```python
 def synth_error(sr=48000, freq=440, duration_ms=300):
@@ -142,10 +142,10 @@ def synth_error(sr=48000, freq=440, duration_ms=300):
 ```
 
 ### Notification / Bell
-- **Approach:** FM synthesis with bell-like inharmonic spectrum
-- **Frequencies:** Carrier 800-1200 Hz, modulator at 1.4x ratio (inharmonic = bell-like)
-- **Envelope:** Attack 2ms, decay 500ms-1s (exponential)
-- **Layers:** FM tone + subtle reverb tail
+- Approach: FM synthesis with bell-like inharmonic spectrum
+- Frequencies: Carrier 800-1200 Hz, modulator at 1.4x ratio (inharmonic = bell-like)
+- Envelope: Attack 2ms, decay 500ms-1s (exponential)
+- Layers: FM tone + subtle reverb tail
 
 ```python
 def synth_notification(sr=48000, carrier_freq=1000, mod_ratio=1.4, mod_index=3.0, decay_ms=600):
@@ -174,32 +174,32 @@ def synth_notification(sr=48000, carrier_freq=1000, mod_ratio=1.4, mod_index=3.0
 ```
 
 ### Toggle On / Off
-- **Approach:** Paired ascending/descending tones
-- **Frequencies:** On = 600→900 Hz sweep, Off = 900→600 Hz sweep
-- **Envelope:** 5ms attack, 60-80ms total, 20ms release
-- **Layers:** Sine sweep + subtle click transient at start
+- Approach: Paired ascending/descending tones
+- Frequencies: On = 600→900 Hz sweep, Off = 900→600 Hz sweep
+- Envelope: 5ms attack, 60-80ms total, 20ms release
+- Layers: Sine sweep + subtle click transient at start
 
 ### Loading / Progress
-- **Approach:** Looping gentle pulse or slow filter sweep on noise
-- **Frequencies:** 500-1500 Hz bandpass sweep (slow, 1-2s cycle)
-- **Envelope:** Smooth sine-shaped amplitude modulation at 1-3 Hz
-- **Layers:** Filtered noise + quiet sine tone for pitch anchor
+- Approach: Looping gentle pulse or slow filter sweep on noise
+- Frequencies: 500-1500 Hz bandpass sweep (slow, 1-2s cycle)
+- Envelope: Smooth sine-shaped amplitude modulation at 1-3 Hz
+- Layers: Filtered noise + quiet sine tone for pitch anchor
 
 ### Menu Open / Close
-- **Approach:** Fast whoosh + tonal element
-- **Frequencies:** Noise sweep 500→4000 Hz (open) or 4000→500 Hz (close), 80-150ms
-- **Envelope:** Attack 5ms, fast decay
-- **Layers:** Bandpass noise sweep + brief tonal accent at end
+- Approach: Fast whoosh + tonal element
+- Frequencies: Noise sweep 500→4000 Hz (open) or 4000→500 Hz (close), 80-150ms
+- Envelope: Attack 5ms, fast decay
+- Layers: Bandpass noise sweep + brief tonal accent at end
 
 ---
 
 ## Combat / Action
 
 ### Sword Swing
-- **Approach:** Bandpass noise sweep with metallic ring
-- **Frequencies:** Noise sweep 500→2000 Hz, metallic ring at 3-5 kHz
-- **Envelope:** Attack 5ms, body 100-200ms, metallic tail 100-300ms
-- **Layers:** (1) Bandpass noise sweep for air movement, (2) High sine with inharmonic partials for metallic ring
+- Approach: Bandpass noise sweep with metallic ring
+- Frequencies: Noise sweep 500→2000 Hz, metallic ring at 3-5 kHz
+- Envelope: Attack 5ms, body 100-200ms, metallic tail 100-300ms
+- Layers: (1) Bandpass noise sweep for air movement, (2) High sine with inharmonic partials for metallic ring
 
 ```python
 def synth_sword_swing(sr=48000, duration_ms=200):
@@ -240,16 +240,16 @@ def synth_sword_swing(sr=48000, duration_ms=200):
 ```
 
 ### Sword Clash / Metal Impact
-- **Approach:** Multiple metallic bursts with resonant body decay
-- **Frequencies:** Transient broadband, body resonance 500-2000 Hz, metallic partials 2-8 kHz
-- **Envelope:** Attack <1ms (transient), body decay 200-500ms
-- **Layers:** (1) Noise transient (broadband, 2ms), (2) Resonant body (bandpass noise, 200ms decay), (3) Metallic ring (inharmonic sines, 300-500ms decay)
+- Approach: Multiple metallic bursts with resonant body decay
+- Frequencies: Transient broadband, body resonance 500-2000 Hz, metallic partials 2-8 kHz
+- Envelope: Attack <1ms (transient), body decay 200-500ms
+- Layers: (1) Noise transient (broadband, 2ms), (2) Resonant body (bandpass noise, 200ms decay), (3) Metallic ring (inharmonic sines, 300-500ms decay)
 
 ### Gunshot
-- **Approach:** Three-layer: sharp transient + low body + noise tail
-- **Frequencies:** Transient broadband, body 80-200 Hz, tail 200-4000 Hz
-- **Envelope:** Transient 1-2ms, body 30-80ms, tail 100-300ms
-- **Layers:** (1) Short noise burst for crack, (2) Sine at 100Hz with fast decay for body, (3) Filtered noise with medium decay for tail
+- Approach: Three-layer: sharp transient + low body + noise tail
+- Frequencies: Transient broadband, body 80-200 Hz, tail 200-4000 Hz
+- Envelope: Transient 1-2ms, body 30-80ms, tail 100-300ms
+- Layers: (1) Short noise burst for crack, (2) Sine at 100Hz with fast decay for body, (3) Filtered noise with medium decay for tail
 
 ```python
 def synth_gunshot(sr=48000, caliber='medium'):
@@ -289,28 +289,28 @@ def synth_gunshot(sr=48000, caliber='medium'):
 ```
 
 ### Explosion
-- **Approach:** Layered sub boom + noise burst + debris
-- **Frequencies:** Sub 30-60 Hz, noise burst broadband, debris 500-3000 Hz
-- **Envelope:** Sub 200-500ms decay, noise 100-300ms, debris 1-3s (random bursts)
-- **Layers:** (1) Sine with pitch drop (60→30 Hz) for sub boom, (2) Broadband noise burst for initial blast, (3) Filtered noise with random amplitude for debris/rubble
+- Approach: Layered sub boom + noise burst + debris
+- Frequencies: Sub 30-60 Hz, noise burst broadband, debris 500-3000 Hz
+- Envelope: Sub 200-500ms decay, noise 100-300ms, debris 1-3s (random bursts)
+- Layers: (1) Sine with pitch drop (60→30 Hz) for sub boom, (2) Broadband noise burst for initial blast, (3) Filtered noise with random amplitude for debris/rubble
 
 ### Shield / Block
-- **Approach:** Resonant metallic impact with filtered reverb tail
-- **Frequencies:** Impact 200-500 Hz, metallic resonance 1-4 kHz
-- **Envelope:** Sharp attack, 300-600ms resonant decay
-- **Layers:** (1) Impact transient, (2) Resonant bandpass filtered noise, (3) Metallic partials with slow decay
+- Approach: Resonant metallic impact with filtered reverb tail
+- Frequencies: Impact 200-500 Hz, metallic resonance 1-4 kHz
+- Envelope: Sharp attack, 300-600ms resonant decay
+- Layers: (1) Impact transient, (2) Resonant bandpass filtered noise, (3) Metallic partials with slow decay
 
 ### Punch / Hit
-- **Approach:** Sub transient + mid body + noise crack
-- **Frequencies:** Sub 60-100 Hz, body 200-500 Hz, crack 1-4 kHz
-- **Envelope:** Attack <2ms, total 50-150ms
-- **Layers:** (1) Sine sub punch (60Hz, 30ms), (2) Bandpass noise body, (3) Short highpass noise for crack
+- Approach: Sub transient + mid body + noise crack
+- Frequencies: Sub 60-100 Hz, body 200-500 Hz, crack 1-4 kHz
+- Envelope: Attack <2ms, total 50-150ms
+- Layers: (1) Sine sub punch (60Hz, 30ms), (2) Bandpass noise body, (3) Short highpass noise for crack
 
 ### Laser / Plasma
-- **Approach:** Sine sweep with FM modulation and distortion
-- **Frequencies:** Sweep 2000→500 Hz (or 500→2000 Hz for charge-up), FM carrier
-- **Envelope:** Attack 2ms, sustain 100-300ms, release 50ms
-- **Layers:** (1) FM-modulated sine sweep, (2) Noise texture layer, (3) Sub bass for weight
+- Approach: Sine sweep with FM modulation and distortion
+- Frequencies: Sweep 2000→500 Hz (or 500→2000 Hz for charge-up), FM carrier
+- Envelope: Attack 2ms, sustain 100-300ms, release 50ms
+- Layers: (1) FM-modulated sine sweep, (2) Noise texture layer, (3) Sub bass for weight
 
 ```python
 def synth_laser(sr=48000, freq_start=2000, freq_end=400, duration_ms=200, fm_index=5.0):
@@ -351,11 +351,11 @@ def synth_laser(sr=48000, freq_start=2000, freq_end=400, duration_ms=200, fm_ind
 ## Environment
 
 ### Footsteps
-- **Approach:** Short noise burst shaped by surface material filter
-- **Frequencies:** Wood = 200-1500 Hz (warm), Stone = 500-4000 Hz (bright), Grass = 100-800 Hz (dull), Metal = 1000-6000 Hz (ringy)
-- **Envelope:** Attack 1-3ms, decay 30-80ms
-- **Layers:** (1) Impact transient (broadband, 2ms), (2) Surface-filtered noise body
-- **Variations:** Randomize timing, pitch +-10%, and amplitude +-3dB for natural feel
+- Approach: Short noise burst shaped by surface material filter
+- Frequencies: Wood = 200-1500 Hz (warm), Stone = 500-4000 Hz (bright), Grass = 100-800 Hz (dull), Metal = 1000-6000 Hz (ringy)
+- Envelope: Attack 1-3ms, decay 30-80ms
+- Layers: (1) Impact transient (broadband, 2ms), (2) Surface-filtered noise body
+- Variations: Randomize timing, pitch +-10%, and amplitude +-3dB for natural feel
 
 ```python
 def synth_footstep(sr=48000, surface='stone', seed=42):
@@ -397,32 +397,32 @@ def synth_footstep(sr=48000, surface='stone', seed=42):
 ```
 
 ### Door
-- **Approach:** Low resonant thud + latch click + optional hinge creak
-- **Frequencies:** Thud 80-200 Hz, latch click 2-5 kHz, hinge 300-1000 Hz sweep
-- **Envelope:** Thud 100-200ms decay, click 5-15ms, hinge 200-500ms
-- **Layers:** (1) Resonant lowpass noise for thud, (2) Short bandpass noise for latch, (3) Slow sine sweep for hinges
+- Approach: Low resonant thud + latch click + optional hinge creak
+- Frequencies: Thud 80-200 Hz, latch click 2-5 kHz, hinge 300-1000 Hz sweep
+- Envelope: Thud 100-200ms decay, click 5-15ms, hinge 200-500ms
+- Layers: (1) Resonant lowpass noise for thud, (2) Short bandpass noise for latch, (3) Slow sine sweep for hinges
 
 ### Machinery
-- **Approach:** Looping filtered noise + harmonic hum + rhythmic clicks
-- **Frequencies:** Hum 60/120 Hz (mains), noise 200-2000 Hz, clicks 1-4 kHz
-- **Envelope:** Looping — steady state with rhythmic modulation
-- **Layers:** (1) Sawtooth hum at 60 Hz + harmonics, (2) Bandpass noise for mechanical texture, (3) Periodic click pattern
+- Approach: Looping filtered noise + harmonic hum + rhythmic clicks
+- Frequencies: Hum 60/120 Hz (mains), noise 200-2000 Hz, clicks 1-4 kHz
+- Envelope: Looping — steady state with rhythmic modulation
+- Layers: (1) Sawtooth hum at 60 Hz + harmonics, (2) Bandpass noise for mechanical texture, (3) Periodic click pattern
 
 ### Vehicle Engine
-- **Approach:** Filtered sawtooth harmonics + sub rumble + noise
-- **Frequencies:** Fundamental 40-150 Hz (RPM dependent), harmonics up to 2 kHz
-- **Envelope:** Looping — steady state, modulate for acceleration
-- **Layers:** (1) Sawtooth at engine RPM frequency, (2) Sub sine for rumble, (3) Bandpass noise for mechanical texture
+- Approach: Filtered sawtooth harmonics + sub rumble + noise
+- Frequencies: Fundamental 40-150 Hz (RPM dependent), harmonics up to 2 kHz
+- Envelope: Looping — steady state, modulate for acceleration
+- Layers: (1) Sawtooth at engine RPM frequency, (2) Sub sine for rumble, (3) Bandpass noise for mechanical texture
 
 ---
 
 ## Transitions
 
 ### Whoosh
-- **Approach:** Fast bandpass noise sweep
-- **Frequencies:** Sweep 300→3000 Hz (or reverse), bandwidth narrows at peak
-- **Envelope:** Arc shape — quiet at edges, loud in center (100-300ms)
-- **Layers:** Single bandpass noise sweep, optionally add tonal element
+- Approach: Fast bandpass noise sweep
+- Frequencies: Sweep 300→3000 Hz (or reverse), bandwidth narrows at peak
+- Envelope: Arc shape — quiet at edges, loud in center (100-300ms)
+- Layers: Single bandpass noise sweep, optionally add tonal element
 
 ```python
 def synth_whoosh(sr=48000, duration_ms=200, freq_start=300, freq_end=3000):
@@ -457,39 +457,39 @@ def synth_whoosh(sr=48000, duration_ms=200, freq_start=300, freq_end=3000):
 ```
 
 ### Riser
-- **Approach:** Ascending filtered noise or sine sweep (slow build)
-- **Frequencies:** Start 100-300 Hz, end 2000-6000 Hz (sweep over 1-5s)
-- **Envelope:** Exponential crescendo — quiet start, loud finish
-- **Layers:** (1) Filtered noise sweep, (2) Sine sweep for pitch anchor, (3) Optional sub build
+- Approach: Ascending filtered noise or sine sweep (slow build)
+- Frequencies: Start 100-300 Hz, end 2000-6000 Hz (sweep over 1-5s)
+- Envelope: Exponential crescendo — quiet start, loud finish
+- Layers: (1) Filtered noise sweep, (2) Sine sweep for pitch anchor, (3) Optional sub build
 
 ### Impact / Stinger
-- **Approach:** Sub drop + noise burst + reverb tail
-- **Frequencies:** Sub 30-60 Hz, noise broadband, reverb tail shaped by lowpass
-- **Envelope:** Instant attack, sub 200-500ms, reverb tail 1-3s
-- **Layers:** (1) Sub sine with pitch drop, (2) Broadband noise transient, (3) Reverb tail
+- Approach: Sub drop + noise burst + reverb tail
+- Frequencies: Sub 30-60 Hz, noise broadband, reverb tail shaped by lowpass
+- Envelope: Instant attack, sub 200-500ms, reverb tail 1-3s
+- Layers: (1) Sub sine with pitch drop, (2) Broadband noise transient, (3) Reverb tail
 
 ### Tape Stop
-- **Approach:** Pitch descent with accelerating slowdown curve
-- **Frequencies:** Start at original pitch, end near 0 Hz
-- **Envelope:** Maintains volume initially, fades as pitch drops below audible
-- **Implementation:** Exponentially decreasing playback rate applied to any source sound
+- Approach: Pitch descent with accelerating slowdown curve
+- Frequencies: Start at original pitch, end near 0 Hz
+- Envelope: Maintains volume initially, fades as pitch drops below audible
+- Implementation: Exponentially decreasing playback rate applied to any source sound
 
 ### Glitch
-- **Approach:** Buffer repeat + bit-crush + random stutters
-- **Frequencies:** Depends on source, typically mid-range 200-4000 Hz
-- **Envelope:** Irregular — random gate pattern
-- **Layers:** (1) Repeated micro-segments (5-50ms), (2) Bit-crushed noise, (3) Random pitch shifts
+- Approach: Buffer repeat + bit-crush + random stutters
+- Frequencies: Depends on source, typically mid-range 200-4000 Hz
+- Envelope: Irregular — random gate pattern
+- Layers: (1) Repeated micro-segments (5-50ms), (2) Bit-crushed noise, (3) Random pitch shifts
 
 ---
 
 ## Nature / Ambient
 
 ### Rain
-- **Approach:** Filtered noise with random amplitude modulation
-- **Frequencies:** Broadband, emphasis on 2-8 kHz for brightness
-- **Envelope:** Steady state for loops, slow fade in/out for one-shots
-- **Layers:** (1) Lowpass filtered noise for body, (2) Highpass filtered noise for brightness, (3) Random sparse clicks for individual drops
-- **Looping:** Use crossfade at loop boundaries (50-100ms)
+- Approach: Filtered noise with random amplitude modulation
+- Frequencies: Broadband, emphasis on 2-8 kHz for brightness
+- Envelope: Steady state for loops, slow fade in/out for one-shots
+- Layers: (1) Lowpass filtered noise for body, (2) Highpass filtered noise for brightness, (3) Random sparse clicks for individual drops
+- Looping: Use crossfade at loop boundaries (50-100ms)
 
 ```python
 def synth_rain(sr=48000, duration_s=5.0, intensity=0.7):
@@ -528,30 +528,30 @@ def synth_rain(sr=48000, duration_s=5.0, intensity=0.7):
 ```
 
 ### Wind
-- **Approach:** Slowly modulated bandpass noise
-- **Frequencies:** Center 200-1500 Hz, bandwidth varies slowly
-- **Envelope:** Steady state with slow (0.1-0.5 Hz) amplitude modulation
-- **Layers:** (1) Main bandpass noise with LFO on center frequency, (2) Optional gusts — faster sweeps with higher amplitude
-- **Looping:** Crossfade boundaries
+- Approach: Slowly modulated bandpass noise
+- Frequencies: Center 200-1500 Hz, bandwidth varies slowly
+- Envelope: Steady state with slow (0.1-0.5 Hz) amplitude modulation
+- Layers: (1) Main bandpass noise with LFO on center frequency, (2) Optional gusts — faster sweeps with higher amplitude
+- Looping: Crossfade boundaries
 
 ### Thunder
-- **Approach:** Sub boom + crackle noise chain + long reverb tail
-- **Frequencies:** Sub 30-80 Hz, crackle 500-5000 Hz, reverb broadband
-- **Envelope:** Sub 200-500ms, crackle irregular bursts over 1-3s, reverb tail 3-8s
-- **Layers:** (1) Sub sine with pitch drop for initial boom, (2) Chains of short noise bursts for crackle, (3) Long reverb for rumble/echo
+- Approach: Sub boom + crackle noise chain + long reverb tail
+- Frequencies: Sub 30-80 Hz, crackle 500-5000 Hz, reverb broadband
+- Envelope: Sub 200-500ms, crackle irregular bursts over 1-3s, reverb tail 3-8s
+- Layers: (1) Sub sine with pitch drop for initial boom, (2) Chains of short noise bursts for crackle, (3) Long reverb for rumble/echo
 
 ### Water Drop
-- **Approach:** Karplus-Strong pluck at high frequency with short delay
-- **Frequencies:** 2000-5000 Hz fundamental
-- **Envelope:** Attack <1ms, decay 50-200ms
-- **Layers:** Single Karplus-Strong string with high frequency and short decay
+- Approach: Karplus-Strong pluck at high frequency with short delay
+- Frequencies: 2000-5000 Hz fundamental
+- Envelope: Attack <1ms, decay 50-200ms
+- Layers: Single Karplus-Strong string with high frequency and short decay
 
 ### Fire / Crackle
-- **Approach:** Random short noise bursts with bandpass filter
-- **Frequencies:** 500-4000 Hz
-- **Envelope:** Random sparse bursts (2-10ms each), irregular timing
-- **Layers:** (1) Continuous low-level filtered noise for base, (2) Random short bursts for crackle/pop
-- **Looping:** Crossfade boundaries
+- Approach: Random short noise bursts with bandpass filter
+- Frequencies: 500-4000 Hz
+- Envelope: Random sparse bursts (2-10ms each), irregular timing
+- Layers: (1) Continuous low-level filtered noise for base, (2) Random short bursts for crackle/pop
+- Looping: Crossfade boundaries
 
 ---
 

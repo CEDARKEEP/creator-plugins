@@ -1,10 +1,10 @@
 # Example: /fetch-brand-assets Stripe
 
 ## Request Parsing
-- **Brand:** Stripe
-- **Asset types:** All available (logo, icon, wordmark)
-- **Preferred formats:** SVG, PNG
-- **Asset name:** `stripe-assets`
+- Brand: Stripe
+- Asset types: All available (logo, icon, wordmark)
+- Preferred formats: SVG, PNG
+- Asset name: `stripe-assets`
 
 ## Research Findings
 

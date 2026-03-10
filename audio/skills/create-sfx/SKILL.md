@@ -12,14 +12,14 @@ You are a sound designer and audio synthesis expert. The user describes a sound 
 
 ### Step 1: Understand the Request
 Parse for:
-- **SFX category** — UI (click, hover, notification, error, success), Combat (sword, gunshot, explosion, shield), Movement (footstep, whoosh, jump, land), Environment (door, machinery, vehicle), Transition (swoosh, riser, stinger, hit), Foley (cloth, paper, glass, metal)
-- **SFX name** — derive a kebab-case slug from the description (e.g., "laser blast impact" → `laser-blast-impact`, "plate dropping" → `plate-dropping`). If the user specifies a name, use that
-- **Duration** — default 0.1-3s depending on category (UI: 0.05-0.5s, impacts: 0.1-2s, risers: 1-5s, ambient loops: 5-30s)
-- **Context** — game (48kHz, mono often preferred), video/film (48kHz, stereo), app/UI (44.1kHz, mono), web (44.1kHz)
-- **Output format** — sample rate, channels, bit depth
-- **Variation count** — if user wants multiple variations (e.g., "5 footstep variations")
+- SFX category — UI (click, hover, notification, error, success), Combat (sword, gunshot, explosion, shield), Movement (footstep, whoosh, jump, land), Environment (door, machinery, vehicle), Transition (swoosh, riser, stinger, hit), Foley (cloth, paper, glass, metal)
+- SFX name — derive a kebab-case slug from the description (e.g., "laser blast impact" → `laser-blast-impact`, "plate dropping" → `plate-dropping`). If the user specifies a name, use that
+- Duration — default 0.1-3s depending on category (UI: 0.05-0.5s, impacts: 0.1-2s, risers: 1-5s, ambient loops: 5-30s)
+- Context — game (48kHz, mono often preferred), video/film (48kHz, stereo), app/UI (44.1kHz, mono), web (44.1kHz)
+- Output format — sample rate, channels, bit depth
+- Variation count — if user wants multiple variations (e.g., "5 footstep variations")
 
-**Create the project folder** immediately after parsing:
+Create the project folder immediately after parsing:
 ```python
 import os
 SFX_NAME = '{sfx-name}'
@@ -40,30 +40,30 @@ This produces the folder structure:
 
 Use WebSearch for 4-8 queries across 3 batches. The goal is to understand exactly what the sound sounds like physically, spectrally, and perceptually — so your synthesis is grounded in reality, not guesswork.
 
-**Batch 1 — Physical Acoustics (2-3 queries):**
+Batch 1 — Physical Acoustics (2-3 queries):
 Research how the real-world sound is physically produced:
 - What physical interaction creates the sound? (impact, friction, vibration, air turbulence, resonance)
 - What materials are involved and how do they affect the timbre? (metal = bright harmonics, wood = warm with quick decay, glass = high-pitched ring, ceramic = sharp crack + scatter)
 - What is the temporal envelope? (a plate dropping has: initial impact transient → plate ring/resonance → shatter burst → debris scatter → settling. Each phase has different character)
 - Search: `"[sound] sound design" frequency spectrum`, `"[sound] acoustic properties"`, `"what does [sound] sound like" waveform`
 
-**Batch 2 — Sound Design Techniques (1-3 queries):**
+Batch 2 — Sound Design Techniques (1-3 queries):
 Research how professionals recreate or synthesize this sound:
 - How do game audio / film sound designers create this effect? What layers do they use?
 - What synthesis techniques best approximate it? (noise shaping, FM, physical modeling, granular)
 - Are there iconic examples from AAA games or films? What made them memorable?
 - Search: `"[sound] sound design tutorial"`, `"[sound] foley technique"`, `site:reddit.com/r/gameaudio [sound]`, `site:designingsound.org [sound]`
 
-**Batch 3 — Reference & Deep Dive (1-2 queries):**
+Batch 3 — Reference & Deep Dive (1-2 queries):
 Use `WebFetch` on the top 1-2 most relevant URLs from Batch 1-2 to extract full details. Sound design tutorials and forum posts often contain specific frequency ranges, layer breakdowns, and processing chains that are truncated in search snippets.
 
-**What to extract from research:**
-- **Frequency profile** — what frequency bands define this sound? (e.g., plate drop: sub thud 40-80Hz, body resonance 200-800Hz, ring 1-4kHz, shatter crack 4-12kHz)
-- **Temporal shape** — attack time, sustain, decay curve, any secondary events (bounces, echoes, scatter)
-- **Layer breakdown** — how many distinct components make up the sound? (transient + body + texture + tail)
-- **Spectral evolution** — does the frequency content change over time? (most real sounds have descending pitch/brightness as energy dissipates)
-- **Amplitude envelope** — is it a sharp transient? A swell? Multiple impacts? What's the dynamic shape?
-- **Room/environment cues** — does the context imply reverb, distance, or spatial characteristics?
+What to extract from research:
+- Frequency profile — what frequency bands define this sound? (e.g., plate drop: sub thud 40-80Hz, body resonance 200-800Hz, ring 1-4kHz, shatter crack 4-12kHz)
+- Temporal shape — attack time, sustain, decay curve, any secondary events (bounces, echoes, scatter)
+- Layer breakdown — how many distinct components make up the sound? (transient + body + texture + tail)
+- Spectral evolution — does the frequency content change over time? (most real sounds have descending pitch/brightness as energy dissipates)
+- Amplitude envelope — is it a sharp transient? A swell? Multiple impacts? What's the dynamic shape?
+- Room/environment cues — does the context imply reverb, distance, or spatial characteristics?
 
 This research is critical for realistic synthesis. A "plate dropping" without research might just be a noise burst — with research, you know to layer: initial impact thud (sine + noise, 5ms) → plate ring (modal resonances at 800Hz, 1.6kHz, 3.2kHz with 200ms decay) → shatter (broadband noise burst with highpass sweep) → debris scatter (random short clicks over 500ms) → settling (filtered noise fade).
 
@@ -90,11 +90,11 @@ os.makedirs(SFX_DIR, exist_ok=True)
 ```
 
 Key principles for SFX:
-- **Envelope is everything** — the attack/decay shape defines what a sound "is" more than the frequency content. A 2ms attack with 50ms decay = click. Same frequencies with 200ms attack = swell.
-- **Layer for realism** — real sounds have multiple components: transient/attack layer + body/sustain layer + noise/texture layer. Build each separately then mix.
-- **Noise sculpting** — many SFX are filtered/shaped noise. Bandpass sweep through noise = whoosh. Short noise burst with resonant filter = impact. Pitched noise with fast envelope = hit.
-- **Frequency sweep = movement** — rising frequency = approaching/powering up. Falling = receding/powering down. This is universal in sound design.
-- **No music theory needed** — no chords, scales, melodies, or song structure. Pure sound design.
+- Envelope is everything — the attack/decay shape defines what a sound "is" more than the frequency content. A 2ms attack with 50ms decay = click. Same frequencies with 200ms attack = swell.
+- Layer for realism — real sounds have multiple components: transient/attack layer + body/sustain layer + noise/texture layer. Build each separately then mix.
+- Noise sculpting — many SFX are filtered/shaped noise. Bandpass sweep through noise = whoosh. Short noise burst with resonant filter = impact. Pitched noise with fast envelope = hit.
+- Frequency sweep = movement — rising frequency = approaching/powering up. Falling = receding/powering down. This is universal in sound design.
+- No music theory needed — no chords, scales, melodies, or song structure. Pure sound design.
 
 Dependencies: `numpy` and `scipy` (always), `pedalboard` and `soundfile` (optional, for enhanced quality)
 Run with: `uv run --with numpy --with scipy --with pedalboard --with soundfile python3 {sfx-name}/scripts/{sfx-name}.py`
@@ -103,13 +103,13 @@ Run with: `uv run --with numpy --with scipy --with pedalboard --with soundfile p
 
 Consult [dsp-core.md](../../shared/references/dsp-core.md) for DSP primitives and [effects.md](../../shared/references/effects.md) for effects.
 
-**DSP — Non-Negotiable:**
+DSP — Non-Negotiable:
 - Always use `sosfilt` with `butter(output='sos')` — NEVER `lfilter` with `ba` form
 - sosfilt zi shape: always `np.zeros((sos.shape[0], 2))`
 - Use PolyBLEP oscillators for saw/square waves
 - Use Freeverb for reverb (never random delay taps)
 
-**Click/Pop Prevention — Non-Negotiable:**
+Click/Pop Prevention — Non-Negotiable:
 - Minimum 1ms attack on all envelopes (0.5ms for very short transients)
 - Minimum 5ms release on all envelopes
 - Cosine fade at edges (2ms minimum)
@@ -117,7 +117,7 @@ Consult [dsp-core.md](../../shared/references/dsp-core.md) for DSP primitives an
 - Linear interpolation for modulated delay lines
 - Final soft-clip + 2ms cosine fade edges on output
 
-**SFX-Specific:**
+SFX-Specific:
 - Mono output by default for game audio (stereo if user requests or context requires)
 - Support both 44.1kHz and 48kHz sample rates (default 48kHz for games, 44.1kHz for general)
 - Keep file sizes small — trim silence, normalize to -1 dBFS
@@ -137,7 +137,7 @@ Validate:
 
 Present to user:
 - Output file path (e.g., `{sfx-name}/{sfx-name}.wav`), duration, sample rate, channels
-- **Project folder structure** — `{sfx-name}/scripts/` contains generation code, output is at the top level
+- Project folder structure — `{sfx-name}/scripts/` contains generation code, output is at the top level
 - Description of synthesis technique used
 - Key parameters that can be tweaked (with specific variable names and ranges)
 - Suggest variations if applicable
@@ -172,10 +172,10 @@ Common SFX tweaks: shorter/longer, punchier/softer, higher/lower pitch, more/les
 - [references/iteration-sfx.md](references/iteration-sfx.md) — SFX refinement mappings
 
 ## Important Notes
-- **Project folder structure** — each SFX gets its own folder: `{sfx-name}/scripts/` for code, `{sfx-name}/{sfx-name}.wav` for output. This prevents overwrites and keeps things organized
+- Project folder structure — each SFX gets its own folder: `{sfx-name}/scripts/` for code, `{sfx-name}/{sfx-name}.wav` for output. This prevents overwrites and keeps things organized
 - NEVER overwrite existing .wav files — version outputs (e.g., `{sfx-name}_v2.wav`)
 - Script must be 100% self-contained — no external sample files
-- All scripts run from the **project root**, not from inside the SFX folder
+- All scripts run from the project root, not from inside the SFX folder
 - For game audio, consider offering multiple variations with seeded randomness
 - Default to mono 48kHz for game audio, stereo 44.1kHz for video/general
 - Keep sounds tight — trim silence, avoid unnecessary reverb tails

@@ -482,22 +482,22 @@ TRANSITIONS_EXTENDED = {
 
 ### Practical Singing Range
 
-Most melodies should stay within **1 to 1.5 octaves** for singability.
+Most melodies should stay within 1 to 1.5 octaves for singability.
 
-- **Verse melodies**: use the lower portion of the range (intimate, conversational)
-- **Chorus melodies**: push higher (emotional peak, energy lift)
-- **Bridge**: can briefly exceed the range for dramatic effect
-- **Rap/spoken**: keep within 1 octave centered around speaking pitch
-- **Default safe range for pop**: A3–D5 (covers most untrained singers)
+- Verse melodies: use the lower portion of the range (intimate, conversational)
+- Chorus melodies: push higher (emotional peak, energy lift)
+- Bridge: can briefly exceed the range for dramatic effect
+- Rap/spoken: keep within 1 octave centered around speaking pitch
+- Default safe range for pop: A3–D5 (covers most untrained singers)
 
 ### Modern Hip-Hop 12-Bar Verse
 
-Modern hip-hop increasingly uses **12-bar verses** (instead of traditional 16) for tighter energy:
+Modern hip-hop increasingly uses 12-bar verses (instead of traditional 16) for tighter energy:
 
-- **Bars 1-4**: Establish the flow/cadence, set the rhythmic pattern
-- **Bars 5-8**: Develop the idea, switch up the rhythm, add complexity
-- **Bars 9-12**: Punchline section, most memorable bars, highest impact
-- This leaves more room for **8-bar hooks** in the same song length
+- Bars 1-4: Establish the flow/cadence, set the rhythmic pattern
+- Bars 5-8: Develop the idea, switch up the rhythm, add complexity
+- Bars 9-12: Punchline section, most memorable bars, highest impact
+- This leaves more room for 8-bar hooks in the same song length
 - Two 12-bar verses + two 8-bar hooks = 40 bars (vs 48 with 16-bar verses)
 
 ## JSON Schemas

@@ -97,11 +97,11 @@ REFINEMENT_MAP = {
 
 ## How to Apply Refinements
 
-1. **Parse the user's request** — match keywords to the REFINEMENT_MAP keys. Multiple keywords can apply (e.g., "punchier and brighter" = two entries).
-2. **Identify parameters** — look at the `params` list to find the variables in the current script.
-3. **Apply the action** — follow the specific guidance in the `action` field.
-4. **Preserve the rest** — do not change unrelated parameters. The user's intent is surgical.
-5. **Re-run and validate** — execute the modified script and confirm the change is audible.
+1. Parse the user's request — match keywords to the REFINEMENT_MAP keys. Multiple keywords can apply (e.g., "punchier and brighter" = two entries).
+2. Identify parameters — look at the `params` list to find the variables in the current script.
+3. Apply the action — follow the specific guidance in the `action` field.
+4. Preserve the rest — do not change unrelated parameters. The user's intent is surgical.
+5. Re-run and validate — execute the modified script and confirm the change is audible.
 
 ### Multi-Keyword Requests
 
@@ -133,11 +133,11 @@ Examples:
 
 ### Rules
 
-1. **Never overwrite** — always increment the version number.
-2. **First version** is always `_v1`.
-3. **Check for existing files** before writing — find the highest existing version and increment.
-4. **Keep all versions** — let the user decide which to keep/delete.
-5. **Variation packs** use a sub-numbering: `footstep_v1_01.wav`, `footstep_v1_02.wav`, etc.
+1. Never overwrite — always increment the version number.
+2. First version is always `_v1`.
+3. Check for existing files before writing — find the highest existing version and increment.
+4. Keep all versions — let the user decide which to keep/delete.
+5. Variation packs use a sub-numbering: `footstep_v1_01.wav`, `footstep_v1_02.wav`, etc.
 
 ### Version Detection
 

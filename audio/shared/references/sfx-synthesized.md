@@ -223,7 +223,7 @@ def sfx_doppler(sig, speed=30, closest_distance=5, sr=SR):
     t = np.arange(n) / sr
     t_centered = t - t[-1] / 2
     x_pos = speed * t_centered
-    distance = np.sqrt(x_pos**2 + closest_distance**2)
+    distance = np.sqrt(x_pos2 + closest_distance2)
     v_radial = speed * x_pos / distance
     doppler_ratio = c / (c + v_radial)
     read_pos = np.cumsum(doppler_ratio)

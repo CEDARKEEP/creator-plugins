@@ -13,34 +13,34 @@ You are an image processing specialist. The user provides source image(s) and de
 ### Step 1: Understand the Request
 
 Parse for:
-- **Source image(s)** — file path(s) to the input image(s). Verify they exist.
-- **Operation type** — what transformation is needed:
-  - **Resize** — change dimensions (specify width, height, or both)
-  - **Convert** — change format (PNG → WebP, SVG → PNG, etc.)
-  - **Crop** — remove edges or extract a region
-  - **Pad** — add padding/letterboxing to fit a target aspect ratio
-  - **Trim** — remove whitespace/transparent borders
-  - **Enhance** — adjust sharpness, contrast, brightness, or color
-  - **Batch** — apply the same transformation to multiple images or generate multiple sizes from one source
-- **Target dimensions** — specific pixels (e.g., 200×200) or scale factor (e.g., 50%)
-- **Target format** — PNG, JPG, WebP, AVIF, ICO
-- **Quality settings** — lossless vs lossy, compression level, JPG quality (1-100)
-- **Fit mode** — how to handle aspect ratio mismatch:
-  - **contain** (default) — fit within target dimensions, preserve aspect ratio, add padding if needed
-  - **cover** — fill target dimensions, crop overflow
-  - **stretch** — force exact dimensions (distorts)
-  - **fit** — resize to fit within dimensions, no padding (output may be smaller than target)
-- **Background color** — for padding or transparency replacement (default: transparent for PNG, white for JPG)
-- **Output path** — where to save. Default: same directory as source, with suffix (e.g., `logo_200x200.png`)
+- Source image(s) — file path(s) to the input image(s). Verify they exist.
+- Operation type — what transformation is needed:
+  - Resize — change dimensions (specify width, height, or both)
+  - Convert — change format (PNG → WebP, SVG → PNG, etc.)
+  - Crop — remove edges or extract a region
+  - Pad — add padding/letterboxing to fit a target aspect ratio
+  - Trim — remove whitespace/transparent borders
+  - Enhance — adjust sharpness, contrast, brightness, or color
+  - Batch — apply the same transformation to multiple images or generate multiple sizes from one source
+- Target dimensions — specific pixels (e.g., 200×200) or scale factor (e.g., 50%)
+- Target format — PNG, JPG, WebP, AVIF, ICO
+- Quality settings — lossless vs lossy, compression level, JPG quality (1-100)
+- Fit mode — how to handle aspect ratio mismatch:
+  - contain (default) — fit within target dimensions, preserve aspect ratio, add padding if needed
+  - cover — fill target dimensions, crop overflow
+  - stretch — force exact dimensions (distorts)
+  - fit — resize to fit within dimensions, no padding (output may be smaller than target)
+- Background color — for padding or transparency replacement (default: transparent for PNG, white for JPG)
+- Output path — where to save. Default: same directory as source, with suffix (e.g., `logo_200x200.png`)
 
-**Preset detection** — recognize common workflows:
+Preset detection — recognize common workflows:
 - "social media kit" → batch resize for all major platforms
 - "favicon" → generate multi-size favicon set
 - "thumbnail ready" → resize/crop to 1280×720
 - "web optimized" → convert to WebP with quality optimization
 - "retina" → generate 1x and 2x versions
 
-**Check source image:**
+Check source image:
 ```bash
 uv run --with Pillow python3 -c "
 from PIL import Image
@@ -97,7 +97,7 @@ Generate a self-contained Python script and execute with Pillow:
 uv run --with Pillow python3 {script_path}
 ```
 
-**Script architecture:**
+Script architecture:
 
 ```python
 from PIL import Image, ImageFilter, ImageEnhance
@@ -143,13 +143,13 @@ img = load_image(SOURCE)
 # ... transformation logic here ...
 ```
 
-**Resampling algorithm selection:**
-- **Downscale** → `Image.LANCZOS` (best quality for reduction)
-- **Upscale** → `Image.BICUBIC` (smooth enlargement)
-- **Pixel art** → `Image.NEAREST` (preserve sharp edges)
-- **Fast preview** → `Image.BILINEAR` (good enough, faster)
+Resampling algorithm selection:
+- Downscale → `Image.LANCZOS` (best quality for reduction)
+- Upscale → `Image.BICUBIC` (smooth enlargement)
+- Pixel art → `Image.NEAREST` (preserve sharp edges)
+- Fast preview → `Image.BILINEAR` (good enough, faster)
 
-**Format-specific export:**
+Format-specific export:
 ```python
 # PNG (lossless, supports transparency)
 img.save(path, "PNG", optimize=True)
@@ -190,13 +190,13 @@ for p in outputs:
 "
 ```
 
-**Validation checks:**
-1. **File exists** at expected path
-2. **Dimensions match** requested target (within 1px tolerance for rounding)
-3. **Format correct** — matches requested output format
-4. **File size reasonable** — not 0KB, not unexpectedly large
-5. **Mode correct** — RGBA for transparency, RGB for JPG
-6. **Visual integrity** — no corruption, proper aspect ratio maintained
+Validation checks:
+1. File exists at expected path
+2. Dimensions match requested target (within 1px tolerance for rounding)
+3. Format correct — matches requested output format
+4. File size reasonable — not 0KB, not unexpectedly large
+5. Mode correct — RGBA for transparency, RGB for JPG
+6. Visual integrity — no corruption, proper aspect ratio maintained
 
 ### Step 5: Present Results
 
@@ -219,37 +219,37 @@ All files saved to: ./output/
 Follow refinement workflow from [references/iteration-transform.md](references/iteration-transform.md).
 
 Common follow-up requests:
-- **"make it smaller/larger"** — re-resize with different dimensions
-- **"different format"** — re-export with new format
-- **"more compression"** — adjust quality parameter
-- **"add padding"** — switch to contain mode with specific background color
-- **"crop tighter"** — use cover mode or manual crop coordinates
-- **"sharpen it"** — apply `ImageEnhance.Sharpness` or `ImageFilter.SHARPEN`
-- **"also do [another image]"** — add to batch, re-run script
+- "make it smaller/larger" — re-resize with different dimensions
+- "different format" — re-export with new format
+- "more compression" — adjust quality parameter
+- "add padding" — switch to contain mode with specific background color
+- "crop tighter" — use cover mode or manual crop coordinates
+- "sharpen it" — apply `ImageEnhance.Sharpness` or `ImageFilter.SHARPEN`
+- "also do [another image]" — add to batch, re-run script
 
 ## Mandatory Quality Rules
 
-**Resampling — Non-Negotiable:**
+Resampling — Non-Negotiable:
 - ALWAYS use `Image.LANCZOS` for downscaling — NEVER use `Image.NEAREST` unless pixel art
 - ALWAYS use `Image.BICUBIC` for upscaling
 - NEVER upscale more than 4x without warning the user about quality loss
 
-**Transparency Handling — Non-Negotiable:**
+Transparency Handling — Non-Negotiable:
 - ALWAYS preserve alpha channel when converting PNG → PNG or PNG → WebP
 - When converting to JPG (no transparency), composite onto white background BEFORE saving
 - NEVER silently discard transparency — warn the user if format doesn't support it
 
-**Color Mode — Non-Negotiable:**
+Color Mode — Non-Negotiable:
 - Convert `P` (palette) and `PA` modes to `RGBA` before processing
 - Convert `CMYK` to `RGB` before saving for web formats
 - Use `RGB` mode for JPG output, `RGBA` for PNG/WebP with transparency
 
-**File Safety — Non-Negotiable:**
+File Safety — Non-Negotiable:
 - NEVER overwrite source files — always write to new path with descriptive suffix
 - Use descriptive output names: `{name}_{width}x{height}.{ext}`
 - Create output directory if it doesn't exist
 
-**SVG Input Handling:**
+SVG Input Handling:
 - Pillow cannot open SVG directly — use `cairosvg` for SVG → PNG conversion:
   ```bash
   uv run --with cairosvg --with Pillow python3 -c "
@@ -291,8 +291,8 @@ Quick reference for common platform dimensions:
 - [references/iteration-transform.md](references/iteration-transform.md) — Transformation refinement mappings
 
 ## Important Notes
-- **Execution:** All scripts run with `uv run --with Pillow python3 {script}` — no virtual environment needed
-- **SVG input** requires `cairosvg` package: `uv run --with cairosvg --with Pillow python3 {script}`
+- Execution: All scripts run with `uv run --with Pillow python3 {script}` — no virtual environment needed
+- SVG input requires `cairosvg` package: `uv run --with cairosvg --with Pillow python3 {script}`
 - NEVER overwrite source files — always output to new paths
 - For batch operations, generate a single script that handles all transformations (not one script per image)
 - Output file naming: `{original-name}_{width}x{height}.{format}` (e.g., `logo_200x200.webp`)

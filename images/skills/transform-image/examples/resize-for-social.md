@@ -1,10 +1,10 @@
 # Example: /transform-image social media kit from stripe-assets/logo/stripe-logo.png
 
 ## Request Parsing
-- **Source:** `stripe-assets/logo/stripe-logo.png` (512×512, PNG, RGBA)
-- **Operation:** Batch resize — social media kit
-- **Preset:** All major platform sizes
-- **Fit mode:** Contain (show full logo, pad with transparent background)
+- Source: `stripe-assets/logo/stripe-logo.png` (512×512, PNG, RGBA)
+- Operation: Batch resize — social media kit
+- Preset: All major platform sizes
+- Fit mode: Contain (show full logo, pad with transparent background)
 
 ## Transformation Plan
 

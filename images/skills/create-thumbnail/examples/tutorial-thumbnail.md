@@ -8,13 +8,13 @@
 
 ## Step 1: Parse
 
-- **Topic:** JavaScript tips for developers
-- **Text:** "5 JS TIPS" (distilled — "every developer needs" is too long for a thumbnail)
-- **Niche:** Tech / Programming / Web Development
-- **Style:** Listicle/Number + Tutorial hybrid (number-driven educational content)
-- **Images:** None provided — typography-forward design with code motif
-- **Name:** `5-js-tips`
-- **Project mode:** New project (default)
+- Topic: JavaScript tips for developers
+- Text: "5 JS TIPS" (distilled — "every developer needs" is too long for a thumbnail)
+- Niche: Tech / Programming / Web Development
+- Style: Listicle/Number + Tutorial hybrid (number-driven educational content)
+- Images: None provided — typography-forward design with code motif
+- Name: `5-js-tips`
+- Project mode: New project (default)
 
 ## Step 2: Research Findings
 

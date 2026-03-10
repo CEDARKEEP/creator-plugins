@@ -52,10 +52,10 @@ def auto_resonance_remove(sig, sr=SR, threshold_db=6, max_cuts=5):
 ### Mid/Side EQ
 
 The professional secret weapon for width and clarity:
-- **Cut sides below 200Hz** — mono bass for club/speaker compatibility
-- **Boost sides at 8-12kHz (+1-3dB)** — adds air/width without affecting center
-- **Boost mid at 3-5kHz (+1-2dB)** — vocal/lead presence
-- **Cut mid at 250-500Hz (-2dB)** — removes mud where bass and kick compete
+- Cut sides below 200Hz — mono bass for club/speaker compatibility
+- Boost sides at 8-12kHz (+1-3dB) — adds air/width without affecting center
+- Boost mid at 3-5kHz (+1-2dB) — vocal/lead presence
+- Cut mid at 250-500Hz (-2dB) — removes mud where bass and kick compete
 
 ```python
 def mid_side_eq(left, right, sr=SR):
@@ -130,8 +130,8 @@ def harmonic_exciter(sig, freq_range=(3000, 12000), drive=2.0, mix=0.15, sr=SR):
 
 ### The 3dB Rule
 
-- **Boosts**: gentle, broad (low Q 0.5-1.0, max +3dB)
-- **Cuts**: narrow, surgical (high Q 4-12, as deep as needed)
+- Boosts: gentle, broad (low Q 0.5-1.0, max +3dB)
+- Cuts: narrow, surgical (high Q 4-12, as deep as needed)
 - Philosophy: turn up what you like by 1-2dB; find what's bad and surgically remove it
 
 ---
@@ -140,7 +140,7 @@ def harmonic_exciter(sig, freq_range=(3000, 12000), drive=2.0, mix=0.15, sr=SR):
 
 ### Parallel (New York) Compression
 
-The compressed signal should be **severely** crushed (20:1, threshold -30dB). Blend it under the dry signal for density without losing transients.
+The compressed signal should be severely crushed (20:1, threshold -30dB). Blend it under the dry signal for density without losing transients.
 
 ```python
 def parallel_compress_pro(sig, sr=SR, dry_level=1.0, wet_level=0.4,
@@ -178,7 +178,7 @@ def serial_compress(sig, sr=SR):
 
 ### Multiband Compression Presets
 
-Standard 4-band crossovers: **100Hz | 1kHz | 8kHz**
+Standard 4-band crossovers: 100Hz | 1kHz | 8kHz
 
 ```python
 MULTIBAND_PRESETS = {
@@ -945,22 +945,22 @@ def export_wav_pro(filename, left, right, sr=SR, bit_depth=16, dither='modified_
 
 ### Dithering Rules
 
-- **Always** dither when going float/24-bit → 16-bit
-- **Never** dither at 24-bit or float (enough resolution)
-- **Only once** at the very final export step
-- **Never re-dither** an already-dithered file
+- Always dither when going float/24-bit → 16-bit
+- Never dither at 24-bit or float (enough resolution)
+- Only once at the very final export step
+- Never re-dither an already-dithered file
 
 ---
 
 ## Summary: Top 10 Amateur vs Professional Differences
 
-1. **Frequency management** — carve space per instrument with surgical cuts + gentle boosts
-2. **Dynamic control** — serial, parallel, and multiband compression (not one heavy comp)
-3. **Reverb discipline** — EQ returns (HPF 200-400Hz, LPF 6-10kHz), use pre-delay
-4. **Low-end management** — mono bass below 150-200Hz, sidechain kick/bass
-5. **Stereo imaging** — frequency-dependent width, mid/side processing
-6. **Saturation** — subtle analog-style coloring for warmth and glue
-7. **Transient control** — shape attack/sustain per element
-8. **Mastering targets** — platform-specific LUFS with true peak limiting
-9. **Automation** — EQ/compression/FX change across sections (chorus brighter, verse intimate)
-10. **Dithering** — proper TPDF with noise shaping for 16-bit export
+1. Frequency management — carve space per instrument with surgical cuts + gentle boosts
+2. Dynamic control — serial, parallel, and multiband compression (not one heavy comp)
+3. Reverb discipline — EQ returns (HPF 200-400Hz, LPF 6-10kHz), use pre-delay
+4. Low-end management — mono bass below 150-200Hz, sidechain kick/bass
+5. Stereo imaging — frequency-dependent width, mid/side processing
+6. Saturation — subtle analog-style coloring for warmth and glue
+7. Transient control — shape attack/sustain per element
+8. Mastering targets — platform-specific LUFS with true peak limiting
+9. Automation — EQ/compression/FX change across sections (chorus brighter, verse intimate)
+10. Dithering — proper TPDF with noise shaping for 16-bit export

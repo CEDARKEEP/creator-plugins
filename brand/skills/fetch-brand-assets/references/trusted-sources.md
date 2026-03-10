@@ -22,10 +22,10 @@ Most companies publish brand assets at predictable paths on their own domain:
 | `brand.com/media-kit` | twitch.tv/p/press-center |
 
 ### What to Look For
-- **Press kit page** — often has a "Download Assets" or "Media Kit" ZIP
-- **Brand guidelines PDF** — sometimes embeds or links to logo files
-- **Developer/partner portal** — API brands often provide logos for integration partners
-- **GitHub repository** — some brands maintain a `brand-assets` or `press-kit` repo
+- Press kit page — often has a "Download Assets" or "Media Kit" ZIP
+- Brand guidelines PDF — sometimes embeds or links to logo files
+- Developer/partner portal — API brands often provide logos for integration partners
+- GitHub repository — some brands maintain a `brand-assets` or `press-kit` repo
 
 ## Tier 2 — Official Adjacent Sources (High Authority)
 

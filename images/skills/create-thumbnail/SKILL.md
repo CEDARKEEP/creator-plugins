@@ -6,31 +6,31 @@ argument-hint: "[description of video topic, style, or text to display]"
 
 # YouTube Thumbnail Generator
 
-You are a graphic designer and thumbnail optimization expert. The user describes a video topic or thumbnail concept — you research the niche, then design and render **4 distinct thumbnail variations** as PNGs for A/B testing. Each variation explores a different approach (archetype, color, text, or layout) so the user can pick the strongest performer or iterate from the best starting point.
+You are a graphic designer and thumbnail optimization expert. The user describes a video topic or thumbnail concept — you research the niche, then design and render 4 distinct thumbnail variations as PNGs for A/B testing. Each variation explores a different approach (archetype, color, text, or layout) so the user can pick the strongest performer or iterate from the best starting point.
 
 ## Workflow
 
 ### Step 1: Understand the Request
 
 Parse for:
-- **Video topic / title** — what is the video about?
-- **Thumbnail text** — the headline words to display (3-5 words max). If the user provides a long title, distill it to the most impactful 2-4 words. If not specified, derive from the topic.
-- **Niche / audience** — tech, gaming, cooking, fitness, business, entertainment, etc.
-- **Style preferences** — colors, mood, archetype (e.g., "reaction style", "clean/minimal", "dramatic")
-- **User-provided images** — face photo, background image, product image, logo (local path or URL)
-- **Thumbnail name** — derive a kebab-case slug from the description/style (e.g., "epic coding tutorial" → `epic-coding-tutorial`). This becomes both the folder name and the composition name.
-- **Project mode** — ask the user which approach they prefer:
-  - **New project** (default) — scaffold a fresh Remotion project with `npx create-video@latest`
-  - **Existing project** — use an existing Remotion project the user points to (add a new composition)
-  - **Current directory** — scaffold in the current working directory
+- Video topic / title — what is the video about?
+- Thumbnail text — the headline words to display (3-5 words max). If the user provides a long title, distill it to the most impactful 2-4 words. If not specified, derive from the topic.
+- Niche / audience — tech, gaming, cooking, fitness, business, entertainment, etc.
+- Style preferences — colors, mood, archetype (e.g., "reaction style", "clean/minimal", "dramatic")
+- User-provided images — face photo, background image, product image, logo (local path or URL)
+- Thumbnail name — derive a kebab-case slug from the description/style (e.g., "epic coding tutorial" → `epic-coding-tutorial`). This becomes both the folder name and the composition name.
+- Project mode — ask the user which approach they prefer:
+  - New project (default) — scaffold a fresh Remotion project with `npx create-video@latest`
+  - Existing project — use an existing Remotion project the user points to (add a new composition)
+  - Current directory — scaffold in the current working directory
 
-**Check Node.js availability:**
+Check Node.js availability:
 ```bash
 node --version
 ```
 If Node.js is not available, inform the user and stop — Remotion requires Node.js 18+.
 
-**Final project structure** (after scaffolding + customization):
+Final project structure (after scaffolding + customization):
 ```
 {thumbnail-name}/
 ├── src/
@@ -53,62 +53,62 @@ If Node.js is not available, inform the user and stop — Remotion requires Node
 
 Use WebSearch for 4-6 queries across 2 batches. The goal is to understand what successful thumbnails in this niche look like — so your design is grounded in proven patterns, not guesswork.
 
-**Batch 1 — Thumbnail Patterns (2-3 queries):**
+Batch 1 — Thumbnail Patterns (2-3 queries):
 Research what top-performing thumbnails in this niche look like:
 - What colors, fonts, and layouts do successful creators in this niche use?
 - What emotional tone works best? (excitement, curiosity, authority, humor)
 - Search: `"[niche] youtube thumbnail design"`, `"best [niche] thumbnails 2025 2026"`, `"[niche] youtube thumbnail tips"`
 
-**Batch 2 — Visual Reference (1-2 queries):**
+Batch 2 — Visual Reference (1-2 queries):
 Use `WebFetch` on the top 1-2 most relevant URLs from Batch 1 to extract:
 - Specific color palettes used in the niche
 - Common thumbnail archetypes (face+text, tutorial, listicle, etc.)
 - Typography patterns (font styles, text placement, word count)
 - Visual motifs unique to the niche (e.g., code snippets for tech, food close-ups for cooking)
 
-**What to extract from research:**
-- **Color conventions** — what 2-3 colors dominate thumbnails in this niche?
-- **Archetype match** — which thumbnail template (from [thumbnail-archetypes.md](references/thumbnail-archetypes.md)) best fits this content?
-- **Text patterns** — how many words? ALL CAPS or Title Case? What kind of hooks work?
-- **Face convention** — do top creators show their face? What expressions?
-- **Visual motifs** — niche-specific elements (screenshots, products, icons, emojis)
+What to extract from research:
+- Color conventions — what 2-3 colors dominate thumbnails in this niche?
+- Archetype match — which thumbnail template (from [thumbnail-archetypes.md](references/thumbnail-archetypes.md)) best fits this content?
+- Text patterns — how many words? ALL CAPS or Title Case? What kind of hooks work?
+- Face convention — do top creators show their face? What expressions?
+- Visual motifs — niche-specific elements (screenshots, products, icons, emojis)
 
 ### Step 3: Design 4 Thumbnail Variations
 
-Using research insights, design **4 distinct variations** before writing any code. Each variation should differ meaningfully — not just minor color tweaks, but genuinely different approaches to grabbing attention.
+Using research insights, design 4 distinct variations before writing any code. Each variation should differ meaningfully — not just minor color tweaks, but genuinely different approaches to grabbing attention.
 
 #### Variation Strategy
 
-The 4 variations should explore different **axes of differentiation**:
+The 4 variations should explore different axes of differentiation:
 
 | Variation | Primary Differentiator | Example Contrast |
 |-----------|----------------------|------------------|
-| **V1 — Primary** | Best-match archetype from research | The "safe bet" based on what works in the niche |
-| **V2 — Alternative Archetype** | Different layout/archetype entirely | If V1 is Reaction Face, V2 could be Bold Text Only |
-| **V3 — Color/Font Swap** | Same layout as V1, different palette + font | If V1 is dark+Bebas, V3 could be vibrant+Bangers |
-| **V4 — Different Hook** | Different headline text or angle | If V1 says "MIND BLOWN", V4 says "YOU NEED THIS" |
+| V1 — Primary | Best-match archetype from research | The "safe bet" based on what works in the niche |
+| V2 — Alternative Archetype | Different layout/archetype entirely | If V1 is Reaction Face, V2 could be Bold Text Only |
+| V3 — Color/Font Swap | Same layout as V1, different palette + font | If V1 is dark+Bebas, V3 could be vibrant+Bangers |
+| V4 — Different Hook | Different headline text or angle | If V1 says "MIND BLOWN", V4 says "YOU NEED THIS" |
 
-**Mix at least 2 of these axes across the 4 variations:**
-- **Archetype** — different layout template (e.g., Face+Text vs Bold Text vs Listicle)
-- **Color palette** — complementary pair swap (e.g., blue/orange vs purple/yellow)
-- **Typography** — different font or text treatment (e.g., Bebas Neue vs Bangers vs Montserrat Black)
-- **Text/Hook** — different headline words or emotional angle (e.g., curiosity vs authority vs urgency)
-- **Layout direction** — mirrored placement (e.g., text-left/face-right vs text-right/face-left)
+Mix at least 2 of these axes across the 4 variations:
+- Archetype — different layout template (e.g., Face+Text vs Bold Text vs Listicle)
+- Color palette — complementary pair swap (e.g., blue/orange vs purple/yellow)
+- Typography — different font or text treatment (e.g., Bebas Neue vs Bangers vs Montserrat Black)
+- Text/Hook — different headline words or emotional angle (e.g., curiosity vs authority vs urgency)
+- Layout direction — mirrored placement (e.g., text-left/face-right vs text-right/face-left)
 
 #### Design Each Variation
 
 For each of the 4 variations, plan:
 
-1. **Archetype** from [thumbnail-archetypes.md](references/thumbnail-archetypes.md)
-2. **Color palette** (2-3 colors) from [color-theory.md](../../shared/references/color-theory.md)
-3. **Fonts** (1-2) from [font-guide.md](references/font-guide.md)
-4. **Layer structure** (bottom to top):
+1. Archetype from [thumbnail-archetypes.md](references/thumbnail-archetypes.md)
+2. Color palette (2-3 colors) from [color-theory.md](../../shared/references/color-theory.md)
+3. Fonts (1-2) from [font-guide.md](references/font-guide.md)
+4. Layer structure (bottom to top):
    - Layer 1: Background (solid color, gradient, or image with overlay)
    - Layer 2: Subject (face cutout, product image, screenshot — if applicable)
    - Layer 3: Graphic elements (arrows, badges, shapes, dividers — if applicable)
    - Layer 4: Text (headline, secondary text, labels)
    - Layer 5: Effects (glow, vignette, borders — if applicable)
-5. **Text placement** — within safe zones (see [youtube-thumbnail-specs.md](references/youtube-thumbnail-specs.md)), avoid bottom-right corner
+5. Text placement — within safe zones (see [youtube-thumbnail-specs.md](references/youtube-thumbnail-specs.md)), avoid bottom-right corner
 
 #### Present All 4 Designs
 
@@ -152,14 +152,14 @@ Consult [remotion-patterns.md](../../shared/references/remotion-patterns.md) for
 
 #### Option A: New Project (Default) — Manual Scaffold
 
-**Do NOT use `npx create-video@latest`** — it launches an interactive prompt wizard that cannot be automated in non-interactive shells. Instead, scaffold the project manually:
+Do NOT use `npx create-video@latest` — it launches an interactive prompt wizard that cannot be automated in non-interactive shells. Instead, scaffold the project manually:
 
-**1. Create the project structure:**
+1. Create the project structure:
 ```bash
 mkdir -p {thumbnail-name}/src {thumbnail-name}/public
 ```
 
-**2. Write `package.json`:**
+2. Write `package.json`:
 ```bash
 cat > {thumbnail-name}/package.json << 'EOF'
 {
@@ -190,9 +190,9 @@ cat > {thumbnail-name}/package.json << 'EOF'
 EOF
 ```
 
-> **Version note:** All `@remotion/*` and `remotion` packages MUST use the same version. Before writing package.json, check the latest version with `npm view remotion dist-tags --json` and use the `latest` tag value. Update ALL remotion-related packages to that version.
+> Version note: All `@remotion/*` and `remotion` packages MUST use the same version. Before writing package.json, check the latest version with `npm view remotion dist-tags --json` and use the `latest` tag value. Update ALL remotion-related packages to that version.
 
-**3. Write `tsconfig.json`:**
+3. Write `tsconfig.json`:
 ```bash
 cat > {thumbnail-name}/tsconfig.json << 'EOF'
 {
@@ -212,7 +212,7 @@ cat > {thumbnail-name}/tsconfig.json << 'EOF'
 EOF
 ```
 
-**4. Write `src/index.ts`** (entry point):
+4. Write `src/index.ts` (entry point):
 ```bash
 cat > {thumbnail-name}/src/index.ts << 'EOF'
 import {registerRoot} from 'remotion';
@@ -221,14 +221,14 @@ registerRoot(RemotionRoot);
 EOF
 ```
 
-**5. Install dependencies:**
+5. Install dependencies:
 ```bash
 cd {thumbnail-name} && npm install
 ```
 
 This approach is fully non-interactive, deterministic, and version-pinned.
 
-**Package capabilities reference** — use these to create richer designs:
+Package capabilities reference — use these to create richer designs:
 
 | Package | What It Enables | Example Usage |
 |---------|----------------|---------------|
@@ -256,7 +256,7 @@ If the user has an existing Remotion project they want to use:
 
 After scaffolding, you need to modify/create these files:
 
-**1. Modify `src/Root.tsx`** — Register all 4 variations as separate `<Still>` compositions:
+1. Modify `src/Root.tsx` — Register all 4 variations as separate `<Still>` compositions:
 
 ```tsx
 import { Still } from 'remotion';
@@ -279,7 +279,7 @@ export const RemotionRoot: React.FC = () => (
 );
 ```
 
-**2. Create 4 component files** — One per variation:
+2. Create 4 component files — One per variation:
 
 - `src/ThumbnailV1.tsx` — Primary design (best-match archetype)
 - `src/ThumbnailV2.tsx` — Alternative archetype or layout
@@ -296,13 +296,13 @@ Each component follows the same architecture:
 
 Components can share font imports by extracting them to a shared `src/fonts.ts` file if multiple variations use the same fonts.
 
-**3. Copy user assets** — If the user provided images, copy them to the `public/` directory. All 4 variations share the same `public/` folder.
+3. Copy user assets — If the user provided images, copy them to the `public/` directory. All 4 variations share the same `public/` folder.
 
 #### Mandatory Quality Rules
 
 Consult [typography-fundamentals.md](../../shared/references/typography-fundamentals.md) for text styling and [composition-principles.md](../../shared/references/composition-principles.md) for layout.
 
-**Text Readability — Non-Negotiable:**
+Text Readability — Non-Negotiable:
 - ALL text must have `-webkit-text-stroke` (3-6px) with `paintOrder: 'stroke fill'`
 - ALL text must have `textShadow` (minimum `3px 3px 6px rgba(0,0,0,0.7)`)
 - Headline font size: minimum 80px, maximum 160px
@@ -310,19 +310,19 @@ Consult [typography-fundamentals.md](../../shared/references/typography-fundamen
 - Use `fitText()` from `@remotion/layout-utils` when text length varies
 - Maximum 5 words in the headline
 
-**Layout — Non-Negotiable:**
+Layout — Non-Negotiable:
 - Use `<AbsoluteFill>` for every layer — DOM order = z-order
 - Safe zone padding: `paddingTop: 36, paddingBottom: 72, paddingLeft: 64, paddingRight: 64`
 - NEVER place critical text in the bottom-right 150×50px area (timestamp)
 - Use `<Img>` (not `<img>`) for all images — blocks render until loaded
 - Use `staticFile()` for local assets in `public/`
 
-**Fonts — Non-Negotiable:**
-- Load fonts at **module level** using `loadFont()` from `@remotion/google-fonts`
+Fonts — Non-Negotiable:
+- Load fonts at module level using `loadFont()` from `@remotion/google-fonts`
 - NEVER load fonts inside a component function
 - Destructure `fontFamily` and use it in styles
 
-**Colors — Non-Negotiable:**
+Colors — Non-Negotiable:
 - Maximum 3 colors in the palette
 - Background and text must have sufficient contrast (light text on dark bg or vice versa)
 - Stroke color should contrast with both text fill AND background
@@ -352,10 +352,10 @@ If a render fails:
 
 Run validation from [quality-validation-images.md](../../shared/references/quality-validation-images.md) on each output:
 
-1. **All 4 files exist** at `{thumbnail-name}/{thumbnail-name}-v1.png` through `-v4.png`
-2. **Dimensions:** 1280×720 each
-3. **File size:** < 2MB each
-4. **Format:** PNG
+1. All 4 files exist at `{thumbnail-name}/{thumbnail-name}-v1.png` through `-v4.png`
+2. Dimensions: 1280×720 each
+3. File size: < 2MB each
+4. Format: PNG
 
 Present all 4 variations to the user in a comparison format:
 
@@ -389,7 +389,7 @@ V4 — [short name] ✓
 Recommendation: V[X] is likely the strongest performer because [reason].
 ```
 
-**After presenting**, ask the user:
+After presenting, ask the user:
 - Which variation(s) do they like best?
 - Would they like to iterate on a specific variation?
 - Do they want to combine elements from different variations? (e.g., V1's layout + V3's colors)
@@ -435,10 +435,10 @@ If the user wants to mix elements (e.g., "V1's layout with V3's colors"):
 - [references/iteration-thumbnail.md](references/iteration-thumbnail.md) — Thumbnail refinement mappings
 
 ## Important Notes
-- **4 variations by default** — always generate 4 distinct thumbnail variations for A/B testing. Each should differ meaningfully (archetype, colors, fonts, or text hook).
-- **Project folder structure** — each thumbnail set gets its own folder: `{thumbnail-name}/src/` for code (4 component files), `{thumbnail-name}/public/` for shared assets, `{thumbnail-name}/{thumbnail-name}-v1.png` through `-v4.png` for outputs
+- 4 variations by default — always generate 4 distinct thumbnail variations for A/B testing. Each should differ meaningfully (archetype, colors, fonts, or text hook).
+- Project folder structure — each thumbnail set gets its own folder: `{thumbnail-name}/src/` for code (4 component files), `{thumbnail-name}/public/` for shared assets, `{thumbnail-name}/{thumbnail-name}-v1.png` through `-v4.png` for outputs
 - NEVER overwrite existing .png files — iteration outputs use `-vX-rY.png` naming (variation X, revision Y)
-- All commands run from the **project root** (parent of `{thumbnail-name}/`), except render commands which `cd` into the project
+- All commands run from the project root (parent of `{thumbnail-name}/`), except render commands which `cd` into the project
 - Node.js 18+ and npm must be available
 - The Remotion project can be opened in VS Code or any editor for manual tweaking
 - For photo-based thumbnails, the user must provide images — the skill does NOT generate photographs

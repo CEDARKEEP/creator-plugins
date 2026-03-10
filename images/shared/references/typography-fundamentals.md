@@ -7,19 +7,19 @@ Font and text layout knowledge for all image skills.
 ### Display / Impact Fonts (Headlines)
 Best for: Primary headline text that needs to grab attention instantly.
 
-- **Condensed sans-serif** (Bebas Neue, Anton, Oswald) — tall, narrow, maximizes text size in limited space
-- **Black-weight sans-serif** (Montserrat Black, Poppins Black, Inter Black) — heavy, modern, clean
-- **Novelty display** (Bangers, Permanent Marker, Black Ops One) — personality-driven, niche-specific
+- Condensed sans-serif (Bebas Neue, Anton, Oswald) — tall, narrow, maximizes text size in limited space
+- Black-weight sans-serif (Montserrat Black, Poppins Black, Inter Black) — heavy, modern, clean
+- Novelty display (Bangers, Permanent Marker, Black Ops One) — personality-driven, niche-specific
 
 ### Body / Support Fonts (Secondary Text)
 Best for: Subtitles, descriptions, badges, supporting info.
 
-- **Clean sans-serif** (Roboto, Open Sans, Lato) — highly legible, neutral
-- **Medium-weight condensed** (Roboto Condensed, Barlow Condensed) — compact, professional
+- Clean sans-serif (Roboto, Open Sans, Lato) — highly legible, neutral
+- Medium-weight condensed (Roboto Condensed, Barlow Condensed) — compact, professional
 
 ### Rule: Maximum 2 Fonts Per Image
-- One **display/impact** font for the headline
-- One **clean/neutral** font for secondary text (optional)
+- One display/impact font for the headline
+- One clean/neutral font for secondary text (optional)
 - Using more than 2 fonts creates visual clutter
 
 ## Font Weight Recommendations
@@ -31,7 +31,7 @@ Best for: Subtitles, descriptions, badges, supporting info.
 | Badge / label text | Bold or Semi-Bold | `600` or `700` |
 | Body text (rare in thumbnails) | Regular | `400` |
 
-**Key insight:** Font weight matters MORE than font size for thumbnail readability. An 80px bold font reads better than a 100px regular weight at small sizes.
+Key insight: Font weight matters MORE than font size for thumbnail readability. An 80px bold font reads better than a 100px regular weight at small sizes.
 
 ## Font Size Guidelines
 
@@ -68,9 +68,9 @@ style={{ lineHeight: 1.15 }}  // Normal — for longer text
 
 Structure text elements with clear visual priority:
 
-1. **Primary headline** — largest, boldest, highest contrast. This is what viewers read first.
-2. **Secondary text** — smaller, lighter weight or different color. Supports the headline.
-3. **Accent text** — badges, labels, numbers. Uses accent color for emphasis.
+1. Primary headline — largest, boldest, highest contrast. This is what viewers read first.
+2. Secondary text — smaller, lighter weight or different color. Supports the headline.
+3. Accent text — badges, labels, numbers. Uses accent color for emphasis.
 
 Example hierarchy:
 ```
@@ -90,7 +90,7 @@ style={{ textTransform: 'uppercase' }}
 style={{ textTransform: 'capitalize' }}
 ```
 
-**Recommendation:** Use ALL CAPS for primary headlines in thumbnails. It maximizes visual weight and impact.
+Recommendation: Use ALL CAPS for primary headlines in thumbnails. It maximizes visual weight and impact.
 
 ## CSS Text Effects
 
@@ -121,7 +121,7 @@ style={{
 }}
 ```
 
-**Stroke sizing rule:** `stroke-width = fontSize * 0.03` to `fontSize * 0.06`
+Stroke sizing rule: `stroke-width = fontSize * 0.03` to `fontSize * 0.06`
 
 ### Text Shadow (Drop Shadow)
 
@@ -154,7 +154,7 @@ style={{
 }}
 ```
 
-**Note:** Gradient text does NOT work with `-webkit-text-stroke`. Use `text-shadow` for outline effect when using gradient fills.
+Note: Gradient text does NOT work with `-webkit-text-stroke`. Use `text-shadow` for outline effect when using gradient fills.
 
 ### Combined Effect (Recommended Default)
 
@@ -177,21 +177,21 @@ style={{
 ## Text Placement Rules
 
 ### Safe Zones
-- **10% margin** from all edges (128px horizontal, 72px vertical at 1280×720)
-- **Avoid bottom-right 15%** — YouTube's timestamp overlay covers this area
-- **Avoid bottom 10%** — title text and progress bar overlap here
+- 10% margin from all edges (128px horizontal, 72px vertical at 1280×720)
+- Avoid bottom-right 15% — YouTube's timestamp overlay covers this area
+- Avoid bottom 10% — title text and progress bar overlap here
 
 ### Alignment Patterns
-- **Left-aligned, vertically centered** — most common for face+text thumbnails
-- **Center-aligned, center** — bold text-only thumbnails
-- **Left-aligned, bottom-left** — editorial/news style
-- **Split layout** — text on one side, image on the other (50/50 or 40/60)
+- Left-aligned, vertically centered — most common for face+text thumbnails
+- Center-aligned, center — bold text-only thumbnails
+- Left-aligned, bottom-left — editorial/news style
+- Split layout — text on one side, image on the other (50/50 or 40/60)
 
 ## Anti-Patterns
 
-- **Never use thin/light font weights** — invisible at thumbnail size
-- **Never use script/cursive fonts** — unreadable at small sizes
-- **Never put text over busy image areas** without a shadow or overlay — becomes illegible
-- **Never use more than 5 words** in the primary headline — viewers spend <2 seconds on thumbnails
-- **Never skip text stroke** — even white text on dark backgrounds benefits from stroke for definition
-- **Never use font sizes below 30px** — completely invisible in search results
+- Never use thin/light font weights — invisible at thumbnail size
+- Never use script/cursive fonts — unreadable at small sizes
+- Never put text over busy image areas without a shadow or overlay — becomes illegible
+- Never use more than 5 words in the primary headline — viewers spend <2 seconds on thumbnails
+- Never skip text stroke — even white text on dark backgrounds benefits from stroke for definition
+- Never use font sizes below 30px — completely invisible in search results

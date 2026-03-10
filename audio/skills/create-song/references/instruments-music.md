@@ -32,7 +32,7 @@ def synth_kick(duration=0.5, freq_start=180, freq_end=45, click_freq=1000,
     return kick / np.max(np.abs(kick) + 1e-10)
 ```
 
-**Key parameters:**
+Key parameters:
 - `freq_start` 120-350 Hz (higher = more attack click)
 - `freq_end` 30-65 Hz (fundamental pitch)
 - `body_decay` 80-400ms (shorter = tighter, longer = boomy)
@@ -566,7 +566,7 @@ Use with: `sig = sin(2*pi*fc*t + index * sin(2*pi*fc*ratio*t))`
 
 ## Octave/Register Guidelines
 
-**Favor lower/mid registers for warmth:**
+Favor lower/mid registers for warmth:
 - Sub bass: octave 1-2 (30-120 Hz)
 - Bass: octave 2-3 (60-250 Hz)
 - Pads: root in octave 3 (130-260 Hz)

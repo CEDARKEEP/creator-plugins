@@ -65,14 +65,14 @@ If file size exceeds limit:
 
 ### 5. Text Readability Test
 
-The most critical validation for thumbnails. Text must be readable at **mobile preview size** (160×90 pixels).
+The most critical validation for thumbnails. Text must be readable at mobile preview size (160×90 pixels).
 
-**Mental simulation:**
+Mental simulation:
 - Imagine the thumbnail shrunk to the size of a postage stamp
 - Can you still read the headline?
 - Can you identify the subject/face?
 
-**Common readability failures:**
+Common readability failures:
 - Font too small (< 60px at 1280×720)
 - Font weight too light (< 700)
 - Insufficient contrast between text and background
@@ -87,7 +87,7 @@ Verify no critical content in:
 - Bottom edge (title bar, progress bar)
 - Extreme edges (may be cropped on some devices)
 
-**Critical elements to keep in safe zone:**
+Critical elements to keep in safe zone:
 - All text
 - Faces (especially eyes)
 - Key graphic elements

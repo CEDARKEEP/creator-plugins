@@ -37,7 +37,7 @@ The existing codebase uses 2-sample PolyBLEP. Quality scales with polynomial ord
 | 6 | Cubic | Excellent to ~12kHz | High-quality offline |
 | 8 | Quartic | Near-perfect | Mastering quality |
 
-For offline numpy rendering, **4-sample PolyBLEP** is the sweet spot:
+For offline numpy rendering, 4-sample PolyBLEP is the sweet spot:
 
 ```python
 def polyblep4(phase, dt):
@@ -49,12 +49,12 @@ def polyblep4(phase, dt):
     # Near phase=0 (rising edge)
     mask1 = phase < dt2
     t1 = phase[mask1] / dt2  # 0 to 1
-    out[mask1] = -(t1**3 / 3 - t1**2 + t1 - 1/3)
+    out[mask1] = -(t13 / 3 - t12 + t1 - 1/3)
 
     # Near phase=1 (wrapping)
     mask2 = phase > (1.0 - dt2)
     t2 = (phase[mask2] - 1.0) / dt2  # -1 to 0
-    out[mask2] = -(t2**3 / 3 + t2**2 + t2 + 1/3)
+    out[mask2] = -(t23 / 3 + t22 + t2 + 1/3)
 
     return out
 
@@ -69,7 +69,7 @@ def saw_polyblep4(freq, duration, sr=44100):
 
 MinBLEP pre-computes a minimum-phase kernel from a windowed sinc, then inserts it at each discontinuity. Superior to PolyBLEP at high frequencies because the correction is exact in the band-limited sense.
 
-**Theory**: Start with a band-limited step (integrated sinc), window it, convert to minimum phase via cepstral technique, then differentiate to get the MinBLEP kernel.
+Theory: Start with a band-limited step (integrated sinc), window it, convert to minimum phase via cepstral technique, then differentiate to get the MinBLEP kernel.
 
 ```python
 def generate_minblep_table(n_zeros=16, oversampling=64):
@@ -137,7 +137,7 @@ def saw_minblep(freq, duration, minblep_table, oversampling, sr=44100):
     return output[:n]
 ```
 
-**When to use MinBLEP vs PolyBLEP**: MinBLEP is better when fundamentals exceed ~4kHz or for master-quality rendering. PolyBLEP is simpler and sufficient for most musical content. For a numpy offline renderer, MinBLEP with n_zeros=16 is effectively transparent.
+When to use MinBLEP vs PolyBLEP: MinBLEP is better when fundamentals exceed ~4kHz or for master-quality rendering. PolyBLEP is simpler and sufficient for most musical content. For a numpy offline renderer, MinBLEP with n_zeros=16 is effectively transparent.
 
 ### BLIT (Band-Limited Impulse Train)
 
@@ -485,7 +485,7 @@ def waveguide_flute(freq, duration=2.0, breath_pressure=0.4,
 
 ### Commuted Synthesis
 
-Key insight for efficiency: the body resonance of instruments (guitar body, piano soundboard) is a linear filter. Instead of modeling it in real-time, **convolve the excitation signal with the body impulse response**, then feed that into the string model. This is called "commuted" because we commute the order of operations.
+Key insight for efficiency: the body resonance of instruments (guitar body, piano soundboard) is a linear filter. Instead of modeling it in real-time, convolve the excitation signal with the body impulse response, then feed that into the string model. This is called "commuted" because we commute the order of operations.
 
 ```python
 def commuted_guitar(freq, duration=2.0, body_ir=None, sr=44100):
@@ -560,10 +560,10 @@ def waveguide_membrane(freq=80, duration=0.5, tension=0.5, damping=0.95, sr=4410
 
 ### Phase Modulation vs Frequency Modulation
 
-The DX7 and most "FM" synths actually use **Phase Modulation (PM)**, not true FM. The distinction matters:
+The DX7 and most "FM" synths actually use Phase Modulation (PM), not true FM. The distinction matters:
 
-- **True FM**: `y(t) = sin(2*pi*fc*t + I * integral(sin(2*pi*fm*t)))`
-- **Phase Modulation**: `y(t) = sin(2*pi*fc*t + I * sin(2*pi*fm*t))`
+- True FM: `y(t) = sin(2*pi*fc*t + I * integral(sin(2*pi*fm*t)))`
+- Phase Modulation: `y(t) = sin(2*pi*fc*t + I * sin(2*pi*fm*t))`
 
 PM is self-consistent (no DC drift from integration), and the spectrum is identical to FM when the modulator is a sine wave. The DX7 uses PM.
 
@@ -782,7 +782,7 @@ def fm_brass(freq, duration=1.0, attack_time=0.05, sr=44100):
 
 ### Multi-Carrier FM and Modulation Index Mathematics
 
-The FM spectrum of `sin(wc*t + I*sin(wm*t))` produces sidebands at `fc +/- n*fm` with amplitudes given by **Bessel functions** of the first kind:
+The FM spectrum of `sin(wc*t + I*sin(wm*t))` produces sidebands at `fc +/- n*fm` with amplitudes given by Bessel functions of the first kind:
 
 ```
 Amplitude of sideband n = J_n(I)
@@ -818,7 +818,7 @@ def fm_spectrum_amplitudes(mod_index, n_sidebands=20):
 
 ### Moog Ladder Filter (4-pole, 24dB/oct)
 
-The Moog ladder filter is four cascaded one-pole sections with nonlinear feedback. The key is the **tanh saturation** in the feedback path that creates the warm, fat sound:
+The Moog ladder filter is four cascaded one-pole sections with nonlinear feedback. The key is the tanh saturation in the feedback path that creates the warm, fat sound:
 
 ```python
 def moog_ladder(sig, cutoff, resonance=0.0, drive=1.0, sr=44100):
@@ -993,7 +993,7 @@ def oberheim_sem(sig, cutoff, resonance=0.5, mode='low', sr=44100):
 
 ### Zero-Delay Feedback (ZDF) Filter Topology
 
-Traditional digital filters (like the Chamberlin SVF) have an implicit one-sample delay in the feedback path, causing frequency warping and resonance instability at high frequencies. The ZDF approach solves this using the **trapezoidal integrator** (bilinear transform applied at the topology level):
+Traditional digital filters (like the Chamberlin SVF) have an implicit one-sample delay in the feedback path, causing frequency warping and resonance instability at high frequencies. The ZDF approach solves this using the trapezoidal integrator (bilinear transform applied at the topology level):
 
 ```python
 def zdf_svf(sig, cutoff, resonance=0.5, mode='low', sr=44100):
@@ -1051,10 +1051,10 @@ def zdf_svf(sig, cutoff, resonance=0.5, mode='low', sr=44100):
 
 "Analog warmth" is the combined effect of several nonlinear behaviors:
 
-1. **Soft saturation**: `tanh(x)` in feedback paths generates even harmonics
-2. **Component variation**: Capacitor/resistor tolerances cause slight detuning between filter stages
-3. **Thermal noise**: Low-level noise floor that "fills in" the sound
-4. **Asymmetric clipping**: Even harmonics from asymmetric transfer curves
+1. Soft saturation: `tanh(x)` in feedback paths generates even harmonics
+2. Component variation: Capacitor/resistor tolerances cause slight detuning between filter stages
+3. Thermal noise: Low-level noise floor that "fills in" the sound
+4. Asymmetric clipping: Even harmonics from asymmetric transfer curves
 
 ```python
 def analog_warmth(sig, amount=0.5, sr=44100):
@@ -1275,7 +1275,7 @@ Ableton's Granulator II by Robert Henke uses these principles:
 - Spray parameter = position randomization
 - Scan = automated source position movement
 - File position mapped to a 2D X-Y pad with interpolation
-- Critical detail: it uses **3x overlap** with Hann windows as default
+- Critical detail: it uses 3x overlap with Hann windows as default
 
 ---
 
@@ -1408,7 +1408,7 @@ def track_partials(sig, n_partials=30, fft_size=4096, hop_size=1024,
 
 ### Spectral Modeling Synthesis (SMS)
 
-SMS decomposes sound into **deterministic (sinusoidal)** + **stochastic (residual)** components:
+SMS decomposes sound into deterministic (sinusoidal) + stochastic (residual) components:
 
 ```python
 def sms_analyze(sig, n_partials=30, fft_size=4096, hop_size=1024, sr=44100):
@@ -1972,7 +1972,7 @@ def ocean_waves(duration, wave_period=8.0, sr=44100):
 
 ### FFT-Based Convolution: Overlap-Save vs Overlap-Add
 
-The existing codebase uses `fftconvolve` which is overlap-add internally. For low-latency applications, **partitioned convolution** is essential:
+The existing codebase uses `fftconvolve` which is overlap-add internally. For low-latency applications, partitioned convolution is essential:
 
 ```python
 def partitioned_convolution(sig, ir, block_size=1024):
@@ -2629,7 +2629,7 @@ def unison_detune(n_voices, max_cents, shape='linear'):
 | 7 | Classic supersaw | Trance, EDM, anthemic |
 | 9-16 | Massive, washy | Huge pads, ambient walls |
 
-Perceptual difference between 7 and 9 is small. **5-7 voices** is the production sweet spot.
+Perceptual difference between 7 and 9 is small. 5-7 voices is the production sweet spot.
 
 ### Stereo Supersaw
 

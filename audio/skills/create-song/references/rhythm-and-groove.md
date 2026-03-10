@@ -4,7 +4,7 @@ Drum patterns, swing, humanization, and rhythmic structures for all genres.
 
 ## Drum Patterns by Genre
 
-All patterns on a **16-step grid** (16th notes per bar of 4/4). Step 1=beat 1, 5=beat 2, 9=beat 3, 13=beat 4. Velocity 0-127.
+All patterns on a 16-step grid (16th notes per bar of 4/4). Step 1=beat 1, 5=beat 2, 9=beat 3, 13=beat 4. Velocity 0-127.
 
 ### Four-on-the-Floor (House / Techno / Disco)
 
@@ -14,9 +14,9 @@ Kick:  1  .  .  .  1  .  .  .  1  .  .  .  1  .  .  .   vel: 127
 Clap:  .  .  .  .  1  .  .  .  .  .  .  .  1  .  .  .   vel: 110
 ClHH:  1  .  1  .  1  .  1  .  1  .  1  .  1  .  1  .   vel: 100/70 alt
 ```
-- **House** (120-130): clap on 2,4; HH on 8ths
-- **Techno** (128-140): add 16th HH (ghost vel 40), ride on offbeats
-- **Disco** (115-130): **open HH on every upbeat** (steps 3,7,11,15) = defining feature
+- House (120-130): clap on 2,4; HH on 8ths
+- Techno (128-140): add 16th HH (ghost vel 40), ride on offbeats
+- Disco (115-130): open HH on every upbeat (steps 3,7,11,15) = defining feature
 
 ### Boom-Bap Hip Hop (85-95 BPM)
 
@@ -37,7 +37,7 @@ Kick:  1  .  .  .  .  .  .  .  .  .  1  1  .  .  .  .
 Snare: .  .  .  .  .  .  .  .  1  .  .  .  .  .  .  .   (beat 3 = half-time)
 808:   1  .  .  .  .  .  .  .  .  .  1  1  .  .  .  .   (follows kick, sustained)
 ```
-- **Hi-hat rolls**: 1/16 (all steps, accent on beats), 1/32 (2 per step), triplet rolls
+- Hi-hat rolls: 1/16 (all steps, accent on beats), 1/32 (2 per step), triplet rolls
 - Velocity ramps: start 50 -> peak 100 during rolls
 - 808 bass is sustained, follows kick rhythm
 
@@ -64,7 +64,7 @@ Cross: .  .  1  .  .  .  1  .  .  .  1  .  .  .  1  .   (upbeat skank)
 
 ### Jazz (130-220 BPM, swing)
 
-**Ride "spang-a-lang" (triplet grid, 12 pulses per bar):**
+Ride "spang-a-lang" (triplet grid, 12 pulses per bar):
 ```
 Pulse: 1  2  3  4  5  6  7  8  9 10 11 12
 Ride:  1  .  1  1  .  1  1  .  1  1  .  1   vel: 100/70 alt
@@ -106,9 +106,9 @@ ClHH:  1  .  1  .  1  .  1  .  1  .  1  .  1  .  1  .
 
 ### Metal
 
-- **Blast beat** (200-280): every 16th = kick + snare simultaneously
-- **Double bass** (160-220): continuous 16th kicks, standard snare backbeat
-- **Thrash** (180-230): kick on 8ths, snare on 2,4
+- Blast beat (200-280): every 16th = kick + snare simultaneously
+- Double bass (160-220): continuous 16th kicks, standard snare backbeat
+- Thrash (180-230): kick on 8ths, snare on 2,4
 
 ### Lo-fi Hip Hop (70-90 BPM)
 
@@ -182,7 +182,7 @@ def apply_swing(step_index, swing_ratio, bpm, subdivision='16th'):
 | Swing/Big Band | 0.63-0.67 | 32-42ms |
 | Blues shuffle | 0.67-0.75 | 42-62ms |
 
-**MPC equivalents:** MPC 50% = 0.50, MPC 58% = 0.58, MPC 66% = triplet swing, MPC 71% = heavy
+MPC equivalents: MPC 50% = 0.50, MPC 58% = 0.58, MPC 66% = triplet swing, MPC 71% = heavy
 
 ## Humanization
 
@@ -195,7 +195,7 @@ def humanize_timing(time_ms, sigma_ms):
     return time_ms + np.clip(offset, -sigma_ms*2.5, sigma_ms*2.5)
 ```
 
-**Sigma values by instrument and tightness:**
+Sigma values by instrument and tightness:
 
 | Instrument | Tight (electronic) | Medium (pop) | Loose (jazz/lo-fi) |
 |-----------|-------------------|-------------|---------------------|
@@ -288,8 +288,8 @@ def euclidean_rhythm(hits, steps):
 
 | Pattern | Result | Name/Usage |
 |---------|--------|-----------|
-| E(3,8) | `[1,0,0,1,0,0,1,0]` | **Tresillo** (Cuban, foundational) |
-| E(5,8) | `[1,0,1,1,0,1,1,0]` | **Cinquillo** (Cuban) |
+| E(3,8) | `[1,0,0,1,0,0,1,0]` | Tresillo (Cuban, foundational) |
+| E(5,8) | `[1,0,1,1,0,1,1,0]` | Cinquillo (Cuban) |
 | E(5,16) | `[1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,0]` | Bossa nova |
 | E(7,12) | `[1,0,1,1,0,1,0,1,1,0,1,0]` | West African bell |
 | E(7,16) | `[1,0,0,1,0,1,0,1,0,0,1,0,1,0,1,0]` | Samba |

@@ -57,7 +57,7 @@ def stereo_place(buf_L, buf_R, sound_L, sound_R, position_seconds):
 
 See [effects.md](effects.md) for `stereo_width()` (mid-side processing with sub-150Hz centering).
 
-**Panning positions** (keep sub-150Hz centered):
+Panning positions (keep sub-150Hz centered):
 
 | Element | Pan | Notes |
 |---------|-----|-------|
@@ -71,7 +71,7 @@ See [effects.md](effects.md) for `stereo_width()` (mid-side processing with sub-
 
 ## Oscillators (PolyBLEP Anti-Aliased)
 
-**Always use these** -- naive sawtooth/square alias badly above ~2kHz at 44100 Hz.
+Always use these -- naive sawtooth/square alias badly above ~2kHz at 44100 Hz.
 
 ```python
 def polyblep(phase, dt):
@@ -147,7 +147,7 @@ def additive_synth(freq, duration, amplitudes, sr=SR):
     return output
 ```
 
-**Amplitude falloff patterns:**
+Amplitude falloff patterns:
 
 | Waveform | Harmonic amplitudes | Harmonics present | Character |
 |----------|-------------------|-------------------|-----------|
@@ -175,7 +175,7 @@ def fm_synth_2op(carrier_freq, mod_ratio, mod_index_env, duration, sr=SR):
     return np.sin(2 * np.pi * carrier_freq * t + modulator)
 ```
 
-**FM ratios for specific timbres:**
+FM ratios for specific timbres:
 
 | Timbre | C:M Ratio | Mod Index | Notes |
 |--------|-----------|-----------|-------|
@@ -220,9 +220,9 @@ class WavetableOscillator:
 
 ## Filters (Always use sosfilt -- NEVER lfilter)
 
-**Critical**: `lfilter` with `butter` in `ba` form is numerically unstable for orders >= 4. Always use `output='sos'` and `sosfilt`. Max stable order with SOS: ~12.
+Critical: `lfilter` with `butter` in `ba` form is numerically unstable for orders >= 4. Always use `output='sos'` and `sosfilt`. Max stable order with SOS: ~12.
 
-**Rolloff rates**: Order N = N*6 dB/octave (order 4 = 24 dB/oct, classic synth filter).
+Rolloff rates: Order N = N*6 dB/octave (order 4 = 24 dB/oct, classic synth filter).
 
 ```python
 def lowpass(sig, cutoff, sr=SR, order=4):
@@ -265,7 +265,7 @@ def svf_lowpass(sig, cutoff_array, Q=1.0, sr=SR):
 
 ### Formant Filters (Vocal Synthesis)
 
-**Vowel formant frequencies (Hz, adult male voice):**
+Vowel formant frequencies (Hz, adult male voice):
 
 | Vowel | F1 | F2 | F3 | Bandwidth |
 |-------|-----|------|------|-----------|
@@ -275,7 +275,7 @@ def svf_lowpass(sig, cutoff_array, Q=1.0, sr=SR):
 | /o/ (oh) | 500 | 700 | 2800 | Similar |
 | /u/ (oo) | 300 | 640 | 2700 | Similar |
 
-**Filter choice guide:**
+Filter choice guide:
 
 | Use Case | Filter |
 |----------|--------|
@@ -286,7 +286,7 @@ def svf_lowpass(sig, cutoff_array, Q=1.0, sr=SR):
 
 ## Envelopes
 
-**Click prevention**: All envelopes enforce a minimum 2ms attack and apply cosine micro-fades at edges.
+Click prevention: All envelopes enforce a minimum 2ms attack and apply cosine micro-fades at edges.
 
 ```python
 def env_adsr(n_samples, attack=0.01, decay=0.05, sustain=0.7, release=0.1, sr=SR):
@@ -333,7 +333,7 @@ def env_swell(n_samples, attack_frac=0.5, decay_frac=0.5):
     return env
 ```
 
-**Exponential envelopes sound more natural** because human hearing is logarithmic. Linear ramps sound like they accelerate. For natural-sounding instruments, use exponential decay: `np.exp(-t * speed)`.
+Exponential envelopes sound more natural because human hearing is logarithmic. Linear ramps sound like they accelerate. For natural-sounding instruments, use exponential decay: `np.exp(-t * speed)`.
 
 ### Typical Envelope Shapes by Instrument
 
@@ -373,7 +373,7 @@ def bpm_to_ms(bpm, division=1): return 60000 / bpm * division
 def cents_to_ratio(cents): return 2 ** (cents / 1200.0)
 ```
 
-**Frequency ranges:**
+Frequency ranges:
 
 | Range | Hz | Content |
 |-------|------|---------|

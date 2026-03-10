@@ -2,7 +2,7 @@
 
 Drum patterns from Latin, Afro-Cuban, Brazilian, Middle Eastern, and Indian traditions. All patterns in Python data structures, ready to use.
 
-All patterns on a **16-step grid** (16th notes per bar of 4/4) unless noted. `1` = hit, `0` = rest. Velocity arrays use 0-127.
+All patterns on a 16-step grid (16th notes per bar of 4/4) unless noted. `1` = hit, `0` = rest. Velocity arrays use 0-127.
 
 ## Latin Patterns
 

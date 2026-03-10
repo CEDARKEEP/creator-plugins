@@ -21,23 +21,23 @@ Choose colors based on the emotional tone of the content:
 
 | Color | Emotion/Association | Best For |
 |-------|-------------------|----------|
-| **Red** `#ef4444` | Urgency, excitement, danger, passion | Reaction videos, breaking news, challenges |
-| **Orange** `#f97316` | Energy, warmth, enthusiasm, action | DIY, cooking, fitness, motivation |
-| **Yellow** `#eab308` | Attention, optimism, happiness, caution | Tips, warnings, educational, kids content |
-| **Green** `#22c55e` | Growth, money, nature, success, health | Finance, health, environment, tutorials |
-| **Blue** `#3b82f6` | Trust, calm, professionalism, tech | Tech reviews, business, science, tutorials |
-| **Purple** `#8b5cf6` | Luxury, creativity, mystery, wisdom | Premium content, art, mystery, music |
-| **Pink** `#ec4899` | Fun, playful, feminine, romantic | Lifestyle, beauty, entertainment |
-| **Black** `#000000` | Power, elegance, sophistication | Luxury, tech, drama, cinematic |
-| **White** `#ffffff` | Clean, minimal, pure, modern | Minimalist, medical, tech, professional |
+| Red `#ef4444` | Urgency, excitement, danger, passion | Reaction videos, breaking news, challenges |
+| Orange `#f97316` | Energy, warmth, enthusiasm, action | DIY, cooking, fitness, motivation |
+| Yellow `#eab308` | Attention, optimism, happiness, caution | Tips, warnings, educational, kids content |
+| Green `#22c55e` | Growth, money, nature, success, health | Finance, health, environment, tutorials |
+| Blue `#3b82f6` | Trust, calm, professionalism, tech | Tech reviews, business, science, tutorials |
+| Purple `#8b5cf6` | Luxury, creativity, mystery, wisdom | Premium content, art, mystery, music |
+| Pink `#ec4899` | Fun, playful, feminine, romantic | Lifestyle, beauty, entertainment |
+| Black `#000000` | Power, elegance, sophistication | Luxury, tech, drama, cinematic |
+| White `#ffffff` | Clean, minimal, pure, modern | Minimalist, medical, tech, professional |
 
 ## The 60-30-10 Rule
 
 Structure your color palette with clear hierarchy:
 
-- **60% — Dominant color** (background, large areas). Sets the mood.
-- **30% — Secondary color** (supporting elements, subject area). Creates contrast.
-- **10% — Accent color** (text highlights, badges, call-to-action). Draws the eye.
+- 60% — Dominant color (background, large areas). Sets the mood.
+- 30% — Secondary color (supporting elements, subject area). Creates contrast.
+- 10% — Accent color (text highlights, badges, call-to-action). Draws the eye.
 
 Example for a tech thumbnail:
 - 60%: Dark navy `#0f172a` (background)
@@ -48,14 +48,14 @@ Example for a tech thumbnail:
 
 ### Text Readability
 
-- **Minimum 30% brightness difference** between text and its immediate background
-- **Always use text stroke + shadow** on thumbnails — text must read on any background region
+- Minimum 30% brightness difference between text and its immediate background
+- Always use text stroke + shadow on thumbnails — text must read on any background region
 - White text (`#ffffff`) on dark backgrounds (`< #444`) = safe default
 - Dark text on light backgrounds needs less stroke but still benefits from shadow
 
 ### Subject-Background Separation
 
-- The main subject should be at least **30% brighter or darker** than the background
+- The main subject should be at least 30% brighter or darker than the background
 - Use a colored outline/glow (5-10px) around subjects for additional separation
 - If subject and background colors are similar, add a gradient overlay to create contrast
 
@@ -92,16 +92,16 @@ background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, 
 
 | Niche | Primary | Secondary | Accent | Background |
 |-------|---------|-----------|--------|------------|
-| **Tech/Programming** | Blue `#3b82f6` | White | Green/Orange | Dark `#0f172a` |
-| **Gaming** | Neon Green `#22d3ee` | Purple `#a855f7` | Red | Black `#0a0a0a` |
-| **Food/Cooking** | Warm Red `#dc2626` | Yellow `#facc15` | White | Warm neutral |
-| **Finance/Business** | Green `#16a34a` | Navy `#1e3a5f` | Gold `#f59e0b` | Dark or white |
-| **Fitness/Health** | Red `#ef4444` | Black | Yellow/Orange | Dark gradient |
-| **Beauty/Lifestyle** | Pink `#ec4899` | Purple `#a855f7` | Gold | Light or pastel |
-| **Education/Tutorial** | Blue `#2563eb` | White | Yellow `#eab308` | Clean light or dark |
-| **Entertainment/Comedy** | Yellow `#eab308` | Red `#ef4444` | White | Bright or dark |
-| **Music** | Purple `#7c3aed` | Pink `#ec4899` | White | Dark gradient |
-| **Travel/Nature** | Teal `#14b8a6` | Orange `#f97316` | White | Photo-based |
+| Tech/Programming | Blue `#3b82f6` | White | Green/Orange | Dark `#0f172a` |
+| Gaming | Neon Green `#22d3ee` | Purple `#a855f7` | Red | Black `#0a0a0a` |
+| Food/Cooking | Warm Red `#dc2626` | Yellow `#facc15` | White | Warm neutral |
+| Finance/Business | Green `#16a34a` | Navy `#1e3a5f` | Gold `#f59e0b` | Dark or white |
+| Fitness/Health | Red `#ef4444` | Black | Yellow/Orange | Dark gradient |
+| Beauty/Lifestyle | Pink `#ec4899` | Purple `#a855f7` | Gold | Light or pastel |
+| Education/Tutorial | Blue `#2563eb` | White | Yellow `#eab308` | Clean light or dark |
+| Entertainment/Comedy | Yellow `#eab308` | Red `#ef4444` | White | Bright or dark |
+| Music | Purple `#7c3aed` | Pink `#ec4899` | White | Dark gradient |
+| Travel/Nature | Teal `#14b8a6` | Orange `#f97316` | White | Photo-based |
 
 ## Color Palette Recipes
 
@@ -139,8 +139,8 @@ Stroke: #44403c (warm dark)
 
 ## Anti-Patterns
 
-- **Never use more than 3 colors** in a thumbnail — visual noise reduces readability
-- **Avoid pastel-on-pastel** — low contrast fails at small sizes
-- **Don't use red text on blue background** (or vice versa) — chromatic aberration makes it vibrate/blur
-- **Avoid pure white backgrounds** — they blend into YouTube's light mode UI. Use off-white `#f8fafc` or add a subtle border
-- **Don't match YouTube's red** `#ff0000` — your thumbnail merges with the UI instead of standing out
+- Never use more than 3 colors in a thumbnail — visual noise reduces readability
+- Avoid pastel-on-pastel — low contrast fails at small sizes
+- Don't use red text on blue background (or vice versa) — chromatic aberration makes it vibrate/blur
+- Avoid pure white backgrounds — they blend into YouTube's light mode UI. Use off-white `#f8fafc` or add a subtle border
+- Don't match YouTube's red `#ff0000` — your thumbnail merges with the UI instead of standing out

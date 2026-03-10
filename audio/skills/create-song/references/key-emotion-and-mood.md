@@ -187,6 +187,6 @@ def mood_to_params(mood):
 
 ## Cross-References
 
-- **Scales & chords**: See `music-theory.md` for scale formulas, chord construction, and voice leading
-- **Emotional arcs**: See `energy-and-engagement.md` for macro-level tension/release curves and 5-dimensional energy mapping
-- **Genre defaults**: See `genre-guide.md` for genre-specific BPM, scale, and mood defaults
+- Scales & chords: See `music-theory.md` for scale formulas, chord construction, and voice leading
+- Emotional arcs: See `energy-and-engagement.md` for macro-level tension/release curves and 5-dimensional energy mapping
+- Genre defaults: See `genre-guide.md` for genre-specific BPM, scale, and mood defaults

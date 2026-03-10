@@ -10,12 +10,12 @@ Every soundscape is built from 4 layer types, each serving a distinct role. The 
 
 The continuous foundation that defines the acoustic space. Without it, the soundscape feels hollow and disconnected. The bed should be audible at all times, even if very quiet.
 
-**By environment type:**
-- **Nature:** wind noise (bandpass brown/pink noise, 100-2000Hz), water flow (brown noise with slow modulation), leaf rustle (HP filtered noise with amplitude flutter)
-- **Urban:** traffic hum (low-passed brown noise, 60-400Hz), distant city drone (layered filtered noise at multiple bands), HVAC hum (narrow bandpass at 120Hz + harmonics)
-- **Abstract:** filtered noise pad (slowly sweeping bandpass), evolving drone (sine + slow FM), spectral freeze texture
+By environment type:
+- Nature: wind noise (bandpass brown/pink noise, 100-2000Hz), water flow (brown noise with slow modulation), leaf rustle (HP filtered noise with amplitude flutter)
+- Urban: traffic hum (low-passed brown noise, 60-400Hz), distant city drone (layered filtered noise at multiple bands), HVAC hum (narrow bandpass at 120Hz + harmonics)
+- Abstract: filtered noise pad (slowly sweeping bandpass), evolving drone (sine + slow FM), spectral freeze texture
 
-**Implementation pattern:**
+Implementation pattern:
 ```python
 def generate_bed_layer(duration, sr, seed=42):
     """Generate continuous bed layer using overlap-add for seamless noise."""
@@ -50,12 +50,12 @@ def generate_bed_layer(duration, sr, seed=42):
 
 Add character and movement to the bed. These are always-on but vary in intensity, creating the sense that the environment is alive.
 
-**By environment type:**
-- **Nature:** specific wind gusts (bandpass noise with amplitude swells, 200-1500Hz, 3-8s duration), water splashing patterns (short noise bursts with resonant filter), insect chorus (narrow bandpass noise at 3-8kHz with amplitude modulation at 5-15Hz)
-- **Urban:** distant voices (noise shaped by formant filters at 300, 800, 2500Hz), machinery rhythms (filtered noise with periodic amplitude envelope), traffic patterns (low noise with slow volume surges)
-- **Abstract:** granular textures (tiny noise grains with random pitch/timing), spectral drones (slowly morphing harmonic content), modulated feedback
+By environment type:
+- Nature: specific wind gusts (bandpass noise with amplitude swells, 200-1500Hz, 3-8s duration), water splashing patterns (short noise bursts with resonant filter), insect chorus (narrow bandpass noise at 3-8kHz with amplitude modulation at 5-15Hz)
+- Urban: distant voices (noise shaped by formant filters at 300, 800, 2500Hz), machinery rhythms (filtered noise with periodic amplitude envelope), traffic patterns (low noise with slow volume surges)
+- Abstract: granular textures (tiny noise grains with random pitch/timing), spectral drones (slowly morphing harmonic content), modulated feedback
 
-**Implementation pattern:**
+Implementation pattern:
 ```python
 def generate_texture_layer(duration, sr, center_freq=800, bandwidth=400,
                            mod_rate=0.05, seed=43):
@@ -88,12 +88,12 @@ def generate_texture_layer(duration, sr, center_freq=800, bandwidth=400,
 
 Discrete occurrences that punctuate the soundscape. These are what make a scene feel real and alive. Timing must be randomized — never on a grid.
 
-**By environment type:**
-- **Nature:** bird calls (FM synthesis, 1-4kHz, varied), branch snaps (short noise burst with sharp attack), thunder claps (sub boom + noise crack), water drips (Karplus-Strong, 1-3kHz), frog croaks (low FM, 100-400Hz)
-- **Urban:** car horn (sawtooth/square + bandpass, 300-600Hz), door slam (noise impact + resonance), footsteps (filtered noise clicks, varied timing), distant siren (sweeping sine, 600-1200Hz)
-- **Abstract:** tonal pings (sine with fast decay), glitch bursts (bit-crushed noise), metallic impacts (FM with high modulation index)
+By environment type:
+- Nature: bird calls (FM synthesis, 1-4kHz, varied), branch snaps (short noise burst with sharp attack), thunder claps (sub boom + noise crack), water drips (Karplus-Strong, 1-3kHz), frog croaks (low FM, 100-400Hz)
+- Urban: car horn (sawtooth/square + bandpass, 300-600Hz), door slam (noise impact + resonance), footsteps (filtered noise clicks, varied timing), distant siren (sweeping sine, 600-1200Hz)
+- Abstract: tonal pings (sine with fast decay), glitch bursts (bit-crushed noise), metallic impacts (FM with high modulation index)
 
-**Timing — Poisson distribution:**
+Timing — Poisson distribution:
 ```python
 def generate_poisson_event_times(duration, avg_events_per_minute, rng):
     """Generate random event times using Poisson process.
@@ -115,7 +115,7 @@ def generate_poisson_event_times(duration, avg_events_per_minute, rng):
     return np.array(times)
 ```
 
-**Variation is essential:**
+Variation is essential:
 - Pitch: vary by +/- 10-30% between occurrences
 - Volume: vary by +/- 6dB
 - Duration: vary by +/- 20%
@@ -126,13 +126,13 @@ def generate_poisson_event_times(duration, avg_events_per_minute, rng):
 
 Occasional surprises that prevent listener habituation. These are the sounds that make someone think "wow, this sounds so real." Maximum 1-3 per minute.
 
-**Examples by environment:**
-- **Forest:** distant airplane hum (very low, very quiet sine sweep), far-off dog bark, woodpecker (rapid clicking pattern)
-- **Ocean:** whale call (low FM sweep), distant boat motor, splash of a jumping fish
-- **City:** distant music from a window (filtered noise with rhythm), church bell, emergency vehicle far away
-- **Cave:** distant water echo, bat squeak (very high, very quiet), rock settling
+Examples by environment:
+- Forest: distant airplane hum (very low, very quiet sine sweep), far-off dog bark, woodpecker (rapid clicking pattern)
+- Ocean: whale call (low FM sweep), distant boat motor, splash of a jumping fish
+- City: distant music from a window (filtered noise with rhythm), church bell, emergency vehicle far away
+- Cave: distant water echo, bat squeak (very high, very quiet), rock settling
 
-**Implementation:** Same as events but with much lower density (0.3-1 per minute) and generally quieter (-12 to -18dB relative to bed).
+Implementation: Same as events but with much lower density (0.3-1 per minute) and generally quieter (-12 to -18dB relative to bed).
 
 ## Environment Recipes
 

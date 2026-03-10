@@ -21,7 +21,7 @@ Guide to image file formats for brand assets — when to use each, quality consi
 ```
 SVG > PNG (≥512px) > PDF > EPS > PNG (any) > JPG
 ```
-- **SVG is always preferred** — infinitely scalable, small file size, editable
+- SVG is always preferred — infinitely scalable, small file size, editable
 - PNG acceptable at ≥512px for raster workflows
 - Never accept JPG for logos (no transparency, compression artifacts on edges)
 

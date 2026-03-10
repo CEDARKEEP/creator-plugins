@@ -33,11 +33,11 @@ REFINEMENT_MAP = {
 
 ## How to Apply the Refinement Map
 
-1. **Parse the user's feedback** — match keywords to REFINEMENT_MAP entries
-2. **Identify the affected parameters** — use the `params` list to find the constants in the script
-3. **Apply the action** — follow the `action` description for specific adjustments
-4. **Preserve the seed** — keep `rng` seeds unchanged so only the requested aspect changes
-5. **Re-run and compare** — generate the new version and present both for comparison
+1. Parse the user's feedback — match keywords to REFINEMENT_MAP entries
+2. Identify the affected parameters — use the `params` list to find the constants in the script
+3. Apply the action — follow the `action` description for specific adjustments
+4. Preserve the seed — keep `rng` seeds unchanged so only the requested aspect changes
+5. Re-run and compare — generate the new version and present both for comparison
 
 ### Compound Requests
 
@@ -53,11 +53,11 @@ Users often combine multiple requests. Process each independently:
 
 If the user's request doesn't match a map entry, follow this process:
 
-1. **Identify the intent** — what sonic quality are they after?
-2. **Map to dimensions** — which evolution dimensions are affected? (density, activity, depth, brightness, movement)
-3. **Determine parameters** — which script constants control those dimensions?
-4. **Apply conservatively** — make small changes (3dB volume, 1-2 dimension points) rather than dramatic ones
-5. **Document the mapping** — tell the user what you changed and why
+1. Identify the intent — what sonic quality are they after?
+2. Map to dimensions — which evolution dimensions are affected? (density, activity, depth, brightness, movement)
+3. Determine parameters — which script constants control those dimensions?
+4. Apply conservatively — make small changes (3dB volume, 1-2 dimension points) rather than dramatic ones
+5. Document the mapping — tell the user what you changed and why
 
 Common unmapped requests and how to handle them:
 
@@ -199,22 +199,22 @@ After presenting, always suggest:
 
 ### Iteration Limits
 
-- **Volume changes:** +/- 3-6dB per iteration (larger changes are jarring)
-- **Filter changes:** +/- 30% cutoff per iteration
-- **Dimension changes:** +/- 2 points per iteration
-- **Event density:** +/- 50% per iteration
-- **Duration:** any change is fine, but stretch/compress evolution map proportionally
-- **New layers:** add one at a time, at -18dB initially, then adjust up
+- Volume changes: +/- 3-6dB per iteration (larger changes are jarring)
+- Filter changes: +/- 30% cutoff per iteration
+- Dimension changes: +/- 2 points per iteration
+- Event density: +/- 50% per iteration
+- Duration: any change is fine, but stretch/compress evolution map proportionally
+- New layers: add one at a time, at -18dB initially, then adjust up
 
 ### When to Start Over vs. Iterate
 
-**Iterate** when:
+Iterate when:
 - User wants more/less of existing elements
 - Adjusting balance, mood, or density
 - Adding 1-2 new elements
 - Changing duration or loop mode
 
-**Start over** when:
+Start over when:
 - User wants a completely different environment
 - More than 3 layers need replacing
 - Fundamental bed layer needs changing (rain → ocean)

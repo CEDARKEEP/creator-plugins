@@ -2,7 +2,7 @@
 
 Breakbeats, ghost notes, fills, and additional genre patterns. All Python data structures, ready to use.
 
-All patterns on a **16-step grid** unless noted. `1` = hit, `0` = rest. Velocity arrays use 0-127.
+All patterns on a 16-step grid unless noted. `1` = hit, `0` = rest. Velocity arrays use 0-127.
 
 ## Breakbeat Patterns (32-step = 2 bars)
 

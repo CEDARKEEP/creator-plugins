@@ -659,10 +659,10 @@ def apply_reference_to_config(analysis):
     }
 ```
 
-**Usage summary:**
+Usage summary:
 
-- **BPM** from `detect_bpm` becomes the `BPM` constant
-- **Key and mode** from `detect_key` become `ROOT` and `SCALE`
-- **Spectral profile** from `spectral_profile` sets EQ targets to match the reference tonal balance
-- **Section structure** from `detect_sections` provides the basis for the energy map: match the section count, durations, and relative energy levels
-- **Loudness** from `measure_loudness` sets the mastering target (LUFS, peak ceiling, dynamic range)
+- BPM from `detect_bpm` becomes the `BPM` constant
+- Key and mode from `detect_key` become `ROOT` and `SCALE`
+- Spectral profile from `spectral_profile` sets EQ targets to match the reference tonal balance
+- Section structure from `detect_sections` provides the basis for the energy map: match the section count, durations, and relative energy levels
+- Loudness from `measure_loudness` sets the mastering target (LUFS, peak ceiling, dynamic range)

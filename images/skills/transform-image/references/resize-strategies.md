@@ -33,8 +33,8 @@ Same size (format conversion only):
 
 ### LANCZOS vs BICUBIC
 
-- **LANCZOS** (a.k.a. Lanczos3): Uses a sinc-based windowed function with 3-lobe kernel. Best for downscaling because it handles anti-aliasing well, preventing moiré patterns and aliasing artifacts. Slightly over-sharpens upscaled images.
-- **BICUBIC**: Uses cubic interpolation. Produces smooth results for upscaling without the ringing artifacts that Lanczos can introduce when enlarging.
+- LANCZOS (a.k.a. Lanczos3): Uses a sinc-based windowed function with 3-lobe kernel. Best for downscaling because it handles anti-aliasing well, preventing moiré patterns and aliasing artifacts. Slightly over-sharpens upscaled images.
+- BICUBIC: Uses cubic interpolation. Produces smooth results for upscaling without the ringing artifacts that Lanczos can introduce when enlarging.
 
 ## Fit Modes
 
@@ -56,7 +56,7 @@ Result: 800×400 image centered in 800×800 canvas
 └──────────────────┘
 ```
 
-**Use when:** You need exact output dimensions AND the full image must be visible (logos, icons, profile pictures).
+Use when: You need exact output dimensions AND the full image must be visible (logos, icons, profile pictures).
 
 ```python
 def resize_contain(img, target_w, target_h, bg_color=(255, 255, 255, 0)):
@@ -85,7 +85,7 @@ Result: Center 800×800 region from 1600×800 upscale
       cropped    cropped
 ```
 
-**Use when:** You need exact output dimensions AND edge cropping is acceptable (social media posts, headers, OG images).
+Use when: You need exact output dimensions AND edge cropping is acceptable (social media posts, headers, OG images).
 
 ```python
 def resize_cover(img, target_w, target_h):
@@ -111,7 +111,7 @@ Result: 800×400 (preserves aspect ratio, no padding)
 └──────────────┘
 ```
 
-**Use when:** You want to limit maximum dimensions but don't need exact output size (web optimization, file size reduction).
+Use when: You want to limit maximum dimensions but don't need exact output size (web optimization, file size reduction).
 
 ```python
 def resize_fit(img, max_w, max_h):
@@ -123,7 +123,7 @@ def resize_fit(img, max_w, max_h):
 ### Stretch (Force Exact)
 Force image to exact target dimensions, ignoring aspect ratio.
 
-**Use when:** Almost never. Only for UI elements that must be exact size regardless of distortion.
+Use when: Almost never. Only for UI elements that must be exact size regardless of distortion.
 
 ```python
 def resize_stretch(img, target_w, target_h):
@@ -142,8 +142,8 @@ def resize_stretch(img, target_w, target_h):
 - Consider `Image.thumbnail()` which modifies in-place (memory efficient)
 
 ### Non-Square Aspect Ratios for Square Targets
-- Default to **contain** mode (show full image, pad edges)
-- For profile pictures: use **cover** (crop to fill, center the subject)
+- Default to contain mode (show full image, pad edges)
+- For profile pictures: use cover (crop to fill, center the subject)
 - Ask user if auto-detection is ambiguous
 
 ### Transparency on JPG Export

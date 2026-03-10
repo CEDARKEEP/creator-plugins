@@ -8,9 +8,9 @@ Research-backed principles for generating music that sounds good to humans. Spec
 
 ### Three Foundational Frameworks
 
-**Leonard Meyer (1956):** Musical emotion arises when expectations are fulfilled or violated. Fulfillment = satisfaction. Violation + eventual resolution = deeper satisfaction.
+Leonard Meyer (1956): Musical emotion arises when expectations are fulfilled or violated. Fulfillment = satisfaction. Violation + eventual resolution = deeper satisfaction.
 
-**David Huron's ITPRA Theory (2006):**
+David Huron's ITPRA Theory (2006):
 
 ```python
 ITPRA_STAGES = {
@@ -28,7 +28,7 @@ ITPRA_STAGES = {
 # Net: PLEASURE from the combination
 ```
 
-**Information-Theoretic Model (Pearce 2005, Temperley 2007):** Information content per note = `-log2(P(note|context))`. High-probability notes = low info (boring). Low-probability notes = high info (surprising).
+Information-Theoretic Model (Pearce 2005, Temperley 2007): Information content per note = `-log2(P(note|context))`. High-probability notes = low info (boring). Low-probability notes = high info (surprising).
 
 ### Optimal Entropy
 
@@ -721,7 +721,7 @@ MODE_EMOTION_RESEARCH = {
 
 ### Mode-Tempo Interaction (Critical Insight)
 
-The same mode at different tempos produces **very different emotions**:
+The same mode at different tempos produces very different emotions:
 
 ```python
 MODE_TEMPO_INTERACTION = {

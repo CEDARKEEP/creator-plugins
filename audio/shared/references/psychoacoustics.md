@@ -20,7 +20,7 @@ How the human auditory system perceives sound, and how to exploit that knowledge
 
 ## 1. Equal-Loudness Contours (ISO 226:2003)
 
-Human hearing is **not flat**. We're most sensitive at 2-5kHz (ear canal resonance) and least sensitive at very low (<100Hz) and very high (>10kHz) frequencies. At low volumes, bass and treble "disappear" first.
+Human hearing is not flat. We're most sensitive at 2-5kHz (ear canal resonance) and least sensitive at very low (<100Hz) and very high (>10kHz) frequencies. At low volumes, bass and treble "disappear" first.
 
 ### Key Frequencies and Sensitivity
 
@@ -75,17 +75,17 @@ def loudness_compensation(sig, listening_level_db=70, target_level_db=85, sr=SR)
 
 ### Production Implications
 
-- **Mix at moderate volumes** (~75-85 dB SPL) — Fletcher-Munson curves are flattest here
-- **Check mixes at low volume** — if bass and vocals disappear, the mix balance is wrong
-- **The 3-5kHz range** is where human hearing is most sensitive — harsh synths/vocals live here. Be careful with boosts in this range
-- **Sub bass (20-60Hz)** needs to be much louder in amplitude to be perceived as equal loudness to mid-range. This is why 808s are so loud in the mix
-- **"Air" frequencies (10-16kHz)** are perceived as quieter — you can boost more here without harshness
+- Mix at moderate volumes (~75-85 dB SPL) — Fletcher-Munson curves are flattest here
+- Check mixes at low volume — if bass and vocals disappear, the mix balance is wrong
+- The 3-5kHz range is where human hearing is most sensitive — harsh synths/vocals live here. Be careful with boosts in this range
+- Sub bass (20-60Hz) needs to be much louder in amplitude to be perceived as equal loudness to mid-range. This is why 808s are so loud in the mix
+- "Air" frequencies (10-16kHz) are perceived as quieter — you can boost more here without harshness
 
 ---
 
 ## 2. Critical Bands & the Bark Scale
 
-The cochlea divides sound into ~24 overlapping frequency bands called **critical bands**. When two tones fall within the same critical band, they interact (beat/roughness). When they're in separate bands, they're perceived independently.
+The cochlea divides sound into ~24 overlapping frequency bands called critical bands. When two tones fall within the same critical band, they interact (beat/roughness). When they're in separate bands, they're perceived independently.
 
 ### Critical Bandwidth by Frequency
 
@@ -150,11 +150,11 @@ def check_chord_voicing(notes_hz):
 
 ### Key Rules
 
-- **Below 200Hz**: only root + octave (or root + 5th at most). No 3rds in the bass!
-- **200-500Hz**: open voicings (spread notes across 1+ octave)
-- **Above 500Hz**: close voicings are fine (3rds, clusters)
-- **Pad voicings**: spread across 1.5-2 octaves for richness without mud
-- **Mixing**: two instruments in the same critical band will mask each other — EQ one of them out of that band
+- Below 200Hz: only root + octave (or root + 5th at most). No 3rds in the bass!
+- 200-500Hz: open voicings (spread notes across 1+ octave)
+- Above 500Hz: close voicings are fine (3rds, clusters)
+- Pad voicings: spread across 1.5-2 octaves for richness without mud
+- Mixing: two instruments in the same critical band will mask each other — EQ one of them out of that band
 
 ---
 
@@ -244,7 +244,7 @@ UNMASKING_STRATEGIES = {
 
 ### Plomp & Levelt Dissonance Curve (1965)
 
-Two pure tones sound maximally dissonant when they're about **25% of a critical bandwidth apart** (quarter-tone interval). As they move further apart, dissonance drops rapidly.
+Two pure tones sound maximally dissonant when they're about 25% of a critical bandwidth apart (quarter-tone interval). As they move further apart, dissonance drops rapidly.
 
 ```python
 def plomp_levelt_dissonance(freq1, freq2):
@@ -317,7 +317,7 @@ def chord_roughness(midi_notes, n_harmonics=6):
 
 ## 5. The Missing Fundamental (Virtual Pitch)
 
-The brain can reconstruct a pitch from its **harmonics alone**, even if the fundamental frequency is absent. This is why you "hear" bass on small phone speakers.
+The brain can reconstruct a pitch from its harmonics alone, even if the fundamental frequency is absent. This is why you "hear" bass on small phone speakers.
 
 ### How It Works
 
@@ -379,10 +379,10 @@ VIRTUAL_PITCH_RANGES = {
 
 ### Production Rules
 
-- **Always layer bass**: sub sine (30-60Hz) + harmonics (100-300Hz) + click (2-5kHz)
-- **On small speakers**: the sub disappears but harmonics carry the perceived pitch
-- **808 processing**: add subtle saturation to generate harmonics above the fundamental
-- **Multiband saturation on bass**: saturate only 80-300Hz band to add harmonics without distorting the sub
+- Always layer bass: sub sine (30-60Hz) + harmonics (100-300Hz) + click (2-5kHz)
+- On small speakers: the sub disappears but harmonics carry the perceived pitch
+- 808 processing: add subtle saturation to generate harmonics above the fundamental
+- Multiband saturation on bass: saturate only 80-300Hz band to add harmonics without distorting the sub
 
 ---
 
@@ -483,7 +483,7 @@ def apply_mood_eq(sig, mood, sr=SR):
 
 ### Ear Canal Resonance
 
-The ear canal resonates at **2-5kHz** (primarily ~3.5kHz), amplifying those frequencies by **10-15dB**. This is why:
+The ear canal resonates at 2-5kHz (primarily ~3.5kHz), amplifying those frequencies by 10-15dB. This is why:
 - Vocals are most intelligible in this range
 - Sibilance (s, t, sh) is so prominent
 - Harsh synths at 3-5kHz cause fatigue
@@ -632,7 +632,7 @@ def measure_lufs(left, right, sr=SR):
     for i in range(0, len(l_weighted) - block_size, hop):
         l_block = l_weighted[i:i+block_size]
         r_block = r_weighted[i:i+block_size]
-        ms = np.mean(l_block**2) + np.mean(r_block**2)
+        ms = np.mean(l_block2) + np.mean(r_block2)
         if ms > 0:
             block_loudness.append(-0.691 + 10 * np.log10(ms))
 
@@ -701,7 +701,7 @@ GENRE_DYNAMICS = {
 
 ### Why Different Waveforms Sound Different
 
-All pitched sounds are sums of sine waves at integer multiples of the fundamental (harmonics). The **relative amplitudes** of these harmonics determine timbre.
+All pitched sounds are sums of sine waves at integer multiples of the fundamental (harmonics). The relative amplitudes of these harmonics determine timbre.
 
 ```python
 HARMONIC_CHARACTERS = {

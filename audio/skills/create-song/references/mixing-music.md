@@ -20,7 +20,7 @@ Music-specific panning, density gating, drum/chord selection, engagement element
 | Strings R | 0.70-0.80 | Right |
 | FX/Perc | 0.15-0.85 | Wide spread |
 
-**Rule: keep everything below 150Hz centered** (sub bass, kick fundamental). Wide stereo only for mid and high frequencies.
+Rule: keep everything below 150Hz centered (sub bass, kick fundamental). Wide stereo only for mid and high frequencies.
 
 ## Track Density Gating
 
@@ -41,7 +41,7 @@ def is_track_active(track_name, bar, bar_energy):
     return bar_energy[bar]['density'] >= threshold
 ```
 
-> **Cross-reference**: This dict also appears in [energy-music.md](energy-music.md) for context within the energy system.
+> Cross-reference: This dict also appears in [energy-music.md](energy-music.md) for context within the energy system.
 
 ## Pattern & Voicing Selection
 
@@ -259,7 +259,7 @@ bar_energy = build_bar_energy(SECTIONS)
 - Every 8 bars: medium variation (drum pattern B, new bass note, filter dip)
 - Every 16 bars: significant change (new section, element add/remove, ear candy)
 - NEVER copy-paste the same pattern for more than 8 bars without variation
-- **Contrast ratio**: peaks and valleys should differ by 4+ intensity points
+- Contrast ratio: peaks and valleys should differ by 4+ intensity points
 
 ## Genre Validation Targets (GENRE_TARGETS)
 

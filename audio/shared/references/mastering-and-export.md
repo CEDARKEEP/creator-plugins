@@ -4,7 +4,7 @@ Pedalboard-based master chain (preferred), multiband compression, mid/side maste
 
 ## Pedalboard Master Chain (Preferred)
 
-When pedalboard is available, use it for the master chain — it runs C++ JUCE audio processors at ~300x real-time, far higher quality than numpy equivalents. **Always prefer pedalboard over numpy for mastering when available.**
+When pedalboard is available, use it for the master chain — it runs C++ JUCE audio processors at ~300x real-time, far higher quality than numpy equivalents. Always prefer pedalboard over numpy for mastering when available.
 
 ```python
 from pedalboard import Pedalboard, Gain, Compressor, Limiter, HighpassFilter, LowpassFilter, PeakFilter, Clipping
@@ -197,12 +197,12 @@ GENRE_LUFS = {
 
 ### Practical Mastering Workflow
 
-1. **Master to genre loudness** — use `GENRE_LUFS` for your target range
-2. **Check integrated LUFS** — must match primary platform target
-3. **If louder than platform target** — platform turns it DOWN (you lose punch and impact)
-4. **If quieter than target** — platform turns it UP (acceptable, may sound weak next to competitors)
-5. **Always keep true peak at -1 dBTP** — prevents intersample clipping on all platforms
-6. **A/B with references** — compare loudness-matched against commercial tracks in same genre
+1. Master to genre loudness — use `GENRE_LUFS` for your target range
+2. Check integrated LUFS — must match primary platform target
+3. If louder than platform target — platform turns it DOWN (you lose punch and impact)
+4. If quieter than target — platform turns it UP (acceptable, may sound weak next to competitors)
+5. Always keep true peak at -1 dBTP — prevents intersample clipping on all platforms
+6. A/B with references — compare loudness-matched against commercial tracks in same genre
 
 ### LUFS Estimation in numpy
 

@@ -34,7 +34,7 @@ registerRoot(RemotionRoot);
 
 ## Layering with AbsoluteFill
 
-`<AbsoluteFill>` creates a full-size absolutely positioned container. **DOM order = z-order** (later = on top). No `z-index` needed.
+`<AbsoluteFill>` creates a full-size absolutely positioned container. DOM order = z-order (later = on top). No `z-index` needed.
 
 ```tsx
 import { AbsoluteFill } from 'remotion';
@@ -68,7 +68,7 @@ export const MyImage: React.FC = () => (
 
 ### `<Img>` Component — Render-Blocking
 
-Blocks rendering until the image is fully loaded. **Always use this instead of `<img>`.**
+Blocks rendering until the image is fully loaded. Always use this instead of `<img>`.
 
 ```tsx
 import { Img, staticFile } from 'remotion';
@@ -95,7 +95,7 @@ const url = staticFile('backgrounds/hero.png'); // → public/backgrounds/hero.p
 
 ## Google Fonts — @remotion/google-fonts
 
-Type-safe, render-blocking font loading. **Import at module level, not inside components.**
+Type-safe, render-blocking font loading. Import at module level, not inside components.
 
 ```tsx
 import { loadFont } from '@remotion/google-fonts/BebasNeue';
@@ -122,7 +122,7 @@ const { fontFamily } = loadFont();
 | Lato | `@remotion/google-fonts/Lato` | Friendly sans-serif |
 | Open Sans | `@remotion/google-fonts/OpenSans` | Highly legible sans-serif |
 
-**Loading with specific weights:**
+Loading with specific weights:
 ```tsx
 import { loadFont } from '@remotion/google-fonts/Montserrat';
 const { fontFamily } = loadFont('normal', {
@@ -161,13 +161,13 @@ const { width, height } = measureText({
 });
 ```
 
-**Critical:** Only call `fitText()`/`measureText()` AFTER fonts are loaded. Use `validateFontIsLoaded: true` for safety.
+Critical: Only call `fitText()`/`measureText()` AFTER fonts are loaded. Use `validateFontIsLoaded: true` for safety.
 
 ## Project Scaffolding
 
 ### Manual Scaffold (Recommended)
 
-**Do NOT use `npx create-video@latest`** — it launches an interactive prompt wizard that cannot be automated in non-interactive shells. Instead, scaffold manually:
+Do NOT use `npx create-video@latest` — it launches an interactive prompt wizard that cannot be automated in non-interactive shells. Instead, scaffold manually:
 
 ```bash
 mkdir -p {project-name}/src {project-name}/public
@@ -203,7 +203,7 @@ Write `package.json` with all image generation packages:
 }
 ```
 
-> **Version note:** All `@remotion/*` and `remotion` packages MUST use the same version. Check latest with `npm view remotion dist-tags --json` and use the `latest` tag value.
+> Version note: All `@remotion/*` and `remotion` packages MUST use the same version. Check latest with `npm view remotion dist-tags --json` and use the `latest` tag value.
 
 Write `src/index.ts`:
 ```tsx
@@ -239,9 +239,9 @@ If the user already has a Remotion project:
 
 The scaffold gives you the boilerplate. You then:
 
-1. **Replace `src/Root.tsx`** — swap the default `<Composition>` for a `<Still>` at 1280×720
-2. **Create `src/Thumbnail.tsx`** (or whatever the component is) — this is where all the design lives
-3. **Copy user assets** to `public/` if needed
+1. Replace `src/Root.tsx` — swap the default `<Composition>` for a `<Still>` at 1280×720
+2. Create `src/Thumbnail.tsx` (or whatever the component is) — this is where all the design lives
+3. Copy user assets to `public/` if needed
 
 ## CLI Rendering
 
@@ -338,7 +338,7 @@ const NoiseBackground: React.FC = () => {
 };
 ```
 
-**Common noise uses:**
+Common noise uses:
 - Film grain overlay with semi-transparent noise dots
 - Organic color variation across a gradient
 - Procedural texture for backgrounds (avoids needing stock images)

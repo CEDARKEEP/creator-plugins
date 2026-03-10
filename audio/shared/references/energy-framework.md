@@ -4,11 +4,11 @@ Multi-dimensional energy system for controlling audio dynamics, tension/release 
 
 ## The Energy Map: Blueprint Before Building
 
-**Always create an energy map BEFORE writing any audio builders.** The energy map is the single most important planning step -- it determines how the output *feels* over time and whether listeners stay engaged or tune out.
+Always create an energy map BEFORE writing any audio builders. The energy map is the single most important planning step -- it determines how the output *feels* over time and whether listeners stay engaged or tune out.
 
 ### Multi-Dimensional Energy (Not Just Volume)
 
-Energy is NOT a single number. Every segment has **5 dimensions** that the script must track:
+Energy is NOT a single number. Every segment has 5 dimensions that the script must track:
 
 ```python
 ENERGY_DIMENSIONS = {
@@ -142,7 +142,7 @@ MICRO_TENSION_TECHNIQUES = {
 
 ### The Pull/Push Framework
 
-Every tension technique is either a **pull** (building anticipation) or a **push** (delivering release). Balance is key -- if the pull overpowers the push, the climax disappoints. If there's no pull, the push has no impact.
+Every tension technique is either a pull (building anticipation) or a push (delivering release). Balance is key -- if the pull overpowers the push, the climax disappoints. If there's no pull, the push has no impact.
 
 ```python
 PULL_PUSH_PAIRS = {

@@ -64,7 +64,7 @@ SCALES = {
 | Ethereal, Japanese | Hirajoshi, In-sen | Sparse pentatonic |
 | Middle Eastern | Phrygian dominant, Double harmonic | b2 + major 3rd |
 
-> **See [key-emotion-and-mood.md](key-emotion-and-mood.md)** for detailed key-emotion mappings (all 24 keys), tempo-emotion matrix, mode-emotion combinations, and the `mood_to_params()` function.
+> See [key-emotion-and-mood.md](key-emotion-and-mood.md) for detailed key-emotion mappings (all 24 keys), tempo-emotion matrix, mode-emotion combinations, and the `mood_to_params()` function.
 
 ### The Seven Modes
 
@@ -111,18 +111,18 @@ CHORDS = {
 
 ### Diatonic Chords
 
-**In major key:**
+In major key:
 ```
 I=major  ii=minor  iii=minor  IV=major  V=major  vi=minor  vii°=dim
 7ths: Imaj7  ii7=min7  iii7=min7  IVmaj7  V7=dom7  vi7=min7  vii7=half_dim7
 ```
 
-**In natural minor:**
+In natural minor:
 ```
 i=minor  ii°=dim  III=major  iv=minor  v=minor  VI=major  VII=major
 ```
 
-**In harmonic minor:**
+In harmonic minor:
 ```
 i=minor  ii°=dim  III+=aug  iv=minor  V=major  VI=major  vii°=dim
 ```
@@ -152,21 +152,21 @@ i=minor  ii°=dim  III+=aug  iv=minor  V=major  VI=major  vii°=dim
 
 ### Blues
 
-**12-Bar Blues (basic):**
+12-Bar Blues (basic):
 ```
 | I7  | I7  | I7  | I7  |
 | IV7 | IV7 | I7  | I7  |
 | V7  | IV7 | I7  | V7  |
 ```
 
-**Jazz Blues (with substitutions):**
+Jazz Blues (with substitutions):
 ```
 | I7   | IV7  | I7    | I7      |
 | IV7  | IV7  | I7    | Am7 D7  |
 | Dm7  | G7   | I7 Am7| Dm7 G7  |
 ```
 
-**Minor Blues:**
+Minor Blues:
 ```
 | i7  | i7  | i7  | i7  |
 | iv7 | iv7 | i7  | i7  |
@@ -246,7 +246,7 @@ def voice_lead(current_midi, next_intervals, next_root):
 
 ### Algorithmic Approaches
 
-**Rule-based (recommended for generation):**
+Rule-based (recommended for generation):
 ```python
 def generate_melody(scale, chord_prog, bars=4, notes_per_bar=8, root_midi=60):
     """Musical rule-based melody generation."""
@@ -272,9 +272,9 @@ def generate_melody(scale, chord_prog, bars=4, notes_per_bar=8, root_midi=60):
     return melody
 ```
 
-**Markov chain:** Build transition matrix from interval sequences, generate probabilistically.
+Markov chain: Build transition matrix from interval sequences, generate probabilistically.
 
-**Weighted random:** Use INTERVAL_WEIGHTS distribution with constraint filtering.
+Weighted random: Use INTERVAL_WEIGHTS distribution with constraint filtering.
 
 ### Call and Response
 - Call (2-4 beats): ends on tension note (not tonic)
@@ -310,10 +310,10 @@ Replace any V7 with a dom7 whose root is a tritone (6 semitones) away. They shar
 
 ### Modal Interchange (Borrowed Chords)
 Borrow chords from parallel minor into major key:
-- **bVI** (Ab in C major): dramatic, epic
-- **bVII** (Bb in C major): rock, powerful
-- **iv** (Fm in C major): melancholy (minor plagal)
-- **bIII** (Eb in C major): surprise, color
+- bVI (Ab in C major): dramatic, epic
+- bVII (Bb in C major): rock, powerful
+- iv (Fm in C major): melancholy (minor plagal)
+- bIII (Eb in C major): surprise, color
 
 Common patterns: I-bVI-bVII-I (epic rock), I-iv-I (Creep)
 
@@ -361,8 +361,8 @@ Hold a note from previous chord into new chord, creating dissonance that resolve
 - Outro: 0.2-0.5 (wind down)
 
 ### Transitions
-- **Riser**: noise sweep / pitch rise over 4-8 bars
-- **Fill**: drum fill (1-2 beats) connecting sections
-- **Drop**: silence (1-2 beats) before big moment
-- **Build**: add elements, increase density, automate filter up
-- **Impact**: kick + crash + sub boom on beat 1
+- Riser: noise sweep / pitch rise over 4-8 bars
+- Fill: drum fill (1-2 beats) connecting sections
+- Drop: silence (1-2 beats) before big moment
+- Build: add elements, increase density, automate filter up
+- Impact: kick + crash + sub boom on beat 1

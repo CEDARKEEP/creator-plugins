@@ -4,7 +4,7 @@ Generic refinement workflow for iteratively improving generated audio. Surgical 
 
 ## Overview
 
-When a user requests changes to generated audio, the goal is to make the **minimum necessary edits** to achieve the desired result. Full regeneration discards everything that already works — timing, spectral balance, effect tuning, gain staging — and risks producing something worse overall. Surgical modification preserves what is already good and changes only what needs to change.
+When a user requests changes to generated audio, the goal is to make the minimum necessary edits to achieve the desired result. Full regeneration discards everything that already works — timing, spectral balance, effect tuning, gain staging — and risks producing something worse overall. Surgical modification preserves what is already good and changes only what needs to change.
 
 ## What to Preserve vs Regenerate
 
@@ -172,11 +172,11 @@ Track iterations systematically so the user can compare and revert.
 
 ### Workflow
 
-1. **Before modifying**: copy the current script to `{name}_v{N}.py` as a backup.
-2. **Edit the working copy** and render to `{name}_v{N+1}.wav`.
-3. **Save the modified script** as `{name}_v{N+1}.py`.
-4. **Present both versions** so the user can A/B compare.
-5. **If the user wants to revert**: load the previous version's `.py` file and re-render.
+1. Before modifying: copy the current script to `{name}_v{N}.py` as a backup.
+2. Edit the working copy and render to `{name}_v{N+1}.wav`.
+3. Save the modified script as `{name}_v{N+1}.py`.
+4. Present both versions so the user can A/B compare.
+5. If the user wants to revert: load the previous version's `.py` file and re-render.
 
 ### Change Log
 

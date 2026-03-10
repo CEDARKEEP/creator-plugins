@@ -215,10 +215,10 @@ LYRIC_TECHNIQUES = {
 | Mezzo-Soprano | A3–A5 | Most common female voice |
 | Soprano | C4–C6 | Highest female voice, classical |
 
-**Rules of thumb:**
-- Keep melody within **1 to 1.5 octaves** for singability
-- Verse melodies: use the **lower** portion of the range (intimate, conversational)
-- Chorus melodies: push **higher** (emotional peak, energy)
-- Bridge: can briefly **exceed** the range for dramatic effect
-- Rap/spoken: keep within **1 octave** centered around speaking pitch
-- Default safe range for pop: **A3–D5** (covers most untrained singers)
+Rules of thumb:
+- Keep melody within 1 to 1.5 octaves for singability
+- Verse melodies: use the lower portion of the range (intimate, conversational)
+- Chorus melodies: push higher (emotional peak, energy)
+- Bridge: can briefly exceed the range for dramatic effect
+- Rap/spoken: keep within 1 octave centered around speaking pitch
+- Default safe range for pop: A3–D5 (covers most untrained singers)

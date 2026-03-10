@@ -4,7 +4,7 @@ Refinement workflow for all image skills. Mirrors the audio iteration pattern: s
 
 ## Core Principle
 
-**Modify the existing TSX component and re-render** rather than re-scaffolding with `npx create-video@latest`. The project was already scaffolded and dependencies installed — only the component code in `src/` needs to change.
+Modify the existing TSX component and re-render rather than re-scaffolding with `npx create-video@latest`. The project was already scaffolded and dependencies installed — only the component code in `src/` needs to change.
 
 ## Iteration Workflow
 
@@ -64,11 +64,11 @@ cd {thumbnail-name} && npx remotion still src/index.ts Thumbnail --output={thumb
 - Layout structure is fundamentally wrong
 
 ### Partial Regeneration
-- **Different colors only:** Change style values, keep everything else
-- **Different text only:** Change string content, may need `fitText` recalculation
-- **Different font only:** Change import + fontFamily, may affect sizing
-- **Different layout:** Restructure JSX, keep color/font/text choices
-- **Add image:** Copy file to `public/`, add `<Img>` layer in appropriate position
+- Different colors only: Change style values, keep everything else
+- Different text only: Change string content, may need `fitText` recalculation
+- Different font only: Change import + fontFamily, may affect sizing
+- Different layout: Restructure JSX, keep color/font/text choices
+- Add image: Copy file to `public/`, add `<Img>` layer in appropriate position
 
 ## Common Refinement Mappings
 

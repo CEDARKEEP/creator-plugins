@@ -45,12 +45,12 @@ About [CHANNEL NAME]:
 ```
 
 ### YouTube Rules
-- **Above the fold:** First 150-200 characters. MUST contain hook + primary keyword.
-- **Timestamps:** Start at `00:00`, minimum 3, ascending. Use keyword-rich titles.
-- **Hashtags:** 3-5 at the end. First 3 appear above the video title.
-- **Links:** Full URLs (YouTube doesn't support markdown links).
-- **Don't start with:** "In this video..." — lead with value.
-- **SEO:** Primary keyword in first sentence, 2-3 semantic variations throughout.
+- Above the fold: First 150-200 characters. MUST contain hook + primary keyword.
+- Timestamps: Start at `00:00`, minimum 3, ascending. Use keyword-rich titles.
+- Hashtags: 3-5 at the end. First 3 appear above the video title.
+- Links: Full URLs (YouTube doesn't support markdown links).
+- Don't start with: "In this video..." — lead with value.
+- SEO: Primary keyword in first sentence, 2-3 semantic variations throughout.
 
 ### YouTube Shorts Description
 - Shorter format — 2-3 sentences max
@@ -80,12 +80,12 @@ Break up the wall of text.
 ```
 
 ### Instagram Rules
-- **Above the fold:** ~125 characters before "...more"
-- **Hashtags:** 3-5 recommended (max 30, trending toward 5 cap)
-- **No clickable links** — direct to "link in bio"
-- **Line breaks:** Essential for readability. Use them liberally.
-- **Emojis:** Acceptable and encouraged as visual punctuation
-- **Mix lengths:** 60% short (<150 chars), 30% medium, 10% long
+- Above the fold: ~125 characters before "...more"
+- Hashtags: 3-5 recommended (max 30, trending toward 5 cap)
+- No clickable links — direct to "link in bio"
+- Line breaks: Essential for readability. Use them liberally.
+- Emojis: Acceptable and encouraged as visual punctuation
+- Mix lengths: 60% short (<150 chars), 30% medium, 10% long
 
 ## TikTok Caption Anatomy
 
@@ -104,11 +104,11 @@ Follow for Part 2 👆 | Save this 📌 | Comment your [X]
 ```
 
 ### TikTok Rules
-- **Search engine behavior:** TikTok users search like Google. Keywords matter.
-- **Keyword alignment:** Hashtags should match words spoken in audio AND caption text
-- **Above the fold:** Must tap "see more" — front-load the compelling content
-- **Hashtags:** 3-5 strategic (up to 9 with 3-3-3 strategy)
-- **Keep it concise** — don't fill the 4,000-character limit with filler
+- Search engine behavior: TikTok users search like Google. Keywords matter.
+- Keyword alignment: Hashtags should match words spoken in audio AND caption text
+- Above the fold: Must tap "see more" — front-load the compelling content
+- Hashtags: 3-5 strategic (up to 9 with 3-3-3 strategy)
+- Keep it concise — don't fill the 4,000-character limit with filler
 
 ## Twitter/X Post Anatomy
 
@@ -130,11 +130,11 @@ add value or context, end with 1-2 hashtags.
 ```
 
 ### Twitter/X Rules
-- **Full display:** 280 characters visible (no truncation for standard tweets)
-- **Optimal length:** 70-100 characters for highest engagement
-- **URLs:** Always count as 23 characters regardless of length
-- **Hashtags:** 1-2 maximum. Mid-tweet or end. NEVER start with a hashtag.
-- **Threads:** 4-8 tweets, numbered (1/), hook in tweet 1, CTA in last tweet
+- Full display: 280 characters visible (no truncation for standard tweets)
+- Optimal length: 70-100 characters for highest engagement
+- URLs: Always count as 23 characters regardless of length
+- Hashtags: 1-2 maximum. Mid-tweet or end. NEVER start with a hashtag.
+- Threads: 4-8 tweets, numbered (1/), hook in tweet 1, CTA in last tweet
 
 ## LinkedIn Post Anatomy
 
@@ -168,12 +168,12 @@ The key insight or lesson.
 ```
 
 ### LinkedIn Rules
-- **Above the fold:** ~110 chars (mobile), ~140 chars (desktop) before "See more"
-- **Formatting:** Single-sentence paragraphs, heavy line breaks, arrows (→)
-- **Tone:** Professional but human. Thought-leadership preferred.
-- **Hashtags:** 3-5 at bottom, PascalCase mandatory
-- **Links:** Consider putting links in first comment (posts with links may get lower reach)
-- **Optimal length:** 150-300 words
+- Above the fold: ~110 chars (mobile), ~140 chars (desktop) before "See more"
+- Formatting: Single-sentence paragraphs, heavy line breaks, arrows (→)
+- Tone: Professional but human. Thought-leadership preferred.
+- Hashtags: 3-5 at bottom, PascalCase mandatory
+- Links: Consider putting links in first comment (posts with links may get lower reach)
+- Optimal length: 150-300 words
 
 ## Cross-Platform Adaptation Notes
 

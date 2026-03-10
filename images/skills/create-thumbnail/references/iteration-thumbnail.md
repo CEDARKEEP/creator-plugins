@@ -91,7 +91,7 @@ Specific refinement mappings for YouTube thumbnail iteration. Use with [iteratio
 | "add a before/after" | Restructure to Before/After split layout |
 | "completely different" / "start over" | Full regeneration — redesign from scratch with new archetype |
 
-**Note:** Archetype changes typically require partial or full regeneration of `Thumbnail.tsx` since the component structure changes fundamentally.
+Note: Archetype changes typically require partial or full regeneration of `Thumbnail.tsx` since the component structure changes fundamentally.
 
 ## Version Management
 

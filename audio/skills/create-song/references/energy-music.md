@@ -224,33 +224,33 @@ AMBIENT_RULES = {
 
 ## The 10 Golden Rules of Engagement
 
-1. **Front-load the hook** -- First 8 bars must establish something memorable (a groove, a sound, a texture) that makes the listener want to hear what's next
+1. Front-load the hook -- First 8 bars must establish something memorable (a groove, a sound, a texture) that makes the listener want to hear what's next
 
-2. **Contrast creates interest** -- The drop only hits hard because of the breakdown. The chorus only soars because the verse was restrained. Always build contrast:
+2. Contrast creates interest -- The drop only hits hard because of the breakdown. The chorus only soars because the verse was restrained. Always build contrast:
    - Energy contrast: peaks vs valleys (aim for 4+ points difference)
    - Timbral contrast: warm vs bright sections
    - Spatial contrast: intimate (dry/close) vs epic (reverb/wide)
    - Rhythmic contrast: groove vs breakdown
 
-3. **Something must change every 4-8 bars** -- Add a layer, remove a layer, change a pattern, shift a filter. Static = boring. But changes should be subtle enough to feel natural
+3. Something must change every 4-8 bars -- Add a layer, remove a layer, change a pattern, shift a filter. Static = boring. But changes should be subtle enough to feel natural
 
-4. **The 2/3 climax rule** -- The biggest moment should come at approximately 2/3 through the track (bar 42 of 64, bar 56 of 80). This mirrors natural storytelling arcs and creates the most satisfying emotional payoff
+4. The 2/3 climax rule -- The biggest moment should come at approximately 2/3 through the track (bar 42 of 64, bar 56 of 80). This mirrors natural storytelling arcs and creates the most satisfying emotional payoff
 
-5. **Strategic silence** -- 1-2 beats of silence before a big moment is more powerful than any riser. The absence of sound creates maximum anticipation
+5. Strategic silence -- 1-2 beats of silence before a big moment is more powerful than any riser. The absence of sound creates maximum anticipation
 
-6. **Never introduce everything at once** -- Spread new elements across 8-16 bars. Each new layer gives the listener something to discover. Front-loading all elements leaves nowhere to go
+6. Never introduce everything at once -- Spread new elements across 8-16 bars. Each new layer gives the listener something to discover. Front-loading all elements leaves nowhere to go
 
-7. **Call back to the beginning** -- The outro should reference the intro (same pad, same filter position, same motif). This creates closure and makes the track feel intentional
+7. Call back to the beginning -- The outro should reference the intro (same pad, same filter position, same motif). This creates closure and makes the track feel intentional
 
-8. **Ride the groove, don't fight it** -- Once a groove is established, let it breathe for at least 8 bars before major changes. People need time to lock into a rhythm before you can meaningfully depart from it
+8. Ride the groove, don't fight it -- Once a groove is established, let it breathe for at least 8 bars before major changes. People need time to lock into a rhythm before you can meaningfully depart from it
 
-9. **Ear candy every 16 bars** -- A subtle detail that rewards attentive listening: a reversed note, a brief stereo widening, a one-time percussion hit, a vocal chop. These are not structural but they keep engaged listeners discovering new things
+9. Ear candy every 16 bars -- A subtle detail that rewards attentive listening: a reversed note, a brief stereo widening, a one-time percussion hit, a vocal chop. These are not structural but they keep engaged listeners discovering new things
 
-10. **End with intent** -- Fading out is lazy. Either resolve decisively (final chord + reverb tail) or create a deliberate loop point. The last 4 bars should feel like a conclusion, not an abandonment
+10. End with intent -- Fading out is lazy. Either resolve decisively (final chord + reverb tail) or create a deliberate loop point. The last 4 bars should feel like a conclusion, not an abandonment
 
 ## Track Density Thresholds
 
-> **Cross-reference**: The full `TRACK_DENSITY_THRESHOLD` dict and `is_track_active()` function live in [mixing-music.md](mixing-music.md). Repeated here for context within the energy system.
+> Cross-reference: The full `TRACK_DENSITY_THRESHOLD` dict and `is_track_active()` function live in [mixing-music.md](mixing-music.md). Repeated here for context within the energy system.
 
 ```python
 TRACK_DENSITY_THRESHOLD = {
